@@ -151,6 +151,40 @@ void BedTest(){
     std::cout<<"\nend of test 2\n"<<std::endl;
 }
 
+/// ////////////////////////////////////////////////
+///                  TEST
+///                    3
+/// ////////////////////////////////////////////////
+struct Booom;
+struct Kaaa{
+public:
+    Kaaa(std::unique_ptr<Booom> b){}
+};
+
+
+struct Booom{
+public:
+    Booom(std::unique_ptr<Kaaa> k){}
+};
+
+void CircularTest(){
+    std::cout<<"CIRCULAR DEPENDENCY TEST\n"<<std::endl;
+    Infector::Container ioc;
+    ioc.bindAsNothing<Kaaa>();
+    ioc.bindAsNothing<Booom>();
+    ioc.wire<Kaaa,Booom>();
+    ioc.wire<Booom,Kaaa>();
+
+    try{
+        auto kaboom = ioc.build<Kaaa>();
+    }
+    catch(std::exception &ex){
+        std::cout<<ex.what()<<std::endl;
+    }
+
+    std::cout<<"\nend of test 3\n"<<std::endl;
+}
+
 int main(){
     /** Test to prove that Infector does not cause memory leaks due to
     *   unkown evaluation order of constructors' parameters when construcors
@@ -160,6 +194,9 @@ int main(){
     *   with unique ownership semantics. Seems that using unique ptr
     *   is very natural this way.*/
     BedTest();
+    /** This test assure that exception is thrown in case there's a circular
+    *   dependency. */
+    CircularTest();
 
     return 0;
 }

@@ -74,14 +74,14 @@ namespace Infector{
     void Container::must_have(){
         auto it = typeMap.find( std::type_index(typeid(T)) );
         if( it==typeMap.end())
-            launch_exception<Something>();
+            launch_exception<ExMissingType>();
     }
 
     template <typename T>
     void Container::must_not_have(){
         auto it = typeMap.find( std::type_index(typeid(T)) );
         if( it!=typeMap.end())
-            launch_exception<Something>();
+            launch_exception<ExExistingType>();
     }
 
 } // namespace Infector

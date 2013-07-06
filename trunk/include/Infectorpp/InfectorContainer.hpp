@@ -130,7 +130,8 @@ private:
 
     std::unordered_map<std::type_index, Binding>                typeMap;
     std::unordered_map<std::type_index, std::function<void*()>> callbacks;
-    std::unordered_map<std::type_index, std::unique_ptr<IAnyShared> > singleIstances;
+    std::unordered_map<std::type_index, std::unique_ptr<IAnyShared>>
+                                                                singleIstances;
 
     RecursionLimit limit;
 };
