@@ -85,7 +85,7 @@ namespace Infector{
         void increment(){
             current_depth++;
             if(current_depth>max_depth)
-                throw Something();
+                throw ExRecursionLimit();
         }
 
         void reset(){

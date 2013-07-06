@@ -19,10 +19,45 @@ AUTHORS OR */
 #include <stdexcept>
 
 namespace Infector{
-    /** NOTE I SIMPLY SKIPPED EXCEPTIONS FOR NOW. PROJECT IS
-    CURRENTLY UNDER DEVELOPMENT */
+
     class Something: public std::exception{
 
+    };
+
+    class ExRecursionLimit: public std::exception{
+        char message[69] =
+        "Reached recursion limit. Probable cause: circular dependency";
+    public:
+        virtual const char* what() const noexcept(true){
+            return message;
+        }
+    };
+
+    class ExWireWhat: public std::exception{
+        char message[69] =
+        "Cannot wire constructor for not 'bind'ed types.";
+    public:
+        virtual const char* what() const noexcept(true){
+            return message;
+        }
+    };
+
+    class ExMissingType: public std::exception{
+        char message[69] =
+        "Requested type is missing, you have to 'bind' it first";
+    public:
+        virtual const char* what() const noexcept(true){
+            return message;
+        }
+    };
+
+    class ExExistingType: public std::exception{
+        char message[69] =
+        "This type was already 'bind'ed.";
+    public:
+        virtual const char* what() const noexcept(true){
+            return message;
+        }
     };
 
 } // namespace Infector
