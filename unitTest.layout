@@ -1,9 +1,44 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
 <CodeBlocks_layout_file>
 	<ActiveTarget name="Debug" />
-	<File name="UnitTest.cpp" open="1" top="0" tabpos="1" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+	<File name="UnitTest.cpp" open="1" top="1" tabpos="5" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="3410" topLine="116" />
+			<Cursor1 position="4926" topLine="184" />
+		</Cursor>
+	</File>
+	<File name="include\Infectorpp\InfectorExceptions.hpp" open="1" top="0" tabpos="1" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="914" topLine="12" />
+		</Cursor>
+	</File>
+	<File name="include\Infectorpp\InfectorContainer.hpp" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="5212" topLine="0" />
+		</Cursor>
+	</File>
+	<File name="include\Infectorpp\Infector_private.hpp" open="1" top="0" tabpos="3" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="1276" topLine="20" />
+		</Cursor>
+	</File>
+	<File name="include\Infectorpp\Infector_multi.hpp" open="1" top="0" tabpos="4" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="1911" topLine="36" />
+		</Cursor>
+	</File>
+	<File name="include\Infectorpp\Infector_single.hpp" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="594" topLine="18" />
+		</Cursor>
+	</File>
+	<File name="include\Infectorpp\Infector_details.hpp" open="1" top="0" tabpos="2" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="2983" topLine="69" />
+		</Cursor>
+	</File>
+	<File name="include\Infectorpp\InfectorHelpers.hpp" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="3062" topLine="18" />
 		</Cursor>
 	</File>
 </CodeBlocks_layout_file>

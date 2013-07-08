@@ -1,0 +1,52 @@
+1)
+Exceptions are just temporary.
+
+In future exception messages will look like:
+"Cannot wire constructor for FooBar, because type 'FooBar' was not bound 
+(to bind a type use Infector::Container.bind...< ... >() )"
+
+or
+"Cannot build FooBar, an exception was thrown by its constructor"
+
+
+2)
+Custom allocation:
+When A dependends on B and B depends on C the smartest way to allocate A is by
+reserving a memory chunk of lenght A+B+C (Eventually alignin it) and then 
+constructing A,B,C using the placement new 
+
+raw chunk:
+|---------------------------|
+after placement new:
+|-A-|-------B-------|---C---|
+
+The natural way to do this construction is to use the evaluation order of 
+constructors that make implemenation easy (and possibly fast).
+
+This require a new smart pointer ( shared_ptr and unique_ptr provides some
+mechanism for custom deleters, but that's expensive).
+
+And the name for the new pointer will be ..
+
+infect_ptr ?
+
+3)
+Construct arrays of objects? (it's implicit that "Single" types can't be 
+costructed into arrays, so there will not be "buildSingleArray" in any case).
+
+auto myArray = ioc.buildArray<IFoo>(50); 
+
+for(int i=0; i<50; i++)
+ myArray[i]; //would that be usefull? would that be misused?
+
+
+4) hierarchical containers (HC)
+Actually multiple containers are possible, but each container don't
+see each other... Then provide a hierachical structure where
+children can see dependencies of parents?
+
+Would that be usefull for someone?
+
+5) add support also for "weak_ptr" dependencies?
+This is probably a bad idea. Unless you can provide 3 
+examples in wich that will be usefull I'll not add it.
