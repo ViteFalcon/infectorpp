@@ -22,6 +22,11 @@ AUTHORS OR */
 
 namespace Infector{
 
+    class ANotUsableClass{
+        ANotUsableClass()=delete;
+        ~ANotUsableClass()=delete;
+    };
+
     template<typename... Others>
     struct recursiveTest;
 
