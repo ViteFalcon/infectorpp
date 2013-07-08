@@ -18,6 +18,14 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.*/
 
+//----------------------------------------------------------------------------
+/**
+    This file is used as test suite. Compiling and running it takes few
+    moments and can istantly detect all possible problems. Usefull for not
+    breaking existing functionalities and for prove that everything is
+    correct.
+*/
+
 #include <InfectorContainer.hpp>
 #include <memory>
 #include <iostream>
@@ -158,13 +166,13 @@ void BedTest(){
 struct Booom;
 struct Kaaa{
 public:
-    Kaaa(std::unique_ptr<Booom> b){}
+    Kaaa(std::unique_ptr<Booom> b){ (void) b;}
 };
 
 
 struct Booom{
 public:
-    Booom(std::unique_ptr<Kaaa> k){}
+    Booom(std::unique_ptr<Kaaa> k){ (void) k;}
 };
 
 void CircularTest(){
@@ -185,18 +193,76 @@ void CircularTest(){
     std::cout<<"\nend of test 3\n"<<std::endl;
 }
 
+/// ////////////////////////////////////////////////
+///                  TEST
+///                    4
+/// ////////////////////////////////////////////////
+
+class IFoo {
+public:
+    virtual void letsFoo() = 0;
+};
+
+class IBar {
+public:
+    virtual void letsBar() = 0;
+};
+
+class CFooBar: public virtual IFoo, public virtual IBar{
+public:
+    CFooBar() = default;
+    virtual ~CFooBar() = default;
+
+    virtual void letsBar() override{
+        std::cout<<"CFooBar : letsBar"<<std::endl;
+    }
+    virtual void letsFoo() override{
+        std::cout<<"CFooBar : letsFoo"<<std::endl;
+    }
+};
+
+class FooBarUser{
+    std::shared_ptr<IFoo> myFoo;
+    std::shared_ptr<IBar> myBar;
+public:
+    FooBarUser(std::shared_ptr<IFoo> foo, std::shared_ptr<IBar> bar)
+                : myFoo(foo)
+                , myBar(bar)
+    {  }
+
+    void doSomething(){
+        myFoo->letsFoo();
+        myBar->letsBar();
+    }
+};
+
+void SharedTest(){
+    std::cout<<"SHARED OBJECTS TEST\n"<<std::endl;
+    Infector::Container ioc;
+    ioc.bindSingleAs<CFooBar, IFoo, IBar>();
+    ioc.bindSingleAsNothing<FooBarUser>();
+
+    ioc.wire<CFooBar>();
+    ioc.wire<FooBarUser, IFoo, IBar>();
+
+    auto user = ioc.build<FooBarUser>();
+    user->doSomething();
+}
+
 int main(){
     /** Test to prove that Infector does not cause memory leaks due to
     *   unkown evaluation order of constructors' parameters when construcors
-    *   throws exceptions. */
+    *   throws exceptions. This is a big advantage.*/
     LeakTest();
     /** Basic usage test, no shared objects. Creates a small object graph
-    *   with unique ownership semantics. Seems that using unique ptr
-    *   is very natural this way.*/
+    *   with unique ownership semantics.*/
     BedTest();
     /** This test assure that exception is thrown in case there's a circular
     *   dependency. */
     CircularTest();
+    /** Basic usage test this time shared objects are used and multiple
+    *   inheritance is tested.*/
+    SharedTest();
 
     return 0;
 }

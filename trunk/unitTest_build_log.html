@@ -4,20 +4,250 @@
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" /></head>
 <body>
 <tt>
-Build started on: <u>06-07-2013 at 16:53.35</u><br />
-Build ended on: <u>06-07-2013 at 16:53.42</u><p />
+Build started on: <u>08-07-2013 at 05:53.41</u><br />
+Build ended on: <u>08-07-2013 at 05:53.53</u><p />
 <b>-------------- Build: Debug in unitTest (compiler: GNU GCC Compiler)---------------</b><br />
 i686-w64-mingw32-g++.exe -O3 -O -Wmain -std=c++11 -Wextra -Wall  -std=c++11 -g    -Iinclude\Infectorpp  -c D:\SVN\Infectorpp\UnitTest.cpp -o obj\Debug\UnitTest.o<br />
-<font color="#0000ff">D:\SVN\Infectorpp\UnitTest.cpp:161:5: warning: unused parameter 'b' [-Wunused-parameter]</font><br />
-     Kaaa(std::unique_ptr&lt;Booom&gt; b){}<br />
-     ^<br />
-<font color="#0000ff">D:\SVN\Infectorpp\UnitTest.cpp:167:5: warning: unused parameter 'k' [-Wunused-parameter]</font><br />
-     Booom(std::unique_ptr&lt;Kaaa&gt; k){}<br />
-     ^<br />
-i686-w64-mingw32-g++.exe  -o bin\unitTest.exe obj\Debug\UnitTest.o    <br />
-Output size is 538.88 KB<br />
-<font color="#0000ff">Process terminated with status 0 (0 minutes, 6 seconds)</font><br />
-<font color="#0000ff">0 errors, 2 warnings (0 minutes, 6 seconds)</font><br />
+In file included from include\Infectorpp/InfectorContainer.hpp:140:0,<br />
+                 from D:\SVN\Infectorpp\UnitTest.cpp:29:<br />
+<font color="#0000ff">include\Infectorpp/Infector_details.hpp: In instantiation of 'bool Infector::Container::resolve_multiple_inheritance() [with T = CFooBar; Contract = IFoo; Others = {IBar}]':</font><br />
+<font color="#0000ff">include\Infectorpp/Infector_single.hpp:47:68:   required from 'void Infector::Container::bindSingleAs() [with T = CFooBar; Contracts = {IFoo, IBar}]'</font><br />
+<font color="#0000ff">D:\SVN\Infectorpp\UnitTest.cpp:242:43:   required from here</font><br />
+<font color="#ff0000">include\Infectorpp/Infector_details.hpp:38:54: error: call of overloaded 'resolve_multiple_inheritance()' is ambiguous</font><br />
+         if(resolve_multiple_inheritance&lt;T,Others...&gt;()){<br />
+                                                      ^<br />
+include\Infectorpp/Infector_details.hpp:38:54: note: candidates are:<br />
+include\Infectorpp/Infector_details.hpp:22:10: note: bool Infector::Container::resolve_multiple_inheritance() [with T = CFooBar; Contract = IBar]<br />
+     bool Container::resolve_multiple_inheritance(){<br />
+          ^<br />
+include\Infectorpp/Infector_details.hpp:33:10: note: bool Infector::Container::resolve_multiple_inheritance() [with T = CFooBar; Contract = IBar; Others = {}]<br />
+     bool Container::resolve_multiple_inheritance(){<br />
+          ^<br />
+<font color="#0000ff">include\Infectorpp/Infector_details.hpp: In instantiation of 'void Infector::Container::rollback_multiple_inheritance() [with T = CFooBar; Contract = IFoo; Others = {IBar}]':</font><br />
+<font color="#0000ff">include\Infectorpp/Infector_single.hpp:49:59:   required from 'void Infector::Container::bindSingleAs() [with T = CFooBar; Contracts = {IFoo, IBar}]'</font><br />
+<font color="#0000ff">D:\SVN\Infectorpp\UnitTest.cpp:242:43:   required from here</font><br />
+<font color="#ff0000">include\Infectorpp/Infector_details.hpp:62:52: error: call of overloaded 'rollback_multiple_inheritance()' is ambiguous</font><br />
+         rollback_multiple_inheritance&lt;T,Others...&gt;();<br />
+                                                    ^<br />
+include\Infectorpp/Infector_details.hpp:62:52: note: candidates are:<br />
+include\Infectorpp/Infector_details.hpp:48:10: note: void Infector::Container::rollback_multiple_inheritance() [with T = CFooBar; Contract = IBar]<br />
+     void Container::rollback_multiple_inheritance(){<br />
+          ^<br />
+include\Infectorpp/Infector_details.hpp:57:10: note: void Infector::Container::rollback_multiple_inheritance() [with T = CFooBar; Contract = IBar; Others = {}]<br />
+     void Container::rollback_multiple_inheritance(){<br />
+          ^<br />
+In file included from include\Infectorpp/InfectorContainer.hpp:143:0,<br />
+                 from D:\SVN\Infectorpp\UnitTest.cpp:29:<br />
+<font color="#0000ff">include\Infectorpp/Infector_single.hpp: In instantiation of 'std::shared_ptr&lt;_Tp1&gt; Infector::Container::buildSingle_delegate() [with T = IFoo]':</font><br />
+<font color="#0000ff">include\Infectorpp/InfectorContainer.hpp:119:73:   required from 'Infector::Container::UniqueOrShared&lt;OBJ&gt;::operator std::shared_ptr&lt;_Tp1&gt;() [with OBJ = IFoo]'</font><br />
+<font color="#0000ff">include\Infectorpp/Infector_private.hpp:42:25:   required from 'Infector::Container::wire() [with T = FooBarUser; Dependencies = {IFoo, IBar}]::__lambda0'</font><br />
+<font color="#0000ff">include\Infectorpp/Infector_private.hpp:38:27:   required from 'struct Infector::Container::wire() [with T = FooBarUser; Dependencies = {IFoo, IBar}]::__lambda0'</font><br />
+<font color="#0000ff">include\Infectorpp/Infector_private.hpp:37:47:   required from 'void Infector::Container::wire() [with T = FooBarUser; Dependencies = {IFoo, IBar}]'</font><br />
+<font color="#0000ff">D:\SVN\Infectorpp\UnitTest.cpp:246:38:   required from here</font><br />
+<font color="#ff0000">include\Infectorpp/Infector_single.hpp:86:21: error: no match for 'operator=' (operand types are 'std::unique_ptr&lt;Infector::AnyShared&lt;IFoo&gt;, std::default_delete&lt;Infector::AnyShared&lt;IFoo&gt; &gt; &gt;' and 'std::remove_reference&lt;Infector::AnyShared&lt;IFoo&gt;*&gt;::type {aka Infector::AnyShared&lt;IFoo&gt;*}')</font><br />
+                 any = std::move(new AnyShared&lt;T&gt;());<br />
+                     ^<br />
+include\Infectorpp/Infector_single.hpp:86:21: note: candidates are:<br />
+In file included from d:\gcc-chain\mingw32\lib\gcc\i686-w64-mingw32\4.8.0\include\c++\memory:81:0,<br />
+                 from include\Infectorpp/InfectorHelpers.hpp:20,<br />
+                 from include\Infectorpp/InfectorContainer.hpp:21,<br />
+                 from D:\SVN\Infectorpp\UnitTest.cpp:29:<br />
+d:\gcc-chain\mingw32\lib\gcc\i686-w64-mingw32\4.8.0\include\c++\bits\unique_ptr.h:190:7: note: std::unique_ptr&lt;_Tp, _Dp&gt;&amp; std::unique_ptr&lt;_Tp, _Dp&gt;::operator=(std::unique_ptr&lt;_Tp, _Dp&gt;&amp;&amp;) [with _Tp = Infector::AnyShared&lt;IFoo&gt;; _Dp = std::default_delete&lt;Infector::AnyShared&lt;IFoo&gt; &gt;]<br />
+       operator=(unique_ptr&amp;&amp; __u) noexcept<br />
+       ^<br />
+d:\gcc-chain\mingw32\lib\gcc\i686-w64-mingw32\4.8.0\include\c++\bits\unique_ptr.h:190:7: note:   no known conversion for argument 1 from 'std::remove_reference&lt;Infector::AnyShared&lt;IFoo&gt;*&gt;::type {aka Infector::AnyShared&lt;IFoo&gt;*}' to 'std::unique_ptr&lt;Infector::AnyShared&lt;IFoo&gt;, std::default_delete&lt;Infector::AnyShared&lt;IFoo&gt; &gt; &gt;&amp;&amp;'<br />
+d:\gcc-chain\mingw32\lib\gcc\i686-w64-mingw32\4.8.0\include\c++\bits\unique_ptr.h:203:2: note: template&lt;class _Up, class _Ep&gt; typename std::enable_if&lt;std::__and_&lt;std::is_convertible&lt;typename std::unique_ptr&lt;_Up, _Ep&gt;::pointer, typename std::unique_ptr&lt;_Tp, _Dp&gt;::_Pointer::type&gt;, std::__not_&lt;std::is_array&lt;_Up&gt; &gt; &gt;::value, std::unique_ptr&lt;_Tp, _Dp&gt;&amp;&gt;::type std::unique_ptr&lt;_Tp, _Dp&gt;::operator=(std::unique_ptr&lt;_Up, _Ep&gt;&amp;&amp;) [with _Up = _Up; _Ep = _Ep; _Tp = Infector::AnyShared&lt;IFoo&gt;; _Dp = std::default_delete&lt;Infector::AnyShared&lt;IFoo&gt; &gt;]<br />
+  operator=(unique_ptr&lt;_Up, _Ep&gt;&amp;&amp; __u) noexcept<br />
+  ^<br />
+d:\gcc-chain\mingw32\lib\gcc\i686-w64-mingw32\4.8.0\include\c++\bits\unique_ptr.h:203:2: note:   template argument deduction/substitution failed:<br />
+In file included from include\Infectorpp/InfectorContainer.hpp:143:0,<br />
+                 from D:\SVN\Infectorpp\UnitTest.cpp:29:<br />
+include\Infectorpp/Infector_single.hpp:86:21: note:   mismatched types 'std::unique_ptr&lt;_Tp, _Dp&gt;' and 'std::remove_reference&lt;Infector::AnyShared&lt;IFoo&gt;*&gt;::type {aka Infector::AnyShared&lt;IFoo&gt;*}'<br />
+                 any = std::move(new AnyShared&lt;T&gt;());<br />
+                     ^<br />
+In file included from d:\gcc-chain\mingw32\lib\gcc\i686-w64-mingw32\4.8.0\include\c++\memory:81:0,<br />
+                 from include\Infectorpp/InfectorHelpers.hpp:20,<br />
+                 from include\Infectorpp/InfectorContainer.hpp:21,<br />
+                 from D:\SVN\Infectorpp\UnitTest.cpp:29:<br />
+d:\gcc-chain\mingw32\lib\gcc\i686-w64-mingw32\4.8.0\include\c++\bits\unique_ptr.h:211:7: note: std::unique_ptr&lt;_Tp, _Dp&gt;&amp; std::unique_ptr&lt;_Tp, _Dp&gt;::operator=(std::nullptr_t) [with _Tp = Infector::AnyShared&lt;IFoo&gt;; _Dp = std::default_delete&lt;Infector::AnyShared&lt;IFoo&gt; &gt;; std::nullptr_t = std::nullptr_t]<br />
+       operator=(nullptr_t) noexcept<br />
+       ^<br />
+d:\gcc-chain\mingw32\lib\gcc\i686-w64-mingw32\4.8.0\include\c++\bits\unique_ptr.h:211:7: note:   no known conversion for argument 1 from 'std::remove_reference&lt;Infector::AnyShared&lt;IFoo&gt;*&gt;::type {aka Infector::AnyShared&lt;IFoo&gt;*}' to 'std::nullptr_t'<br />
+In file included from include\Infectorpp/InfectorContainer.hpp:143:0,<br />
+                 from D:\SVN\Infectorpp\UnitTest.cpp:29:<br />
+<font color="#ff0000">include\Infectorpp/Infector_single.hpp:87:26: error: no match for 'operator=' (operand types are 'std::shared_ptr&lt;IFoo&gt;' and 'IFoo*')</font><br />
+                 any-&gt;ist = reinterpret_cast&lt;T*&gt;( (it2-&gt;second)() ); // MAY THROW<br />
+                          ^<br />
+include\Infectorpp/Infector_single.hpp:87:26: note: candidates are:<br />
+In file included from d:\gcc-chain\mingw32\lib\gcc\i686-w64-mingw32\4.8.0\include\c++\memory:82:0,<br />
+                 from include\Infectorpp/InfectorHelpers.hpp:20,<br />
+                 from include\Infectorpp/InfectorContainer.hpp:21,<br />
+                 from D:\SVN\Infectorpp\UnitTest.cpp:29:<br />
+d:\gcc-chain\mingw32\lib\gcc\i686-w64-mingw32\4.8.0\include\c++\bits\shared_ptr.h:268:19: note: std::shared_ptr&lt;_Tp&gt;&amp; std::shared_ptr&lt;_Tp&gt;::operator=(const std::shared_ptr&lt;_Tp&gt;&amp;) [with _Tp = IFoo]<br />
+       shared_ptr&amp; operator=(const shared_ptr&amp;) noexcept = default;<br />
+                   ^<br />
+d:\gcc-chain\mingw32\lib\gcc\i686-w64-mingw32\4.8.0\include\c++\bits\shared_ptr.h:268:19: note:   no known conversion for argument 1 from 'IFoo*' to 'const std::shared_ptr&lt;IFoo&gt;&amp;'<br />
+d:\gcc-chain\mingw32\lib\gcc\i686-w64-mingw32\4.8.0\include\c++\bits\shared_ptr.h:272:2: note: template&lt;class _Tp1&gt; std::shared_ptr&lt;_Tp&gt;&amp; std::shared_ptr&lt;_Tp&gt;::operator=(const std::shared_ptr&lt;_Tp1&gt;&amp;) [with _Tp1 = _Tp1; _Tp = IFoo]<br />
+  operator=(const shared_ptr&lt;_Tp1&gt;&amp; __r) noexcept<br />
+  ^<br />
+d:\gcc-chain\mingw32\lib\gcc\i686-w64-mingw32\4.8.0\include\c++\bits\shared_ptr.h:272:2: note:   template argument deduction/substitution failed:<br />
+In file included from include\Infectorpp/InfectorContainer.hpp:143:0,<br />
+                 from D:\SVN\Infectorpp\UnitTest.cpp:29:<br />
+include\Infectorpp/Infector_single.hpp:87:26: note:   mismatched types 'const std::shared_ptr&lt;_Tp1&gt;' and 'IFoo*'<br />
+                 any-&gt;ist = reinterpret_cast&lt;T*&gt;( (it2-&gt;second)() ); // MAY THROW<br />
+                          ^<br />
+In file included from d:\gcc-chain\mingw32\lib\gcc\i686-w64-mingw32\4.8.0\include\c++\memory:82:0,<br />
+                 from include\Infectorpp/InfectorHelpers.hpp:20,<br />
+                 from include\Infectorpp/InfectorContainer.hpp:21,<br />
+                 from D:\SVN\Infectorpp\UnitTest.cpp:29:<br />
+d:\gcc-chain\mingw32\lib\gcc\i686-w64-mingw32\4.8.0\include\c++\bits\shared_ptr.h:281:2: note: template&lt;class _Tp1&gt; std::shared_ptr&lt;_Tp&gt;&amp; std::shared_ptr&lt;_Tp&gt;::operator=(std::auto_ptr&lt;_Up&gt;&amp;&amp;) [with _Tp1 = _Tp1; _Tp = IFoo]<br />
+  operator=(std::auto_ptr&lt;_Tp1&gt;&amp;&amp; __r)<br />
+  ^<br />
+d:\gcc-chain\mingw32\lib\gcc\i686-w64-mingw32\4.8.0\include\c++\bits\shared_ptr.h:281:2: note:   template argument deduction/substitution failed:<br />
+In file included from include\Infectorpp/InfectorContainer.hpp:143:0,<br />
+                 from D:\SVN\Infectorpp\UnitTest.cpp:29:<br />
+include\Infectorpp/Infector_single.hpp:87:26: note:   mismatched types 'std::auto_ptr&lt;_Up&gt;' and 'IFoo*'<br />
+                 any-&gt;ist = reinterpret_cast&lt;T*&gt;( (it2-&gt;second)() ); // MAY THROW<br />
+                          ^<br />
+In file included from d:\gcc-chain\mingw32\lib\gcc\i686-w64-mingw32\4.8.0\include\c++\memory:82:0,<br />
+                 from include\Infectorpp/InfectorHelpers.hpp:20,<br />
+                 from include\Infectorpp/InfectorContainer.hpp:21,<br />
+                 from D:\SVN\Infectorpp\UnitTest.cpp:29:<br />
+d:\gcc-chain\mingw32\lib\gcc\i686-w64-mingw32\4.8.0\include\c++\bits\shared_ptr.h:289:7: note: std::shared_ptr&lt;_Tp&gt;&amp; std::shared_ptr&lt;_Tp&gt;::operator=(std::shared_ptr&lt;_Tp&gt;&amp;&amp;) [with _Tp = IFoo]<br />
+       operator=(shared_ptr&amp;&amp; __r) noexcept<br />
+       ^<br />
+d:\gcc-chain\mingw32\lib\gcc\i686-w64-mingw32\4.8.0\include\c++\bits\shared_ptr.h:289:7: note:   no known conversion for argument 1 from 'IFoo*' to 'std::shared_ptr&lt;IFoo&gt;&amp;&amp;'<br />
+d:\gcc-chain\mingw32\lib\gcc\i686-w64-mingw32\4.8.0\include\c++\bits\shared_ptr.h:297:2: note: template&lt;class _Tp1&gt; std::shared_ptr&lt;_Tp&gt;&amp; std::shared_ptr&lt;_Tp&gt;::operator=(std::shared_ptr&lt;_Tp1&gt;&amp;&amp;) [with _Tp1 = _Tp1; _Tp = IFoo]<br />
+  operator=(shared_ptr&lt;_Tp1&gt;&amp;&amp; __r) noexcept<br />
+  ^<br />
+d:\gcc-chain\mingw32\lib\gcc\i686-w64-mingw32\4.8.0\include\c++\bits\shared_ptr.h:297:2: note:   template argument deduction/substitution failed:<br />
+In file included from include\Infectorpp/InfectorContainer.hpp:143:0,<br />
+                 from D:\SVN\Infectorpp\UnitTest.cpp:29:<br />
+include\Infectorpp/Infector_single.hpp:87:26: note:   mismatched types 'std::shared_ptr&lt;_Tp1&gt;' and 'IFoo*'<br />
+                 any-&gt;ist = reinterpret_cast&lt;T*&gt;( (it2-&gt;second)() ); // MAY THROW<br />
+                          ^<br />
+In file included from d:\gcc-chain\mingw32\lib\gcc\i686-w64-mingw32\4.8.0\include\c++\memory:82:0,<br />
+                 from include\Infectorpp/InfectorHelpers.hpp:20,<br />
+                 from include\Infectorpp/InfectorContainer.hpp:21,<br />
+                 from D:\SVN\Infectorpp\UnitTest.cpp:29:<br />
+d:\gcc-chain\mingw32\lib\gcc\i686-w64-mingw32\4.8.0\include\c++\bits\shared_ptr.h:305:2: note: template&lt;class _Tp1, class _Del&gt; std::shared_ptr&lt;_Tp&gt;&amp; std::shared_ptr&lt;_Tp&gt;::operator=(std::unique_ptr&lt;_Up, _Ep&gt;&amp;&amp;) [with _Tp1 = _Tp1; _Del = _Del; _Tp = IFoo]<br />
+  operator=(std::unique_ptr&lt;_Tp1, _Del&gt;&amp;&amp; __r)<br />
+  ^<br />
+d:\gcc-chain\mingw32\lib\gcc\i686-w64-mingw32\4.8.0\include\c++\bits\shared_ptr.h:305:2: note:   template argument deduction/substitution failed:<br />
+In file included from include\Infectorpp/InfectorContainer.hpp:143:0,<br />
+                 from D:\SVN\Infectorpp\UnitTest.cpp:29:<br />
+include\Infectorpp/Infector_single.hpp:87:26: note:   mismatched types 'std::unique_ptr&lt;_Tp, _Dp&gt;' and 'IFoo*'<br />
+                 any-&gt;ist = reinterpret_cast&lt;T*&gt;( (it2-&gt;second)() ); // MAY THROW<br />
+                          ^<br />
+<font color="#ff0000">include\Infectorpp/Infector_single.hpp:99:67: error: invalid cast from type 'std::pair&lt;const std::type_index, std::unique_ptr&lt;Infector::IAnyShared&gt; &gt;' to type 'Infector::AnyShared&lt;IFoo&gt;'</font><br />
+         AnyShared&lt;T&gt; * any = reinterpret_cast&lt;AnyShared&lt;T&gt;&gt;((*it3));<br />
+                                                                   ^<br />
+<font color="#0000ff">include\Infectorpp/Infector_single.hpp: In instantiation of 'std::shared_ptr&lt;_Tp1&gt; Infector::Container::buildSingle_delegate() [with T = IBar]':</font><br />
+<font color="#0000ff">include\Infectorpp/InfectorContainer.hpp:119:73:   required from 'Infector::Container::UniqueOrShared&lt;OBJ&gt;::operator std::shared_ptr&lt;_Tp1&gt;() [with OBJ = IBar]'</font><br />
+<font color="#0000ff">include\Infectorpp/Infector_private.hpp:42:25:   required from 'Infector::Container::wire() [with T = FooBarUser; Dependencies = {IFoo, IBar}]::__lambda0'</font><br />
+<font color="#0000ff">include\Infectorpp/Infector_private.hpp:38:27:   required from 'struct Infector::Container::wire() [with T = FooBarUser; Dependencies = {IFoo, IBar}]::__lambda0'</font><br />
+<font color="#0000ff">include\Infectorpp/Infector_private.hpp:37:47:   required from 'void Infector::Container::wire() [with T = FooBarUser; Dependencies = {IFoo, IBar}]'</font><br />
+<font color="#0000ff">D:\SVN\Infectorpp\UnitTest.cpp:246:38:   required from here</font><br />
+<font color="#ff0000">include\Infectorpp/Infector_single.hpp:86:21: error: no match for 'operator=' (operand types are 'std::unique_ptr&lt;Infector::AnyShared&lt;IBar&gt;, std::default_delete&lt;Infector::AnyShared&lt;IBar&gt; &gt; &gt;' and 'std::remove_reference&lt;Infector::AnyShared&lt;IBar&gt;*&gt;::type {aka Infector::AnyShared&lt;IBar&gt;*}')</font><br />
+                 any = std::move(new AnyShared&lt;T&gt;());<br />
+                     ^<br />
+include\Infectorpp/Infector_single.hpp:86:21: note: candidates are:<br />
+In file included from d:\gcc-chain\mingw32\lib\gcc\i686-w64-mingw32\4.8.0\include\c++\memory:81:0,<br />
+                 from include\Infectorpp/InfectorHelpers.hpp:20,<br />
+                 from include\Infectorpp/InfectorContainer.hpp:21,<br />
+                 from D:\SVN\Infectorpp\UnitTest.cpp:29:<br />
+d:\gcc-chain\mingw32\lib\gcc\i686-w64-mingw32\4.8.0\include\c++\bits\unique_ptr.h:190:7: note: std::unique_ptr&lt;_Tp, _Dp&gt;&amp; std::unique_ptr&lt;_Tp, _Dp&gt;::operator=(std::unique_ptr&lt;_Tp, _Dp&gt;&amp;&amp;) [with _Tp = Infector::AnyShared&lt;IBar&gt;; _Dp = std::default_delete&lt;Infector::AnyShared&lt;IBar&gt; &gt;]<br />
+       operator=(unique_ptr&amp;&amp; __u) noexcept<br />
+       ^<br />
+d:\gcc-chain\mingw32\lib\gcc\i686-w64-mingw32\4.8.0\include\c++\bits\unique_ptr.h:190:7: note:   no known conversion for argument 1 from 'std::remove_reference&lt;Infector::AnyShared&lt;IBar&gt;*&gt;::type {aka Infector::AnyShared&lt;IBar&gt;*}' to 'std::unique_ptr&lt;Infector::AnyShared&lt;IBar&gt;, std::default_delete&lt;Infector::AnyShared&lt;IBar&gt; &gt; &gt;&amp;&amp;'<br />
+d:\gcc-chain\mingw32\lib\gcc\i686-w64-mingw32\4.8.0\include\c++\bits\unique_ptr.h:203:2: note: template&lt;class _Up, class _Ep&gt; typename std::enable_if&lt;std::__and_&lt;std::is_convertible&lt;typename std::unique_ptr&lt;_Up, _Ep&gt;::pointer, typename std::unique_ptr&lt;_Tp, _Dp&gt;::_Pointer::type&gt;, std::__not_&lt;std::is_array&lt;_Up&gt; &gt; &gt;::value, std::unique_ptr&lt;_Tp, _Dp&gt;&amp;&gt;::type std::unique_ptr&lt;_Tp, _Dp&gt;::operator=(std::unique_ptr&lt;_Up, _Ep&gt;&amp;&amp;) [with _Up = _Up; _Ep = _Ep; _Tp = Infector::AnyShared&lt;IBar&gt;; _Dp = std::default_delete&lt;Infector::AnyShared&lt;IBar&gt; &gt;]<br />
+  operator=(unique_ptr&lt;_Up, _Ep&gt;&amp;&amp; __u) noexcept<br />
+  ^<br />
+d:\gcc-chain\mingw32\lib\gcc\i686-w64-mingw32\4.8.0\include\c++\bits\unique_ptr.h:203:2: note:   template argument deduction/substitution failed:<br />
+In file included from include\Infectorpp/InfectorContainer.hpp:143:0,<br />
+                 from D:\SVN\Infectorpp\UnitTest.cpp:29:<br />
+include\Infectorpp/Infector_single.hpp:86:21: note:   mismatched types 'std::unique_ptr&lt;_Tp, _Dp&gt;' and 'std::remove_reference&lt;Infector::AnyShared&lt;IBar&gt;*&gt;::type {aka Infector::AnyShared&lt;IBar&gt;*}'<br />
+                 any = std::move(new AnyShared&lt;T&gt;());<br />
+                     ^<br />
+In file included from d:\gcc-chain\mingw32\lib\gcc\i686-w64-mingw32\4.8.0\include\c++\memory:81:0,<br />
+                 from include\Infectorpp/InfectorHelpers.hpp:20,<br />
+                 from include\Infectorpp/InfectorContainer.hpp:21,<br />
+                 from D:\SVN\Infectorpp\UnitTest.cpp:29:<br />
+d:\gcc-chain\mingw32\lib\gcc\i686-w64-mingw32\4.8.0\include\c++\bits\unique_ptr.h:211:7: note: std::unique_ptr&lt;_Tp, _Dp&gt;&amp; std::unique_ptr&lt;_Tp, _Dp&gt;::operator=(std::nullptr_t) [with _Tp = Infector::AnyShared&lt;IBar&gt;; _Dp = std::default_delete&lt;Infector::AnyShared&lt;IBar&gt; &gt;; std::nullptr_t = std::nullptr_t]<br />
+       operator=(nullptr_t) noexcept<br />
+       ^<br />
+d:\gcc-chain\mingw32\lib\gcc\i686-w64-mingw32\4.8.0\include\c++\bits\unique_ptr.h:211:7: note:   no known conversion for argument 1 from 'std::remove_reference&lt;Infector::AnyShared&lt;IBar&gt;*&gt;::type {aka Infector::AnyShared&lt;IBar&gt;*}' to 'std::nullptr_t'<br />
+In file included from include\Infectorpp/InfectorContainer.hpp:143:0,<br />
+                 from D:\SVN\Infectorpp\UnitTest.cpp:29:<br />
+<font color="#ff0000">include\Infectorpp/Infector_single.hpp:87:26: error: no match for 'operator=' (operand types are 'std::shared_ptr&lt;IBar&gt;' and 'IBar*')</font><br />
+                 any-&gt;ist = reinterpret_cast&lt;T*&gt;( (it2-&gt;second)() ); // MAY THROW<br />
+                          ^<br />
+include\Infectorpp/Infector_single.hpp:87:26: note: candidates are:<br />
+In file included from d:\gcc-chain\mingw32\lib\gcc\i686-w64-mingw32\4.8.0\include\c++\memory:82:0,<br />
+                 from include\Infectorpp/InfectorHelpers.hpp:20,<br />
+                 from include\Infectorpp/InfectorContainer.hpp:21,<br />
+                 from D:\SVN\Infectorpp\UnitTest.cpp:29:<br />
+d:\gcc-chain\mingw32\lib\gcc\i686-w64-mingw32\4.8.0\include\c++\bits\shared_ptr.h:268:19: note: std::shared_ptr&lt;_Tp&gt;&amp; std::shared_ptr&lt;_Tp&gt;::operator=(const std::shared_ptr&lt;_Tp&gt;&amp;) [with _Tp = IBar]<br />
+       shared_ptr&amp; operator=(const shared_ptr&amp;) noexcept = default;<br />
+                   ^<br />
+d:\gcc-chain\mingw32\lib\gcc\i686-w64-mingw32\4.8.0\include\c++\bits\shared_ptr.h:268:19: note:   no known conversion for argument 1 from 'IBar*' to 'const std::shared_ptr&lt;IBar&gt;&amp;'<br />
+d:\gcc-chain\mingw32\lib\gcc\i686-w64-mingw32\4.8.0\include\c++\bits\shared_ptr.h:272:2: note: template&lt;class _Tp1&gt; std::shared_ptr&lt;_Tp&gt;&amp; std::shared_ptr&lt;_Tp&gt;::operator=(const std::shared_ptr&lt;_Tp1&gt;&amp;) [with _Tp1 = _Tp1; _Tp = IBar]<br />
+  operator=(const shared_ptr&lt;_Tp1&gt;&amp; __r) noexcept<br />
+  ^<br />
+d:\gcc-chain\mingw32\lib\gcc\i686-w64-mingw32\4.8.0\include\c++\bits\shared_ptr.h:272:2: note:   template argument deduction/substitution failed:<br />
+In file included from include\Infectorpp/InfectorContainer.hpp:143:0,<br />
+                 from D:\SVN\Infectorpp\UnitTest.cpp:29:<br />
+include\Infectorpp/Infector_single.hpp:87:26: note:   mismatched types 'const std::shared_ptr&lt;_Tp1&gt;' and 'IBar*'<br />
+                 any-&gt;ist = reinterpret_cast&lt;T*&gt;( (it2-&gt;second)() ); // MAY THROW<br />
+                          ^<br />
+In file included from d:\gcc-chain\mingw32\lib\gcc\i686-w64-mingw32\4.8.0\include\c++\memory:82:0,<br />
+                 from include\Infectorpp/InfectorHelpers.hpp:20,<br />
+                 from include\Infectorpp/InfectorContainer.hpp:21,<br />
+                 from D:\SVN\Infectorpp\UnitTest.cpp:29:<br />
+d:\gcc-chain\mingw32\lib\gcc\i686-w64-mingw32\4.8.0\include\c++\bits\shared_ptr.h:281:2: note: template&lt;class _Tp1&gt; std::shared_ptr&lt;_Tp&gt;&amp; std::shared_ptr&lt;_Tp&gt;::operator=(std::auto_ptr&lt;_Up&gt;&amp;&amp;) [with _Tp1 = _Tp1; _Tp = IBar]<br />
+  operator=(std::auto_ptr&lt;_Tp1&gt;&amp;&amp; __r)<br />
+  ^<br />
+d:\gcc-chain\mingw32\lib\gcc\i686-w64-mingw32\4.8.0\include\c++\bits\shared_ptr.h:281:2: note:   template argument deduction/substitution failed:<br />
+In file included from include\Infectorpp/InfectorContainer.hpp:143:0,<br />
+                 from D:\SVN\Infectorpp\UnitTest.cpp:29:<br />
+include\Infectorpp/Infector_single.hpp:87:26: note:   mismatched types 'std::auto_ptr&lt;_Up&gt;' and 'IBar*'<br />
+                 any-&gt;ist = reinterpret_cast&lt;T*&gt;( (it2-&gt;second)() ); // MAY THROW<br />
+                          ^<br />
+In file included from d:\gcc-chain\mingw32\lib\gcc\i686-w64-mingw32\4.8.0\include\c++\memory:82:0,<br />
+                 from include\Infectorpp/InfectorHelpers.hpp:20,<br />
+                 from include\Infectorpp/InfectorContainer.hpp:21,<br />
+                 from D:\SVN\Infectorpp\UnitTest.cpp:29:<br />
+d:\gcc-chain\mingw32\lib\gcc\i686-w64-mingw32\4.8.0\include\c++\bits\shared_ptr.h:289:7: note: std::shared_ptr&lt;_Tp&gt;&amp; std::shared_ptr&lt;_Tp&gt;::operator=(std::shared_ptr&lt;_Tp&gt;&amp;&amp;) [with _Tp = IBar]<br />
+       operator=(shared_ptr&amp;&amp; __r) noexcept<br />
+       ^<br />
+d:\gcc-chain\mingw32\lib\gcc\i686-w64-mingw32\4.8.0\include\c++\bits\shared_ptr.h:289:7: note:   no known conversion for argument 1 from 'IBar*' to 'std::shared_ptr&lt;IBar&gt;&amp;&amp;'<br />
+d:\gcc-chain\mingw32\lib\gcc\i686-w64-mingw32\4.8.0\include\c++\bits\shared_ptr.h:297:2: note: template&lt;class _Tp1&gt; std::shared_ptr&lt;_Tp&gt;&amp; std::shared_ptr&lt;_Tp&gt;::operator=(std::shared_ptr&lt;_Tp1&gt;&amp;&amp;) [with _Tp1 = _Tp1; _Tp = IBar]<br />
+  operator=(shared_ptr&lt;_Tp1&gt;&amp;&amp; __r) noexcept<br />
+  ^<br />
+d:\gcc-chain\mingw32\lib\gcc\i686-w64-mingw32\4.8.0\include\c++\bits\shared_ptr.h:297:2: note:   template argument deduction/substitution failed:<br />
+In file included from include\Infectorpp/InfectorContainer.hpp:143:0,<br />
+                 from D:\SVN\Infectorpp\UnitTest.cpp:29:<br />
+include\Infectorpp/Infector_single.hpp:87:26: note:   mismatched types 'std::shared_ptr&lt;_Tp1&gt;' and 'IBar*'<br />
+                 any-&gt;ist = reinterpret_cast&lt;T*&gt;( (it2-&gt;second)() ); // MAY THROW<br />
+                          ^<br />
+In file included from d:\gcc-chain\mingw32\lib\gcc\i686-w64-mingw32\4.8.0\include\c++\memory:82:0,<br />
+                 from include\Infectorpp/InfectorHelpers.hpp:20,<br />
+                 from include\Infectorpp/InfectorContainer.hpp:21,<br />
+                 from D:\SVN\Infectorpp\UnitTest.cpp:29:<br />
+d:\gcc-chain\mingw32\lib\gcc\i686-w64-mingw32\4.8.0\include\c++\bits\shared_ptr.h:305:2: note: template&lt;class _Tp1, class _Del&gt; std::shared_ptr&lt;_Tp&gt;&amp; std::shared_ptr&lt;_Tp&gt;::operator=(std::unique_ptr&lt;_Up, _Ep&gt;&amp;&amp;) [with _Tp1 = _Tp1; _Del = _Del; _Tp = IBar]<br />
+  operator=(std::unique_ptr&lt;_Tp1, _Del&gt;&amp;&amp; __r)<br />
+  ^<br />
+d:\gcc-chain\mingw32\lib\gcc\i686-w64-mingw32\4.8.0\include\c++\bits\shared_ptr.h:305:2: note:   template argument deduction/substitution failed:<br />
+In file included from include\Infectorpp/InfectorContainer.hpp:143:0,<br />
+                 from D:\SVN\Infectorpp\UnitTest.cpp:29:<br />
+include\Infectorpp/Infector_single.hpp:87:26: note:   mismatched types 'std::unique_ptr&lt;_Tp, _Dp&gt;' and 'IBar*'<br />
+                 any-&gt;ist = reinterpret_cast&lt;T*&gt;( (it2-&gt;second)() ); // MAY THROW<br />
+                          ^<br />
+<font color="#ff0000">include\Infectorpp/Infector_single.hpp:99:67: error: invalid cast from type 'std::pair&lt;const std::type_index, std::unique_ptr&lt;Infector::IAnyShared&gt; &gt;' to type 'Infector::AnyShared&lt;IBar&gt;'</font><br />
+         AnyShared&lt;T&gt; * any = reinterpret_cast&lt;AnyShared&lt;T&gt;&gt;((*it3));<br />
+                                                                   ^<br />
+<font color="#a00000">Process terminated with status 1 (0 minutes, 11 seconds)</font><br />
+<font color="#a00000">8 errors, 18 warnings (0 minutes, 11 seconds)</font><br />
 </tt>
 </body>
 </html>

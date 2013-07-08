@@ -14,6 +14,7 @@
 				<Option compiler="gcc" />
 				<Compiler>
 					<Add option="-std=c++11" />
+					<Add option="-g" />
 					<Add directory="include/Infectorpp" />
 				</Compiler>
 			</Target>
@@ -27,6 +28,14 @@
 			<Add option="-Wall" />
 		</Compiler>
 		<Unit filename="UnitTest.cpp" />
+		<Unit filename="include/Infectorpp/InfectorContainer.hpp" />
+		<Unit filename="include/Infectorpp/InfectorExceptions.hpp" />
+		<Unit filename="include/Infectorpp/InfectorExport.hpp" />
+		<Unit filename="include/Infectorpp/InfectorHelpers.hpp" />
+		<Unit filename="include/Infectorpp/Infector_details.hpp" />
+		<Unit filename="include/Infectorpp/Infector_multi.hpp" />
+		<Unit filename="include/Infectorpp/Infector_private.hpp" />
+		<Unit filename="include/Infectorpp/Infector_single.hpp" />
 		<Extensions>
 			<code_completion />
 			<debugger />
