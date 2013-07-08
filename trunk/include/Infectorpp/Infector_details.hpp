@@ -16,52 +16,70 @@ FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
 AUTHORS OR */
 
 #pragma once
+#include <cassert>
 namespace Infector{
 
-    template <typename T, typename Contract >
-    bool Container::resolve_multiple_inheritance(){
+    template <typename Contract >
+    bool Container::resolve_multiple_inheritance_inner(std::type_index T){
         auto it = typeMap.find(   std::type_index(typeid(Contract)) );
         if( it!=typeMap.end())
             return false;
 
         typeMap[std::type_index(typeid(Contract))]
-                = Binding(std::type_index(typeid(T)), true);
+                = Binding(T, true);
         return true;
     }
 
-    template <typename T, typename Contract, typename... Others>
-    bool Container::resolve_multiple_inheritance(){
-        auto it = typeMap.find(  std::type_index(typeid(Contract)) );
-        if( it!=typeMap.end())
-            return false;
+    template <typename Unused, typename Contract, typename... Others>
+    bool Container::resolve_multiple_inheritance_inner(std::type_index T){
 
-        if(resolve_multiple_inheritance<T,Others...>()){
-            typeMap[std::type_index(typeid(Contract))]
-                    = Binding(std::type_index(typeid(T)), true);
-            return true;
-        }
+        if((typeid(Contract)!=typeid(Unused))||sizeof...(Others)>0){
+            auto it = typeMap.find(  std::type_index(typeid(Contract)) );
+            if( it!=typeMap.end())
+                return false;
+
+            if(resolve_multiple_inheritance_inner<Contract,Others...>(T)){
+                typeMap[std::type_index(typeid(Contract))]
+                        = Binding(T, true);
+                return true;
+            }
+        }else
+            return resolve_multiple_inheritance_inner<Contract>(T);
 
         return false;
     }
 
-    template <typename T, typename Contract >
-    void Container::rollback_multiple_inheritance(){
+    template <typename T, typename Contract, typename... Others>
+    bool Container::resolve_multiple_inheritance(){
+        return resolve_multiple_inheritance_inner
+            <ANotUsableClass,Contract,Others...>(std::type_index(typeid(T)));
+    }
+
+    template <typename Contract >
+    void Container::rollback_multiple_inheritance_inner(){
         auto it = typeMap.find( std::type_index(typeid(Contract)) );
         if( it==typeMap.end())
             return;
 
         typeMap.erase(it);
     }
+    template <typename Unused, typename Contract, typename... Others>
+    void Container::rollback_multiple_inheritance_inner(){
+        if((typeid(Contract)!=typeid(Unused))||sizeof...(Others)>0){
+            auto it = typeMap.find( std::type_index(typeid(Contract)) );
+            if( it==typeMap.end())
+                return;
 
+            rollback_multiple_inheritance_inner<Contract,Others...>();
+
+            typeMap.erase(it); // all other iterators will still be valid.
+        }else
+            rollback_multiple_inheritance_inner<Contract>();
+    }
     template <typename T, typename Contract, typename... Others>
     void Container::rollback_multiple_inheritance(){
-        auto it = typeMap.find( std::type_index(typeid(Contract)) );
-        if( it==typeMap.end())
-            return;
-
-        rollback_multiple_inheritance<T,Others...>();
-
-        typeMap.erase(it); // all other iterators will still be valid.
+        return rollback_multiple_inheritance_inner
+                <ANotUsableClass,Contract,Others...>();
     }
 
     template <typename T>
