@@ -22,6 +22,7 @@ AUTHORS OR */
 
 #include <typeindex>
 #include <unordered_map>
+#include <iostream>
 
 namespace Infector{
 
@@ -44,9 +45,9 @@ public:
     template <typename T, typename Contract >
     void bindAs();
 
-    /** Declare a type as implementation of multiple interfaces(Contracts). This
-    *   type will be injected using a "std::shared_ptr", only 1 istance of T
-    *   will be created and shared. */
+    /** Declare a type as implementation of multiple interfaces(Contracts).
+    *   This type will be injected using a "std::shared_ptr", only 1 istance of
+    *   T will be created and shared. */
     template <typename T, typename... Contracts>
     void bindSingleAs();
 
@@ -81,8 +82,8 @@ public:
     std::shared_ptr<T> buildSingle();
 
     /** Istantiates a istance of T. T can be an Interface as long as it was
-    *   bound to its concrete type, and that concrete type was wired. Every call
-    *   will istantiate a different object.*/
+    *   bound to its concrete type, and that concrete type was wired. Every
+    *   call will istantiate a different object.*/
     template <typename T>
     std::unique_ptr<T> build();
 
@@ -116,12 +117,15 @@ private:
         Container * ioc=nullptr;
     public:
         UniqueOrShared(Container * ptr):ioc(ptr){}
-        operator std::unique_ptr<OBJ>(){
-            return std::unique_ptr<OBJ>(std::move(ioc->build_delegate<OBJ>()));
-        }
 
         operator std::shared_ptr<OBJ>(){
+            std::cout<<"SHARED: "<<typeid(OBJ).name()<<std::endl;
             return std::shared_ptr<OBJ>(ioc->buildSingle_delegate<OBJ>());
+        }
+
+        operator std::unique_ptr<OBJ>(){
+            std::cout<<"UNIQUE: "<<typeid(OBJ).name()<<std::endl;
+            return std::unique_ptr<OBJ>((ioc->build_delegate<OBJ>()));
         }
     };
 
@@ -133,9 +137,9 @@ private:
         Binding(const Binding & other) = default;
     };
 
-    std::unordered_map<std::type_index, Binding>                typeMap;
-    std::unordered_map<std::type_index, std::function<void*()>> callbacks;
-    std::unordered_map<std::type_index, std::unique_ptr<IAnyShared>>
+    std::unordered_map<std::type_index, Binding>                typeMap;   //Indicizzati per contratto
+    std::unordered_map<std::type_index, std::function<void*()>> callbacks; //Indicizzati per concretezza
+    std::unordered_map<std::type_index, std::shared_ptr<IAnyShared>>       //Indicizzato per contratto
                                                                 singleIstances;
 
     RecursionLimit limit;

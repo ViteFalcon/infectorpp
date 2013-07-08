@@ -17,6 +17,7 @@ AUTHORS OR */
 
 #pragma once
 #include <stdexcept>
+#include <iostream>
 namespace Infector{
 
     template <typename T>
@@ -29,6 +30,7 @@ namespace Infector{
                 = Binding(std::type_index(typeid(T)), true);
 
         try{
+            std::cout<<"AddingSharedAsNothing: "<<typeid(T).name()<<std::endl;
             singleIstances[std::type_index(typeid(T))] = nullptr;
         }catch(std::exception & ex){
             auto it2 = typeMap.find( std::type_index(typeid(T)) );
@@ -53,6 +55,7 @@ namespace Infector{
             launch_exception<Something>();
 
         try{
+            std::cout<<"AddingSharedAs: "<<typeid(T).name()<<std::endl;
             singleIstances[std::type_index(typeid(T))] = nullptr;
         }catch(std::exception & ex){
             rollback_multiple_inheritance<T,Contracts...>(); //revert changes
@@ -76,16 +79,19 @@ namespace Infector{
         if( it2==callbacks.end())
             launch_exception<Something>(); // CONSTRUCTOR NOT WIRED
 
-        auto it3 = singleIstances.find( std::type_index(typeid(T)) );
-        if(it3==singleIstances.end())
+        auto it3 = singleIstances.find( it->second.type ); //devo cercare tipo concreto
+        if(it3==singleIstances.end()){
+             std::cout<<"TYPE: "<<it->second.type.name()<<std::endl;
              launch_exception<Something>(); // ANY SHARED NOT CREATED?? (Infector bug then)
+        }
 
         if (it3->second == nullptr){
-            std::unique_ptr<AnyShared<T>> any = nullptr;
+            std::shared_ptr<AnyShared<T>> any(nullptr);
             try{
-                any = std::move(new AnyShared<T>());
-                any->ist = reinterpret_cast<T*>( (it2->second)() ); // MAY THROW
-                singleIstances[std::type_index(typeid(T))] = std::move(any); //MAY THROW
+                any.reset(new AnyShared<T>());
+                any->ist.reset(reinterpret_cast<T*>( (it2->second)() )); // MAY THROW
+                singleIstances[std::type_index(typeid(T))]
+                               = std::shared_ptr<IAnyShared>(any); //MAY THROW
             }
             catch(std::exception & ex){
                 auto ft = singleIstances.find(std::type_index(typeid(T)));
@@ -96,8 +102,9 @@ namespace Infector{
             return any->ist;
         }
 
-        AnyShared<T> * any = reinterpret_cast<AnyShared<T>>((*it3));
-        return any->ist;
+        IAnyShared * iany = it3->second.get();
+        AnyShared<T> * cany = reinterpret_cast<AnyShared<T>*>(iany);
+        return cany->ist;
     }
 
     template <typename T>

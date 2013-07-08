@@ -17,6 +17,7 @@ AUTHORS OR */
 
 #pragma once
 #include <cassert>
+#include <iostream>
 namespace Infector{
 
     template <typename Contract >
@@ -24,7 +25,7 @@ namespace Infector{
         auto it = typeMap.find(   std::type_index(typeid(Contract)) );
         if( it!=typeMap.end())
             return false;
-
+        std::cout<<"registered "<<T.name()<<" as "<<typeid(Contract).name()<<std::endl;
         typeMap[std::type_index(typeid(Contract))]
                 = Binding(T, true);
         return true;
@@ -39,6 +40,7 @@ namespace Infector{
                 return false;
 
             if(resolve_multiple_inheritance_inner<Contract,Others...>(T)){
+                std::cout<<"registered "<<T.name()<<" as "<<typeid(Contract).name()<<std::endl;
                 typeMap[std::type_index(typeid(Contract))]
                         = Binding(T, true);
                 return true;

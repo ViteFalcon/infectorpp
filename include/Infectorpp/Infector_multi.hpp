@@ -45,7 +45,7 @@ namespace Infector{
         if( it==typeMap.end()) //"it" is concrete type, T's abstract (or concrete) one
             launch_exception<Something>(); // TYPE NOT REGISTERED
 
-        if( it->second.single == true)
+        if( it->second.single == true) ///!!!!!
             launch_exception<Something>(); // T is single but istantiated as multi
         //at this point may happen that concrete type and abstract ones are the
         //same.that's ok. (bindAsNothing)
