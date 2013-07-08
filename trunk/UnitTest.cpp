@@ -211,7 +211,7 @@ public:
 class CFooBar: public virtual IFoo, public virtual IBar{
 public:
     CFooBar() = default;
-    virtual ~CFooBar() = default;
+    virtual ~CFooBar() {std::cout<<"FooBar  dctor"<<std::endl;}
 
     virtual void letsBar() override{
         std::cout<<"CFooBar : letsBar"<<std::endl;
@@ -245,8 +245,17 @@ void SharedTest(){
     ioc.wire<CFooBar>();
     ioc.wire<FooBarUser, IFoo, IBar>();
 
-    auto user = ioc.build<FooBarUser>();
-    user->doSomething();
+
+
+    try{
+        auto user = ioc.buildSingle<FooBarUser>();
+        user->doSomething();
+    }
+    catch(std::exception &ex){
+        std::cout<<ex.what()<<std::endl;
+    }
+
+     std::cout<<"\nend of test 4\n"<<std::endl;
 }
 
 int main(){
