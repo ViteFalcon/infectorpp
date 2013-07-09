@@ -225,10 +225,12 @@ class FooBarUser{
     std::shared_ptr<IFoo> myFoo;
     std::shared_ptr<IBar> myBar;
 public:
+    FooBarUser(){}
     FooBarUser(std::shared_ptr<IFoo> foo, std::shared_ptr<IBar> bar)
                 : myFoo(foo)
                 , myBar(bar)
     {  }
+    virtual ~FooBarUser(){std::cout<<"FooBarUser dctor"<<std::endl;}
 
     void doSomething(){
         myFoo->letsFoo();
@@ -243,13 +245,12 @@ void SharedTest(){
     ioc.bindSingleAsNothing<FooBarUser>();
 
     ioc.wire<CFooBar>();
-    ioc.wire<FooBarUser, IFoo, IBar>();
-
-
+    //ioc.wire<FooBarUser, IFoo, IBar>();
+    ioc.wire<FooBarUser>();
 
     try{
         auto user = ioc.buildSingle<FooBarUser>();
-        user->doSomething();
+        //user->doSomething();
     }
     catch(std::exception &ex){
         std::cout<<ex.what()<<std::endl;

@@ -22,39 +22,42 @@ namespace Infector{
 
     template <typename Contract >
     bool Container::resolve_multiple_inheritance_inner(std::type_index T){
+        //std::cout<<"contract (base case) "<<typeid(Contract).name()<<std::endl;
         auto it = typeMap.find(   std::type_index(typeid(Contract)) );
         if( it!=typeMap.end())
             return false;
-        std::cout<<"registered "<<T.name()<<" as "<<typeid(Contract).name()<<std::endl;
+        //std::cout<<"Bregistered "<<T.name()<<" as "<<typeid(Contract).name()<<std::endl;
         typeMap[std::type_index(typeid(Contract))]
                 = Binding(T, true);
         return true;
     }
 
-    template <typename Unused, typename Contract, typename... Others>
+    //POSSIBLE ISSUE. BindSingleAs< s,  A, B, C>()
+    //B and C are already registered. but memory Throws during A. then B and C are removed.
+    //No this is not an issue. if B and C already exist, then A will never be added
+    //because Container return false before ever adding an item (AND SO ROLLBACK IS
+    //is not necessary in case of FALSE RESULT
+    template <typename Contract, typename Next, typename... Others>
     bool Container::resolve_multiple_inheritance_inner(std::type_index T){
+        auto it = typeMap.find(  std::type_index(typeid(Contract)) );
+        if( it!=typeMap.end())
+            return false;
 
-        if((typeid(Contract)!=typeid(Unused))||sizeof...(Others)>0){
-            auto it = typeMap.find(  std::type_index(typeid(Contract)) );
-            if( it!=typeMap.end())
-                return false;
-
-            if(resolve_multiple_inheritance_inner<Contract,Others...>(T)){
-                std::cout<<"registered "<<T.name()<<" as "<<typeid(Contract).name()<<std::endl;
-                typeMap[std::type_index(typeid(Contract))]
-                        = Binding(T, true);
-                return true;
-            }
-        }else
-            return resolve_multiple_inheritance_inner<Contract>(T);
+        if(resolve_multiple_inheritance_inner<Next,Others...>(T)){
+            std::cout<<"registered "<<T.name()<<" as "<<typeid(Contract).name()<<std::endl;
+            typeMap[std::type_index(typeid(Contract))]
+                    = Binding(T, true);
+            return true;
+        }
 
         return false;
     }
 
+
     template <typename T, typename Contract, typename... Others>
     bool Container::resolve_multiple_inheritance(){
         return resolve_multiple_inheritance_inner
-            <ANotUsableClass,Contract,Others...>(std::type_index(typeid(T)));
+            <Contract,Others...>(std::type_index(typeid(T)));
     }
 
     template <typename Contract >
@@ -65,19 +68,18 @@ namespace Infector{
 
         typeMap.erase(it);
     }
-    template <typename Unused, typename Contract, typename... Others>
+
+    template <typename Contract, typename Next, typename... Others>
     void Container::rollback_multiple_inheritance_inner(){
-        if((typeid(Contract)!=typeid(Unused))||sizeof...(Others)>0){
-            auto it = typeMap.find( std::type_index(typeid(Contract)) );
-            if( it==typeMap.end())
-                return;
+        auto it = typeMap.find( std::type_index(typeid(Contract)) );
+        if( it==typeMap.end())
+            return;
 
-            rollback_multiple_inheritance_inner<Contract,Others...>();
+        rollback_multiple_inheritance_inner<Next,Others...>();
 
-            typeMap.erase(it); // all other iterators will still be valid.
-        }else
-            rollback_multiple_inheritance_inner<Contract>();
+        typeMap.erase(it); // all other iterators will still be valid.
     }
+
     template <typename T, typename Contract, typename... Others>
     void Container::rollback_multiple_inheritance(){
         return rollback_multiple_inheritance_inner
