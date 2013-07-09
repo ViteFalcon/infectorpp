@@ -25,11 +25,12 @@ namespace Infector{
 
     template <typename Contract >
     bool Container::resolve_multiple_inheritance_inner(std::type_index T){
-        //std::cout<<"contract (base case) "<<typeid(Contract).name()<<std::endl;
+
         auto it = typeMap.find(   std::type_index(typeid(Contract)) );
         if( it!=typeMap.end())
             return false;
-        //std::cout<<"Bregistered "<<T.name()<<" as "<<typeid(Contract).name()<<std::endl;
+
+        std::cout<<"Binding "<<T.name()<<" as "<<typeid(Contract).name()<<std::endl;
         typeMap[std::type_index(typeid(Contract))]
                 = Binding(T, true);
         return true;
@@ -47,7 +48,7 @@ namespace Infector{
             return false;
 
         if(resolve_multiple_inheritance_inner<Next,Others...>(T)){
-            std::cout<<"registered "<<T.name()<<" as "<<typeid(Contract).name()<<std::endl;
+            std::cout<<"Binding "<<T.name()<<" as "<<typeid(Contract).name()<<std::endl;
             typeMap[std::type_index(typeid(Contract))]
                     = Binding(T, true);
             return true;

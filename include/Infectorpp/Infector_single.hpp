@@ -16,11 +16,10 @@ FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
 AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
-THE SOFTWARE.*/
+THE SOFTWARE. */
 
 #pragma once
-#include <stdexcept>
-#include <iostream>
+
 namespace Infector{
 
     template <typename T>
@@ -29,13 +28,12 @@ namespace Infector{
         (void) tests; //fix unused variable warning
         must_not_have<T>();
 
-        std::cout<<"AddingSharedAsNothing: "<<typeid(T).name()<<std::endl;
         typeMap[std::type_index(typeid(T))]
                 = Binding(std::type_index(typeid(T)), true);
 
         try{
-            std::cout<<"registering null istance for "<<typeid(T).name()<<std::endl;
-            singleIstances[std::type_index(typeid(T))] = nullptr;
+            if(singleIstances.find(std::type_index(typeid(T)))==singleIstances.end())
+                singleIstances[std::type_index(typeid(T))] = new AnyShared<T>();
         }catch(std::exception & ex){
             auto it2 = typeMap.find( std::type_index(typeid(T)) );
             typeMap.erase(it2);
@@ -59,8 +57,8 @@ namespace Infector{
             launch_exception<Something>();
 
         try{
-            std::cout<<"AddingSharedAs: "<<typeid(T).name()<<std::endl;
-            singleIstances[std::type_index(typeid(T))] = nullptr;
+            if(singleIstances.find(std::type_index(typeid(T)))==singleIstances.end())
+                singleIstances[std::type_index(typeid(T))] = new AnyShared<T>();
         }catch(std::exception & ex){
             rollback_multiple_inheritance<T,Contracts...>(); //revert changes
             launch_exception<Something>();
@@ -84,31 +82,19 @@ namespace Infector{
             launch_exception<Something>(); // CONSTRUCTOR NOT WIRED
 
         auto it3 = singleIstances.find( it->second.type ); //devo cercare tipo concreto
-        if(it3==singleIstances.end()){
-             std::cout<<"TYPE: "<<it->second.type.name()<<std::endl;
-             launch_exception<Something>(); // ANY SHARED NOT CREATED?? (Infector bug then)
-        }
 
-        if (it3->second == nullptr){
-            std::shared_ptr<AnyShared<T>> any(nullptr);
+        IAnyShared * any = it3->second;
+        if(any->getPtr()==nullptr){
             try{
-                any.reset(new AnyShared<T>());
-                any->ist.reset(reinterpret_cast<T*>( (it2->second)() )); // MAY THROW
-                singleIstances[std::type_index(typeid(T))]
-                               = std::shared_ptr<IAnyShared>(any); //MAY THROW
-            }
-            catch(std::exception & ex){
-                auto ft = singleIstances.find(std::type_index(typeid(T)));
-                if(ft!=singleIstances.end())
-                    singleIstances.erase(ft);
+                any->setPtr( (it2->second)() );
+            }catch(std::exception & ex){
                 launch_exception<Something>();
             }
-            return any->ist;
         }
 
-        IAnyShared * iany = it3->second.get();
-        AnyShared<T> * cany = reinterpret_cast<AnyShared<T>*>(iany);
-        return cany->ist;
+        return std::shared_ptr<T> (
+                                any->getReferenceCounter(),
+                                reinterpret_cast<T*>(any->getPtr()) );
     }
 
     template <typename T>

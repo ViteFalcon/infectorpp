@@ -19,11 +19,15 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.*/
 
 #pragma once
-#include <iostream>
+
 namespace Infector{
 
     Container::~Container(){
-
+        auto it2 = singleIstances.end();
+        for( auto it=singleIstances.begin(); it!=it2; ++it){
+            if(it->second!=nullptr)
+                delete it->second;
+        }
     }
 
     template <typename T, typename... Dependencies>
