@@ -1,0 +1,26 @@
+#summary One-sentence summary of this page.
+
+= Introduction =
+
+Infector is a Inversion of Control container for doing dependency injection. (see [http://en.wikipedia.org/wiki/Inversion_of_control Wikipedia])
+
+Infector++ take advantage of the new C++11 language to provide a reliable and easy to use IoC container. 
+
+In addition to most common features provided by IoC Containers, Infectorpp provide some additional features that will come in handy.
+
+*Constructor Injection*
+
+Infector++ does only Construtor Injection (no setter injection: [http://misko.hevery.com/2009/02/19/constructor-injection-vs-setter-injection/ see related problems]
+
+*Exception safety & leak prevention*
+
+Infector is also a nice solution for removing memory leaks:
+ * Is not possible having circular references (typical problem caused by bad usage of [http://en.cppreference.com/w/cpp/memory/shared_ptr/reset shared_ptr])
+ * All dependencies are "managed" thanks to smart pointers usage
+ * If any method of Infector::Container throws an exception the Container will be left unchanged (strong guarantee)
+
+
+*Future releases*
+
+- Nested containers (will be the only way to provide contextual binding)
+- Custom allocation (exploit object graph knowledge to reduce number of allocations and improve cache localty and allows to pass a custom allocator for that )
