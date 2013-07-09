@@ -21,7 +21,7 @@ THE SOFTWARE.*/
 #pragma once
 #include <type_traits>
 #include <memory>
-#include <iostream>
+#include <cassert>
 #include "InfectorExceptions.hpp"
 
 namespace Infector{
@@ -71,20 +71,32 @@ namespace Infector{
     }
 
     class IAnyShared{
-
     public:
-        virtual void nothing()=0;
-        virtual ~IAnyShared() {
-            static_assert(  std::is_abstract<IAnyShared>::value
-                      , "IAnyShared must be abstract"); //strange.. a virtual method is required
-        }
+        virtual void* getPtr()=0;
+        virtual void setPtr(void *)=0; // to be called only once. Set managed object
+        virtual std::shared_ptr<int> getReferenceCounter()=0; //pass it to alias constructor
+                                                         //(this one is aliased too).
+        virtual ~IAnyShared(){}
     };
 
     /** Allows to have containers with different shared_ptr to different types. */
     template <typename T>
-    struct AnyShared: public virtual IAnyShared{
-        virtual void nothing(){}
+    class AnyShared: public virtual IAnyShared{
+        int a=49374; // just a number
         std::shared_ptr<T> ist;
+    public:
+        virtual void setPtr(void * p) override {
+            assert(ist==nullptr);
+            // FUNZIONA MA NON CHIAMA IL DISTRUTTORE DI T!
+            ist.reset(static_cast<T*>(p));
+        }
+        virtual void* getPtr() override {
+            return ist.get();
+        }
+        virtual std::shared_ptr<int> getReferenceCounter(){
+            return std::shared_ptr<int>(ist,&a);
+        }
+        virtual ~AnyShared(){}
     };
 
     class RecursionLimit{

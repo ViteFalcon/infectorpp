@@ -20,10 +20,8 @@ THE SOFTWARE.*/
 
 //----------------------------------------------------------------------------
 /**
-    This file is used as test suite. Compiling and running it takes few
-    moments and can istantly detect all possible problems. Usefull for not
-    breaking existing functionalities and for prove that everything is
-    correct.
+    Series of tests to make sure intended usage is possible and what should
+    failing is actually failing.
 */
 
 #include <InfectorContainer.hpp>
@@ -210,7 +208,7 @@ public:
 
 class CFooBar: public virtual IFoo, public virtual IBar{
 public:
-    CFooBar() = default;
+    CFooBar(){std::cout<<"CFooBar ctor!"<<std::endl;}
     virtual ~CFooBar() {std::cout<<"FooBar  dctor"<<std::endl;}
 
     virtual void letsBar() override{
@@ -245,12 +243,12 @@ void SharedTest(){
     ioc.bindSingleAsNothing<FooBarUser>();
 
     ioc.wire<CFooBar>();
-    //ioc.wire<FooBarUser, IFoo, IBar>();
-    ioc.wire<FooBarUser>();
+    ioc.wire<FooBarUser, IFoo, IBar>(); //è sbagliato fare uno shared ptr per il tipo astratto
+    //ioc.wire<FooBarUser>();           //se ho un tipo concreto!
 
     try{
         auto user = ioc.buildSingle<FooBarUser>();
-        //user->doSomething();
+        user->doSomething();
     }
     catch(std::exception &ex){
         std::cout<<ex.what()<<std::endl;

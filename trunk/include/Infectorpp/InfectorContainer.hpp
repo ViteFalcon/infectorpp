@@ -26,7 +26,6 @@ THE SOFTWARE.*/
 
 #include <typeindex>
 #include <unordered_map>
-#include <iostream>
 
 namespace Infector{
 
@@ -124,12 +123,10 @@ private:
         UniqueOrShared(Container * ptr):ioc(ptr){}
 
         operator std::shared_ptr<OBJ>(){
-            std::cout<<"SHARED: "<<typeid(OBJ).name()<<std::endl;
             return std::shared_ptr<OBJ>(ioc->buildSingle_delegate<OBJ>());
         }
 
         operator std::unique_ptr<OBJ>(){
-            std::cout<<"UNIQUE: "<<typeid(OBJ).name()<<std::endl;
             return std::unique_ptr<OBJ>((ioc->build_delegate<OBJ>()));
         }
     };
@@ -144,7 +141,7 @@ private:
 
     std::unordered_map<std::type_index, Binding>                typeMap;   //Indicizzati per contratto
     std::unordered_map<std::type_index, std::function<void*()>> callbacks; //Indicizzati per concretezza
-    std::unordered_map<std::type_index, std::shared_ptr<IAnyShared>>       //Indicizzato per contratto
+    std::unordered_map<std::type_index, IAnyShared* >       //Indicizzato per contratto
                                                                 singleIstances;
 
     RecursionLimit limit;
