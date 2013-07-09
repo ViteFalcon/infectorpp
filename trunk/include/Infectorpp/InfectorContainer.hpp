@@ -13,11 +13,15 @@ all copies or substantial portions of the Software.
 THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
 IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
 FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR */
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+THE SOFTWARE.*/
 
 #pragma once
 
 #include "InfectorExceptions.hpp"
+#include "InfectorExport.hpp"
 #include "InfectorHelpers.hpp"
 
 #include <typeindex>
@@ -33,7 +37,7 @@ namespace Infector{
 *   implementation is uniquely determined. It is possible to register
 *   concreted classes and for each concrete class/implementation
 *   you can do at most 1 wiring to 1 constructor. */
-class Container{
+class INFECTOR_EXPORT Container{
 
 public:
 

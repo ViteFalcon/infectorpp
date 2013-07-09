@@ -5,8 +5,9 @@
 	<iostream>
 	<cassert>
 
-1373374139 d:\svn\infectorpp\include\infectorpp\infectorcontainer.hpp
+1373379035 d:\svn\infectorpp\include\infectorpp\infectorcontainer.hpp
 	"InfectorExceptions.hpp"
+	"InfectorExport.hpp"
 	"InfectorHelpers.hpp"
 	<typeindex>
 	<unordered_map>
@@ -25,7 +26,7 @@
 	<iostream>
 	"InfectorExceptions.hpp"
 
-1373374205 d:\svn\infectorpp\include\infectorpp\infector_details.hpp
+1373377978 d:\svn\infectorpp\include\infectorpp\infector_details.hpp
 	<cassert>
 	<iostream>
 
@@ -37,4 +38,6 @@
 1373372534 d:\svn\infectorpp\include\infectorpp\infector_single.hpp
 	<stdexcept>
 	<iostream>
+
+1371994444 d:\svn\infectorpp\include\infectorpp\infectorexport.hpp
 

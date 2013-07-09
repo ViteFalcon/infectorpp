@@ -13,7 +13,10 @@ all copies or substantial portions of the Software.
 THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
 IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
 FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR */
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+THE SOFTWARE.*/
 
 #pragma once
 #include <stdexcept>
@@ -26,11 +29,12 @@ namespace Infector{
         (void) tests; //fix unused variable warning
         must_not_have<T>();
 
+        std::cout<<"AddingSharedAsNothing: "<<typeid(T).name()<<std::endl;
         typeMap[std::type_index(typeid(T))]
                 = Binding(std::type_index(typeid(T)), true);
 
         try{
-            std::cout<<"AddingSharedAsNothing: "<<typeid(T).name()<<std::endl;
+            std::cout<<"registering null istance for "<<typeid(T).name()<<std::endl;
             singleIstances[std::type_index(typeid(T))] = nullptr;
         }catch(std::exception & ex){
             auto it2 = typeMap.find( std::type_index(typeid(T)) );
