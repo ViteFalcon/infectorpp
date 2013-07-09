@@ -90,16 +90,17 @@ public:
     ~Container();
 
 private:
+
     template <typename Contract >
     bool resolve_multiple_inheritance_inner(std::type_index T);
-    template <typename Unused, typename Contract, typename... Others>
+    template <typename Contract, typename Next, typename... Others>
     bool resolve_multiple_inheritance_inner(std::type_index T);
     template <typename T, typename Contract, typename... Others>
     bool resolve_multiple_inheritance();
 
     template <typename Contract >
     void rollback_multiple_inheritance_inner();
-    template <typename Unused, typename Contract, typename... Others>
+    template <typename Contract, typename Next, typename... Others>
     void rollback_multiple_inheritance_inner();
     template <typename T, typename Contract, typename... Others>
     void rollback_multiple_inheritance();

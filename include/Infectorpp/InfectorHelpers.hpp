@@ -18,6 +18,7 @@ AUTHORS OR */
 #pragma once
 #include <type_traits>
 #include <memory>
+#include <iostream>
 #include "InfectorExceptions.hpp"
 
 namespace Infector{

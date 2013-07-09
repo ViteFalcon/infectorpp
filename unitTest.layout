@@ -3,42 +3,42 @@
 	<ActiveTarget name="Debug" />
 	<File name="include\Infectorpp\InfectorHelpers.hpp" open="1" top="0" tabpos="4" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="1811" topLine="66" />
+			<Cursor1 position="3214" topLine="82" />
 		</Cursor>
 	</File>
 	<File name="include\Infectorpp\Infector_details.hpp" open="1" top="0" tabpos="1" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="2805" topLine="64" />
+			<Cursor1 position="1561" topLine="27" />
 		</Cursor>
 	</File>
-	<File name="include\Infectorpp\Infector_multi.hpp" open="0" top="0" tabpos="4" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+	<File name="include\Infectorpp\Infector_multi.hpp" open="1" top="0" tabpos="8" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="1911" topLine="36" />
+			<Cursor1 position="2690" topLine="47" />
 		</Cursor>
 	</File>
-	<File name="include\Infectorpp\Infector_private.hpp" open="1" top="0" tabpos="5" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+	<File name="UnitTest.cpp" open="1" top="1" tabpos="7" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="1451" topLine="25" />
-		</Cursor>
-	</File>
-	<File name="include\Infectorpp\Infector_single.hpp" open="1" top="1" tabpos="3" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="4061" topLine="83" />
-		</Cursor>
-	</File>
-	<File name="UnitTest.cpp" open="1" top="0" tabpos="7" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="6446" topLine="236" />
+			<Cursor1 position="6517" topLine="236" />
 		</Cursor>
 	</File>
 	<File name="include\Infectorpp\InfectorContainer.hpp" open="1" top="0" tabpos="2" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="2915" topLine="125" />
+			<Cursor1 position="5801" topLine="109" />
+		</Cursor>
+	</File>
+	<File name="include\Infectorpp\Infector_private.hpp" open="1" top="0" tabpos="5" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="1670" topLine="27" />
 		</Cursor>
 	</File>
 	<File name="include\Infectorpp\InfectorExceptions.hpp" open="1" top="0" tabpos="6" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="1124" topLine="24" />
+			<Cursor1 position="1235" topLine="23" />
+		</Cursor>
+	</File>
+	<File name="include\Infectorpp\Infector_single.hpp" open="1" top="0" tabpos="3" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="1640" topLine="22" />
 		</Cursor>
 	</File>
 </CodeBlocks_layout_file>

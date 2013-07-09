@@ -42,7 +42,7 @@ namespace Infector{
     template <typename T, typename... Contracts>
     void Container::bindSingleAs(){
         bool tests = type_tests<T,Contracts...>(); // Compile time tests.
-        (void) tests; //Fix GCC warning
+        (void) tests;  //fix unused variable warning
 
         bool success = false;
         try{
