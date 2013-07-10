@@ -18,12 +18,12 @@ Infector is also a nice solution for removing memory leaks:
 
 (Memory allocated by you can still cause memory leaks, the point is that you will almost never have to manually allocated something).
 
-
 *Future releases*
 
 Some extra features will come with next releases
 
-- Nested containers (will be the only way to provide contextual binding)
-- Custom allocation:
- # Infector knows how your objects are wired up, and can exploit that to reduce significatively the number of allocations and at same time can improve cache locality.
+ * Nested containers (will be the only way to provide contextual binding)
+ * Custom allocation:
+ # Infector knows how your objects are wired up, and can exploit that to reduce significatively the number of allocations and at same time can improve cache locality. 
  # Set custom allocator provided by user (since Infector already batch allocations where needed you can focus on other optimizations)
+ * Report unused dependencies: if some class was not used you'll know that, and you will be able to remove dead code from your project.
