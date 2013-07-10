@@ -42,8 +42,8 @@ Since shared objects are.. shared.. it is allowed to bind them to multiple inter
 {{{
 ioc.bindSingleAs<FoodFactory, ITunaFactory, IBeansFactory>(); //bind FoodFactory as ITunaFactory and as IBeansFactory
 //later you can do
-auto myTunaFactory = ioc.build<ITunaFactory>(); //if you need only ITunaFactory
-auto myBeansFactory = ioc.build<IBeansFactory>(); //if you need only IBeansFactory
+auto myTunaFactory = ioc.buildSingle<ITunaFactory>(); //if you need only ITunaFactory
+auto myBeansFactory = ioc.buildSingle<IBeansFactory>(); //if you need only IBeansFactory
 }}}
 
 
@@ -51,6 +51,6 @@ Even if more discouraged you can still bind shared objects to no interfaces:
 {{{
 ioc.bindSingleAsNothing<FoodFactory>(); //bind singleIstance of FoodFactory as Nothing
 //later you can do
-auto myTunaFactory = ioc.build<FoodFactory>(); //you are still dependent on FoodFactory
-auto myBeansFactory = ioc.build<FoodFactory>();//you are still dependent on FoodFactory
+auto myTunaFactory = ioc.buildSingle<FoodFactory>(); //you are still dependent on FoodFactory
+auto myBeansFactory = ioc.buildSingle<FoodFactory>();//you are still dependent on FoodFactory
 }}}
