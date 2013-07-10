@@ -47,7 +47,7 @@ auto myBeansFactory = ioc.build<IBeansFactory>(); //if you need only IBeansFacto
 }}}
 
 
-Even if more discouraged you can still bind shared objects without binding:
+Even if more discouraged you can still bind shared objects to no interfaces:
 {{{
 ioc.bindSingleAsNothing<FoodFactory>();
 //later you can do
