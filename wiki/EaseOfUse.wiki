@@ -94,12 +94,12 @@ Keep "Binding" "Wiring" and "Building" separed (you cannot wire something that i
 void compositionRoot(Infector::Container & ioc){
     //BINDINGS
     ioc.bindSingleAs<FoodFactory, ITunaFactory, IBeansFactory>();
-    ioc.bindSingleAs<MainLoop, IApplication>(); // assume main loop takes some factories as parameter.
+    ioc.bindSingleAs<MainLoop, IApplication>(); 
     //...
 
     //WIRING
     ioc.wire<FoodFactory>(); //default ctor for FoodFactory
-    ioc.wire<MainLoop, ITunaFactory, IBeansFactory>();
+    ioc.wire<MainLoop, ITunaFactory, IBeansFactory>(); // assume main loop takes some factories as parameter.
     //... 
 }
 
