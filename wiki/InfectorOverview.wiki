@@ -18,7 +18,7 @@ Infector is also a nice solution for removing memory leaks:
 
 (Memory allocated by you can still cause memory leaks, the point is that you will almost never have to manually allocated something).
 
-*Future releases*
+==Future releases==
 
 Some extra features will come with next releases
 
