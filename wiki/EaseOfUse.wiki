@@ -54,3 +54,62 @@ ioc.bindSingleAsNothing<FoodFactory>(); //bind singleIstance of FoodFactory as N
 auto myTunaFactory = ioc.buildSingle<FoodFactory>(); //you are still dependent on FoodFactory
 auto myBeansFactory = ioc.buildSingle<FoodFactory>();//you are still dependent on FoodFactory
 }}}
+
+==Wiring==
+Wiring is the 2nd step necessary to inject dependencies. 
+by Binding CFoo as IFoo, what I'm really telling to computer is 
+"When I ask for IFoo, you must create CFoo by calling its constructor, then return me CFoo by casting it to IFoo"
+This is a bit of work.. but you still need the constructor, so you have to "wire" it.
+
+Wiring is very simple, basically you have to list all the dependencies, everything else is done by Infector++:
+{{{
+//your class
+class JustAClass:public virtual IInterfaceOfClass{
+public:
+    JustAClass(std::unique_ptr<dependency1> p1,
+               std::shared_ptr<dependency2> p2,
+               std::uinque_ptr<dependency3> p3);
+};
+
+//...
+
+// the wiring
+ioc.wire<JustAClass, dependency1, dependency2, dependency3>();
+}}}
+As you see there's no limit to number of constructor arguments.. As long as they are passed as "unique_ptr" or "shared_ptr".
+Of course everything must be bound first. In case you miss something you will get an exception. If you want to call Default Constructor this is the way:
+{{{
+class AnotherClass{
+public:
+    AnotherClass(); //default ctor
+};
+}}}
+
+== Proper way to do things ==
+ 
+Keep "Binding" "Wiring" and "Building" separed (you cannot wire something that is not bound, and you cannot build something that is not wired)
+
+{{{
+
+void compositionRoot(Infector::Container & ioc){
+    //BINDINGS
+    ioc.bindSingleAs<FoodFactory, ITunaFactory, IBeansFactory>();
+    ioc.bindSingleAs<MainLoop, IApplication>(); // assume main loop takes some factories as parameter.
+    //...
+
+    //WIRING
+    ioc.wire<FoodFactory>(); //default ctor for FoodFactory
+    ioc.wire<MainLoop, ITunaFactory, IBeansFactory>();
+    //... 
+}
+
+int main(){
+    Infector::Container ioc;
+    compositionRoot(ioc);
+    //BUILDING
+    auto app=ioc.build<IApplication>(); //creates MainLoop, it has some factories
+    app->run(); //run the application (can creates objects thanks to factories).
+
+    return 0;
+}
+}}}
