@@ -51,8 +51,8 @@ You can still bind shared objects to no interfaces:
 {{{
 ioc.bindSingleAsNothing<FoodFactory>(); //bind singleIstance of FoodFactory as Nothing
 //later you can do
-auto myTunaFactory = ioc.buildSingle<FoodFactory>(); //you are still dependent on FoodFactory
-auto myBeansFactory = ioc.buildSingle<FoodFactory>();//you are still dependent on FoodFactory
+auto myTunaFactory = ioc.buildSingle<FoodFactory>(); //bad you can still call methods of "BeansFactory"
+auto myBeansFactory = ioc.buildSingle<FoodFactory>();
 }}}
 
 ==Wiring==
