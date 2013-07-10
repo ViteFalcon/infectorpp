@@ -23,10 +23,6 @@ THE SOFTWARE.*/
 
 namespace Infector{
 
-    class Something: public std::exception{
-
-    };
-
     class ExRecursionLimit: public std::exception{
         char message[69] =
         "Reached recursion limit. Probable cause: circular dependency";
@@ -36,9 +32,36 @@ namespace Infector{
         }
     };
 
+    class ExBuildWhat: public std::exception{
+        char message[69] =
+        "Cannot build not 'bind'ed types.";
+    public:
+        virtual const char* what() const noexcept(true){
+            return message;
+        }
+    };
+
     class ExWireWhat: public std::exception{
         char message[69] =
         "Cannot wire constructor for not 'bind'ed types.";
+    public:
+        virtual const char* what() const noexcept(true){
+            return message;
+        }
+    };
+
+    class ExNotWired: public std::exception{
+        char message[69] =
+        "Cannot build a type if it is not wired";
+    public:
+        virtual const char* what() const noexcept(true){
+            return message;
+        }
+    };
+
+    class ExSingleMulti: public std::exception{
+        char message[69] =
+        "shared_ptr<T> cannot be used in place of unique_ptr<T> and viceversa";
     public:
         virtual const char* what() const noexcept(true){
             return message;
@@ -57,6 +80,15 @@ namespace Infector{
     class ExExistingType: public std::exception{
         char message[69] =
         "This type was already 'bind'ed.";
+    public:
+        virtual const char* what() const noexcept(true){
+            return message;
+        }
+    };
+
+    class ExExistingInterface: public std::exception{
+        char message[69] =
+        "Cannot associate 2 concrete types to the same interface.";
     public:
         virtual const char* what() const noexcept(true){
             return message;

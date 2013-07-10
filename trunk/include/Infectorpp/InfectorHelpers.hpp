@@ -21,7 +21,6 @@ THE SOFTWARE.*/
 #pragma once
 #include <type_traits>
 #include <memory>
-#include <cassert>
 #include "InfectorExceptions.hpp"
 
 namespace Infector{
@@ -73,21 +72,21 @@ namespace Infector{
     class IAnyShared{
     public:
         virtual void* getPtr()=0;
-        virtual void setPtr(void *)=0; // to be called only once. Set managed object
-        virtual std::shared_ptr<int> getReferenceCounter()=0; //pass it to alias constructor
-                                                         //(this one is aliased too).
+        virtual void setPtr(void *)=0; // to be called only once.
+        virtual std::shared_ptr<int> getReferenceCounter()=0;
         virtual ~IAnyShared(){}
     };
 
-    /** Allows to have containers with different shared_ptr to different types. */
+    /** T is the managed type, but we need pointers to Interfaces,
+    *   so there's the need to share reference counter since
+    *   smart pointers created in the usual way will not have
+    *   the same reference counter if they have different types. */
     template <typename T>
     class AnyShared: public virtual IAnyShared{
         int a=49374; // just a number
         std::shared_ptr<T> ist;
     public:
         virtual void setPtr(void * p) override {
-            assert(ist==nullptr);
-            // FUNZIONA MA NON CHIAMA IL DISTRUTTORE DI T!
             ist.reset(static_cast<T*>(p));
         }
         virtual void* getPtr() override {
@@ -100,7 +99,8 @@ namespace Infector{
     };
 
     class RecursionLimit{
-        static constexpr int max_depth = 20; //if you need to do so increase this limit to your will.
+         //You can raise this limit if needed
+        static constexpr int max_depth = 20;
         int current_depth = 0;
     public:
         void increment(){

@@ -19,6 +19,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.*/
 
 #pragma once
+
 namespace Infector{
 
     template <typename T, typename Contract >
@@ -45,19 +46,18 @@ namespace Infector{
     template <typename T>
     std::unique_ptr<T> Container::build_delegate(){
         auto it = typeMap.find( std::type_index(typeid(T)) );
-        if( it==typeMap.end()) //"it" is concrete type, T's abstract (or concrete) one
-            launch_exception<Something>(); // TYPE NOT REGISTERED
+        if( it==typeMap.end())
+            launch_exception<ExBuildWhat>(); // TYPE NOT REGISTERED
 
         if( it->second.single == true) ///!!!!!
-            launch_exception<Something>(); // T is single but istantiated as multi
-        //at this point may happen that concrete type and abstract ones are the
-        //same.that's ok. (bindAsNothing)
-        auto it2 = callbacks.find( it->second.type ); //find constructor for concrete type
+            launch_exception<ExSingleMulti>(); // T must be multi
+
+        auto it2 = callbacks.find( it->second.type ); //find constructor
 
         if( it2==callbacks.end() )
-            launch_exception<Something>(); // CONSTRUCTOR NOT WIRED
+            launch_exception<ExNotWired>(); // CONSTRUCTOR NOT WIRED
 
-        return std::unique_ptr<T>(static_cast<T*>( (it2->second)() )); // MAY THROW.. ok!
+        return std::unique_ptr<T>(static_cast<T*>( (it2->second)() ));
     }
 
     template <typename T>
