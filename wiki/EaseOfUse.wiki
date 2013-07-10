@@ -66,9 +66,9 @@ Wiring is very simple, basically you have to list all the dependencies, everythi
 //your class
 class JustAClass:public virtual IInterfaceOfClass{
 public:
-    JustAClass(std::unique_ptr<dependency1> p1,
-               std::shared_ptr<dependency2> p2,
-               std::uinque_ptr<dependency3> p3);
+    JustAClass(std::unique_ptr<dependency1> p1, //unique
+               std::shared_ptr<dependency2> p2, //shared
+               std::uinque_ptr<dependency3> p3); //what you want
 };
 
 //...
