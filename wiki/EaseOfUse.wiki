@@ -7,13 +7,13 @@ Shared Pointers are nice, but if heavily used/misused can cause more troubles (e
 ||*Number of istances*||*Single Istance*||*Many Istances*||
 ||Smart pointer type||std::shared_ptr||std::unique_ptr||
 ||Concrete binding || bindSingleAsNothing|| bindAsNothing||
-||Polymorphic binding|| bindSingleAs || bindAs||
+||Interface binding|| bindSingleAs || bindAs||
 
-==Polymorphic Binding==
-Registering classes to be istantiated is done by calling "bind...", this is part of a 2-steps process necessary to do polymorphic binding.
+==Interface Binding==
+Registering classes to be istantiated is done by calling "bind...", this is part of a 2-steps process necessary to do interface binding.
 How that works? That's simple don't warry.
 
-If you have "CFoo" and you want to inject it using its interface "IFoo", you have just to Bind "CFoo" as "IFoo" (so later you can forgot about CFoo and request IFoo instead).
+If you have "CFoo" and you want to inject it using its interface "IFoo", you have just to Bind "CFoo" as "IFoo" (so later you can forgot about CFoo and request for IFoo only instead).
 
 this is done by:
 {{{
@@ -22,11 +22,35 @@ ioc.bindAs<CFoo, IFoo>(); //bind CFoo as IFoo
 auto myFoo = ioc.build<IFoo>(); //you are no longer dependent on CFoo
 }}}
 
-You are not forced to do polymorphic binding, but since polymorphic binding is usually preferred, if you want to skip that, you have to type a bit more
+You are not forced to do interface binding, but since interface binding is usually preferred, if you want to skip that, you have to type a bit more.
 
 this is done by:
 {{{
 ioc.bindAsNothing<CFoo>(); //bind CFoo as nothing
 //later you can do
 auto myFoo = ioc.build<CFoo>(); //you are still dependent on CFoo
+}}}
+
+IMPORTANT!
+ * "bindAs" allows to bind only 1 interface
+ * Each interface can only have 1 implementation
+
+==Single Istances==
+You can also create Objects that have to be shared, (by the way, Infector++ is not a service locator). In that case only 1 istance will be created for each object.
+
+Since shared objects are.. shared.. it is allowed to bind them to multiple interfaces (Note: each interface is still limited to *1 implementation*). This helps a bit more to specialize shared objects. If you have "FoodFactory" that implements multiple interfaces "ITunaFactory" and "IBeansFactory", you can do:
+{{{
+ioc.bindSingleAs<FoodFactory, ITunaFactory, IBeansFactory>(); //bind FoodFactory as ITunaFactory and as IBeansFactory
+//later you can do
+auto myTunaFactory = ioc.build<ITunaFactory>(); //if you need only ITunaFactory
+auto myBeansFactory = ioc.build<IBeansFactory>(); //if you need only IBeansFactory
+}}}
+
+
+Even if more discouraged you can still bind shared objects without binding:
+{{{
+ioc.bindSingleAsNothing<FoodFactory>();
+//later you can do
+auto myTunaFactory = ioc.build<FoodFactory>(); //you are still dependent on FoodFactory
+auto myBeansFactory = ioc.build<FoodFactory>();//you are still dependent on FoodFactory
 }}}
