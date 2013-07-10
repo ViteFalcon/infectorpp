@@ -25,7 +25,7 @@ Some extra features will come with next releases
  * Nested containers (will be the only way to provide contextual binding, each container can provide a different implementation to a interface that was bound by its parent)
  * Custom allocation:
   # Infector knows how your objects are wired up, and can exploit that to reduce significatively the number of allocations and at same time can improve cache locality.(Infector++ was not originally thinked to improve performance, but after some tests, I found that the compiler greatly optimize all the templated stuff for execution speed)
-  # Set custom allocator provided by user (since Infector already batch allocations where needed you can focus on other optimizations, if you build 50 different objects then there will be only 50 possible allocation sizes, not including batched dependencies and shared objects that will not be batched)
+  # Set custom allocator provided by user (since Infector already batch allocations where needed you can focus on other optimizations, if you build 50 different objects then there will be only 50 possible allocation sizes, exluding of course allocations of shared objects or non-batched objects)
  * Report unused dependencies: if some class was not used you'll know that, and you will be able to remove dead code from your project, this will be partially provided by Nested Containers and by extra code in Containers' destructors.
 
 ----
