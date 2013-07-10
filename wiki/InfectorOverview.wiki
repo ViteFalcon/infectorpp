@@ -14,7 +14,7 @@ Infector is also a nice solution for removing memory leaks:
  * If any method of Infector::Container throws an exception the Container will be left unchanged (strong guarantee)
  * If any of your constructors throws an exception, Infector will not cause memory leaks.
 
-(Memory allocated by you can still cause memory leaks, the point is that you will almost never have to manually allocate something with "new").
+(Memory allocated by you can still cause memory leaks, the point is that you will almost never have to manually allocate something with "new", the same applies to external libraries, Infector cannot prevent in any way third party codes to creates memory leaks.).
 
 ==Future releases==
 
