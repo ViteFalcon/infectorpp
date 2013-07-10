@@ -11,7 +11,7 @@ Infector++ does only Construtor Injection (no setter injection: [http://misko.he
 ==Exception safety & leak prevention==
 
 Infector is also a nice solution for removing memory leaks:
- * Is not possible having circular references (typical problem caused by bad usage of [http://en.cppreference.com/w/cpp/memory/shared_ptr/reset shared_ptr])
+ * Is not possible having circular references (typical problem caused by bad usage of [http://en.cppreference.com/w/cpp/memory/shared_ptr shared_ptr])
  * All dependencies are "managed" thanks to smart pointers usage, you don't have to call "new" or "delete".
  * If any method of Infector::Container throws an exception the Container will be left unchanged (strong guarantee)
  * If any of your constructors throws an exception, Infector will not cause memory leaks.
