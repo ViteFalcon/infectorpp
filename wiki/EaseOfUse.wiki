@@ -49,7 +49,7 @@ auto myBeansFactory = ioc.build<IBeansFactory>(); //if you need only IBeansFacto
 
 Even if more discouraged you can still bind shared objects to no interfaces:
 {{{
-ioc.bindSingleAsNothing<FoodFactory>();
+ioc.bindSingleAsNothing<FoodFactory>(); //bind singleIstance of FoodFactory as Nothing
 //later you can do
 auto myTunaFactory = ioc.build<FoodFactory>(); //you are still dependent on FoodFactory
 auto myBeansFactory = ioc.build<FoodFactory>();//you are still dependent on FoodFactory
