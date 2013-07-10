@@ -1,12 +1,10 @@
+Infector manages 2 kind of objects:
+ * Shared Objects (they will be injected using a *shared_ptr*, only 1 istance of each object is created)
+ * Unique Objects (they will be injected using a *unique_ptr*, many istances of each object are created, but every istance is owned only by 1 other object)
 
-= Introduction =
+Shared Pointers are nice, but if heavily used/misused can cause more troubles (each reference counter need to be allocated, it is easy to have circular references by accidentally pass around a shared_ptr and then this will cause a memory leak). Most of troubles are solved by simply using "unique_ptr", it can't be accidentally passed around (requires a explicit "std::move") it does not require to allocate a reference counter, and so is almost the best way to inject dependencies on something that is not shared.
 
-Add your content here.
-
-
-= Details =
-
-Add your content here.  Format your content with:
-  * Text in *bold* or _italic_
-  * Headings, paragraphs, and lists
-  * Automatic links to other wiki pages
+||Number of istances||Single Istance||Many Istances||
+||Smart pointer type||std::shared_ptr||std::unique_ptr||
+||Concrete binding || bindSingleAsNothing|| bindAsNothing||
+||Polymorphic binding|| bindSingleAs || bindAs||
