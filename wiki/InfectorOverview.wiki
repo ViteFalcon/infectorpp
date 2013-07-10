@@ -2,7 +2,7 @@
 
 = Introduction =
 
-Infector is a Inversion of Control container for doing dependency injection: (see [http://en.wikipedia.org/wiki/Inversion_of_control Wikipedia])Infector++ take advantage of the new C++11 language to provide a reliable and easy to use IoC container. In addition to most common features provided by IoC Containers.
+Infector is a Inversion of Control container for doing dependency injection: (see [http://en.wikipedia.org/wiki/Inversion_of_control Wikipedia])It take advantage of the new C++11 language to provide a reliable and easy to use IoC container. In addition to most common features provided by IoC Containers.
 
 *Constructor Injection*
 
