@@ -243,8 +243,7 @@ void SharedTest(){
     ioc.bindSingleAsNothing<FooBarUser>();
 
     ioc.wire<CFooBar>();
-    ioc.wire<FooBarUser, IFoo, IBar>(); //è sbagliato fare uno shared ptr per il tipo astratto
-    //ioc.wire<FooBarUser>();           //se ho un tipo concreto!
+    ioc.wire<FooBarUser, IFoo, IBar>();
 
     try{
         auto user = ioc.buildSingle<FooBarUser>();

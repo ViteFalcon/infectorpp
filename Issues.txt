@@ -1,6 +1,1 @@
-Issue N° 1:
-Actually the Container is scoped. that's means that application can still run while
-container is destroyed. Any further call to "build", will end in segfaul in best case
-
-Solution:
-Not allowing injection of the Container? no. Not possible custom allocation otherwise.
+none known for now. Everything "seems" working for the first release.

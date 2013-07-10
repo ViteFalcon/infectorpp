@@ -139,9 +139,9 @@ private:
         Binding(const Binding & other) = default;
     };
 
-    std::unordered_map<std::type_index, Binding>                typeMap;   //Indicizzati per contratto
-    std::unordered_map<std::type_index, std::function<void*()>> callbacks; //Indicizzati per concretezza
-    std::unordered_map<std::type_index, IAnyShared* >       //Indicizzato per contratto
+    std::unordered_map<std::type_index, Binding>                typeMap;
+    std::unordered_map<std::type_index, std::function<void*()>> callbacks;
+    std::unordered_map<std::type_index, IAnyShared* >
                                                                 singleIstances;
 
     RecursionLimit limit;

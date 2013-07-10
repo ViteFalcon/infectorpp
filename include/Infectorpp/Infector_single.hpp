@@ -32,12 +32,15 @@ namespace Infector{
                 = Binding(std::type_index(typeid(T)), true);
 
         try{
-            if(singleIstances.find(std::type_index(typeid(T)))==singleIstances.end())
-                singleIstances[std::type_index(typeid(T))] = new AnyShared<T>();
+            if(singleIstances.find( std::type_index(typeid(T)) )
+                                    ==singleIstances.end())
+                singleIstances[std::type_index(typeid(T))]
+                                = new AnyShared<T>();
         }catch(std::exception & ex){
             auto it2 = typeMap.find( std::type_index(typeid(T)) );
             typeMap.erase(it2);
-            launch_exception<Something>();
+            limit.reset();
+            throw ex;
         }
     }
 
@@ -51,17 +54,21 @@ namespace Infector{
             success = resolve_multiple_inheritance<T,Contracts...>();
         }catch(std::exception & ex){
             rollback_multiple_inheritance<T,Contracts...>(); //revert changes
-            launch_exception<Something>();
+            limit.reset();
+            throw ex;
         }
         if(!success) //no changes.
-            launch_exception<Something>();
+            launch_exception<ExExistingInterface>();
 
         try{
-            if(singleIstances.find(std::type_index(typeid(T)))==singleIstances.end())
-                singleIstances[std::type_index(typeid(T))] = new AnyShared<T>();
+            if(singleIstances.find( std::type_index(typeid(T)) )
+                                    ==singleIstances.end())
+                singleIstances[std::type_index(typeid(T))]
+                               = new AnyShared<T>();
         }catch(std::exception & ex){
             rollback_multiple_inheritance<T,Contracts...>(); //revert changes
-            launch_exception<Something>();
+            limit.reset();
+            throw ex;
         }
     }
 
@@ -69,26 +76,27 @@ namespace Infector{
     std::shared_ptr<T> Container::buildSingle_delegate(){
         auto it = typeMap.find( std::type_index(typeid(T)) );
         if( it==typeMap.end()) //"it" is concrete type, T abstract one
-            launch_exception<Something>(); // TYPE NOT REGISTERED
+            launch_exception<ExBuildWhat>(); // TYPE NOT REGISTERED
 
         if( it->second.single == false)
-            launch_exception<Something>(); // T is multi but istantiated as single
+            launch_exception<ExSingleMulti>(); // T must be single
 
         //at this point may happen that concrete type and abstract ones are the
         //same.that's ok. (bindSingleAsNothing)
-        auto it2 = callbacks.find(  it->second.type ); //find constructor for concrete type
+        auto it2 = callbacks.find(  it->second.type ); //find constructor
 
         if( it2==callbacks.end())
-            launch_exception<Something>(); // CONSTRUCTOR NOT WIRED
+            launch_exception<ExNotWired>(); // CONSTRUCTOR NOT WIRED
 
-        auto it3 = singleIstances.find( it->second.type ); //devo cercare tipo concreto
+        auto it3 = singleIstances.find( it->second.type );
 
         IAnyShared * any = it3->second;
         if(any->getPtr()==nullptr){
             try{
                 any->setPtr( (it2->second)() );
             }catch(std::exception & ex){
-                launch_exception<Something>();
+                limit.reset();
+                throw ex;
             }
         }
 

@@ -19,8 +19,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.*/
 
 #pragma once
-#include <cassert>
-#include <iostream>
+
 namespace Infector{
 
     template <typename Contract >
@@ -30,17 +29,11 @@ namespace Infector{
         if( it!=typeMap.end())
             return false;
 
-        std::cout<<"Binding "<<T.name()<<" as "<<typeid(Contract).name()<<std::endl;
         typeMap[std::type_index(typeid(Contract))]
                 = Binding(T, true);
         return true;
     }
 
-    //POSSIBLE ISSUE. BindSingleAs< s,  A, B, C>()
-    //B and C are already registered. but memory Throws during A. then B and C are removed.
-    //No this is not an issue. if B and C already exist, then A will never be added
-    //because Container return false before ever adding an item (AND SO ROLLBACK IS
-    //is not necessary in case of FALSE RESULT
     template <typename Contract, typename Next, typename... Others>
     bool Container::resolve_multiple_inheritance_inner(std::type_index T){
         auto it = typeMap.find(  std::type_index(typeid(Contract)) );
@@ -48,7 +41,6 @@ namespace Infector{
             return false;
 
         if(resolve_multiple_inheritance_inner<Next,Others...>(T)){
-            std::cout<<"Binding "<<T.name()<<" as "<<typeid(Contract).name()<<std::endl;
             typeMap[std::type_index(typeid(Contract))]
                     = Binding(T, true);
             return true;
