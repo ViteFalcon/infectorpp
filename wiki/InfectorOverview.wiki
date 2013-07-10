@@ -2,11 +2,7 @@
 
 = Introduction =
 
-Infector is a Inversion of Control container for doing dependency injection. (see [http://en.wikipedia.org/wiki/Inversion_of_control Wikipedia])
-
-Infector++ take advantage of the new C++11 language to provide a reliable and easy to use IoC container. 
-
-In addition to most common features provided by IoC Containers, Infectorpp provide some additional features that will come in handy.
+Infector is a Inversion of Control container for doing dependency injection: (see [http://en.wikipedia.org/wiki/Inversion_of_control Wikipedia])Infector++ take advantage of the new C++11 language to provide a reliable and easy to use IoC container. In addition to most common features provided by IoC Containers.
 
 *Constructor Injection*
 
@@ -16,11 +12,18 @@ Infector++ does only Construtor Injection (no setter injection: [http://misko.he
 
 Infector is also a nice solution for removing memory leaks:
  * Is not possible having circular references (typical problem caused by bad usage of [http://en.cppreference.com/w/cpp/memory/shared_ptr/reset shared_ptr])
- * All dependencies are "managed" thanks to smart pointers usage
+ * All dependencies are "managed" thanks to smart pointers usage, you don't have to call "new" or "delete".
  * If any method of Infector::Container throws an exception the Container will be left unchanged (strong guarantee)
+ * If any of your constructors throws an exception, Infector will not cause memory leaks.
+
+(Memory allocated by you can still cause memory leaks, the point is that you will almost never have to manually allocated something).
 
 
 *Future releases*
 
+Some extra features will come with next releases
+
 - Nested containers (will be the only way to provide contextual binding)
-- Custom allocation (exploit object graph knowledge to reduce number of allocations and improve cache localty and allows to pass a custom allocator for that )
+- Custom allocation:
+ # Infector knows how your objects are wired up, and can exploit that to reduce significatively the number of allocations and at same time can improve cache locality.
+ # Set custom allocator provided by user (since Infector already batch allocations where needed you can focus on other optimizations)
