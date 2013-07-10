@@ -28,5 +28,5 @@ this is done by:
 {{{
 ioc.bindAsNothing<CFoo>(); //bind CFoo as nothing
 //later you can do
-auto myFoo = ioc.build<CFoo>(); you are still dependent on CFoo
+auto myFoo = ioc.build<CFoo>(); //you are still dependent on CFoo
 }}}
