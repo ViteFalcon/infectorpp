@@ -124,4 +124,4 @@ int main(){
 }
 }}}
 
-Composition Root is a common and great concept behind IoC Containers, usually there will be only 1 composition root in most applications. You are of course not limited to only 1. But interaction between multiple containers will be provided in a future release.
+Composition Root is a common and great concept behind IoC Containers, usually there will be only 1 composition root in most applications. You are of course not limited to only 1. Interaction between multiple containers will be provided in a future release.
