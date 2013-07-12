@@ -77,7 +77,8 @@ public:
 //...
 
 // the wiring
-ioc.wire<JustAClass, dependency1, dependency2, dependency3>();
+ioc.wire<JustAClass, dependency1, dependency2, dependency3>(); 
+               //you get compile time error if no constructor match
 }}}
 As you see there's no limit to number of constructor arguments.. As long as they are passed as "unique_ptr" or "shared_ptr".
 Of course everything must be bound first. In case you miss something you will get an exception. If you want to call Default Constructor this is the way:
