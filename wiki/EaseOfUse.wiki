@@ -91,7 +91,7 @@ public:
 
 //the wiring
 ioc.wire<AnotherClass>(); //by not providing further parameters we are telling the compiler to use default constructor 
-//(If there is no default constructor you will get compile-time error.)
+                          //(If there is no default constructor you will get compile-time error.)
 }}}
 
 == Proper way to do things ==
