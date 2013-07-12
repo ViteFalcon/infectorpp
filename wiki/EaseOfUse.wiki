@@ -23,6 +23,8 @@ ioc.bindAs<CFoo, IFoo>(); //bind CFoo as IFoo
 auto myFoo = ioc.build<IFoo>(); //you are no longer dependent on CFoo
 }}}
 
+*Infector is TYPESAFE (if CFoo is not inheriting from IFoo you will get a compile-time error).*
+
 You are not forced to do interface binding, but since interface binding is usually preferred, if you want to skip that, you have to type a bit more.
 
 this is done by:
