@@ -8,6 +8,7 @@ Shared Pointers are nice, but if heavily used/misused can cause more troubles (e
 || Smart pointer type || std::shared_ptr || std::unique_ptr ||
 || Concrete binding || bindSingleAsNothing || bindAsNothing ||
 || Interface binding || bindSingleAs || bindAs ||
+|| Owners || many || one ||
 
 ==Interface Binding==
 Registering classes to be istantiated is done by calling "bind...", this is part of a 2-steps process necessary to do interface binding.
