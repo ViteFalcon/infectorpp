@@ -79,7 +79,7 @@ namespace Infector{
     template <typename T, typename Contract, typename... Others>
     void Container::rollback_multiple_inheritance(){
         return rollback_multiple_inheritance_inner
-                <ANotUsableClass,Contract,Others...>();
+                <Contract,Others...>();
     }
 
     template <typename T>

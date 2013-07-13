@@ -19,12 +19,12 @@
 1373461407 d:\svn\infectorpp\include\infectorpp\infectorexceptions.hpp
 	<stdexcept>
 
-1373461935 d:\svn\infectorpp\include\infectorpp\infectorhelpers.hpp
+1373732619 d:\svn\infectorpp\include\infectorpp\infectorhelpers.hpp
 	<type_traits>
 	<memory>
 	"InfectorExceptions.hpp"
 
-1373461893 d:\svn\infectorpp\include\infectorpp\infector_details.hpp
+1373732619 d:\svn\infectorpp\include\infectorpp\infector_details.hpp
 
 1373390379 d:\svn\infectorpp\include\infectorpp\infector_private.hpp
 
