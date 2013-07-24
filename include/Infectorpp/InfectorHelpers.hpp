@@ -20,6 +20,8 @@ THE SOFTWARE.*/
 
 #pragma once
 #include <type_traits>
+#include <typeindex>
+#include <unordered_map>
 #include <memory>
 #include "InfectorExceptions.hpp"
 
@@ -66,7 +68,7 @@ namespace Infector{
 
     class IAnyShared{
     public:
-        virtual void* getPtr()=0;
+        virtual void* getPtr(std::type_index idx)=0; //take typeid
         virtual void setPtr(void *)=0; // to be called only once.
         virtual std::shared_ptr<int> getReferenceCounter()=0;
         virtual ~IAnyShared(){}
@@ -76,18 +78,42 @@ namespace Infector{
     *   so there's the need to share reference counter since
     *   smart pointers created in the usual way will not have
     *   the same reference counter if they have different types. */
-    template <typename T>
+    template <typename T, typename... Bases> //base classes variadic
     class AnyShared: public virtual IAnyShared{
         int a=49374; // just a number
         std::shared_ptr<T> ist;
+        std::unordered_map<std::type_index, void*> multi_solver;
+
+        //omg I need to do that.. again :(
+        template<typename Base1>
+        void resolve_multiple_cast(T*tp){
+            Base1* base = tp;
+            multi_solver[std::type_index(typeid(Base1))]
+                          = reinterpret_cast<void*>(base);
+        }
+        template<typename Base1, typename NextBase, typename... Others>
+        void resolve_multiple_cast(T*tp){
+            Base1* base  = tp;
+            multi_solver[std::type_index(typeid(Base1))]
+                          = reinterpret_cast<void*>(base);
+            resolve_multiple_cast<NextBase,Others...>(tp);
+        }
+
     public:
         virtual void setPtr(void * p) override {
-            ist.reset(static_cast<T*>(p));
+            T* tp = reinterpret_cast<T*>(p);
+            try{
+                ist.reset(tp);
+                resolve_multiple_cast<T,Bases...>(tp);
+            }catch(std::exception & ex){
+                multi_solver.clear();
+                throw ex;
+            }
         }
-        virtual void* getPtr() override {
-            return ist.get();
+        virtual void* getPtr(std::type_index idx) override {
+            return multi_solver[idx];
         }
-        virtual std::shared_ptr<int> getReferenceCounter(){
+        virtual std::shared_ptr<int> getReferenceCounter()override{
             return std::shared_ptr<int>(ist,&a);
         }
         virtual ~AnyShared(){}

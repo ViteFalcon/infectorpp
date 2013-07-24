@@ -64,7 +64,7 @@ namespace Infector{
             if(singleIstances.find( std::type_index(typeid(T)) )
                                     ==singleIstances.end())
                 singleIstances[std::type_index(typeid(T))]
-                               = new AnyShared<T>();
+                               = new AnyShared<T,Contracts...>();
         }catch(std::exception & ex){
             rollback_multiple_inheritance<T,Contracts...>(); //revert changes
             limit.reset();
@@ -91,18 +91,28 @@ namespace Infector{
         auto it3 = singleIstances.find( it->second.type );
 
         IAnyShared * any = it3->second;
-        if(any->getPtr()==nullptr){
+        T* myPointer = reinterpret_cast<T*>(
+                                    any->getPtr(std::type_index(typeid(T)))
+                                            );
+        if(myPointer==nullptr){
             try{
                 any->setPtr( (it2->second)() );
+                myPointer =  reinterpret_cast<T*>(
+                                    any->getPtr(std::type_index(typeid(T)))
+                                            );
+
             }catch(std::exception & ex){
                 limit.reset();
                 throw ex;
             }
         }
 
+        if(myPointer == nullptr)
+                launch_exception<ExAnySharedNullPtr>();
+
         return std::shared_ptr<T> (
                                 any->getReferenceCounter(),
-                                reinterpret_cast<T*>(any->getPtr()) );
+                                myPointer );
     }
 
     template <typename T>

@@ -24,9 +24,6 @@ THE SOFTWARE.*/
 #include "InfectorExport.hpp"
 #include "InfectorHelpers.hpp"
 
-#include <typeindex>
-#include <unordered_map>
-
 namespace Infector{
 
 /** This class is a exception safe (STRONG GUARANTEE) Inversion of Control

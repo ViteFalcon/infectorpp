@@ -21,7 +21,8 @@ THE SOFTWARE.*/
 //----------------------------------------------------------------------------
 /**
     Series of tests to make sure intended usage is possible and what should
-    failing is actually failing.
+    failing is actually failing. (well there are so many exceptions that
+    writing full test suite will require a bit :/)
 */
 
 #include <InfectorContainer.hpp>
@@ -110,16 +111,19 @@ void LeakTest(){
 class IBed{
 public:
     virtual void sleep() = 0;
+    virtual ~IBed(){}
 };
 
 class IRoom{
 public:
     virtual void interact() = 0;
+    virtual ~IRoom(){}
 };
 
 class ComfortableBed: public virtual IBed{
 public:
     ComfortableBed(){}
+    virtual ~ComfortableBed(){}
 
     virtual void sleep(){
         std::cout<<"yumm so comfortable!"<<std::endl;
@@ -133,6 +137,7 @@ class BedRoom:public virtual IRoom{
 public:
     BedRoom(std::unique_ptr<IBed> b):myBed(std::move(b)){
     }
+    virtual ~BedRoom(){}
 
     virtual void interact(){
         std::cout<<"interacting with room:"<<std::endl;
@@ -199,11 +204,13 @@ void CircularTest(){
 class IFoo {
 public:
     virtual void letsFoo() = 0;
+    virtual ~IFoo(){}
 };
 
 class IBar {
 public:
     virtual void letsBar() = 0;
+    virtual ~IBar(){}
 };
 
 class CFooBar: public virtual IFoo, public virtual IBar{
@@ -256,6 +263,91 @@ void SharedTest(){
      std::cout<<"\nend of test 4\n"<<std::endl;
 }
 
+/// ////////////////////////////////////////////////
+///                  TEST
+///                    5
+/// ////////////////////////////////////////////////
+
+class IA{
+public:
+    virtual void doA()=0;
+    virtual ~IA(){}
+};
+
+class IB{
+public:
+    virtual void doB()=0;
+    virtual ~IB(){}
+};
+
+class IC{
+public:
+    virtual void doC()=0;
+    virtual ~IC(){}
+};
+
+class concreteA: public virtual IA{
+public:
+    virtual void doA()override{ std::cout<<"A (A)"<<std::endl;}
+    virtual ~concreteA(){}
+};
+
+class concreteABC:public virtual IA, public virtual IB, public virtual IC{
+public:
+    virtual ~concreteABC(){}
+    virtual void doA()override{ std::cout<<"A (ABC)"<<std::endl;}
+    virtual void doB()override{ std::cout<<"B (ABC)"<<std::endl;}
+    virtual void doC()override{ std::cout<<"C (ABC)"<<std::endl;}
+};
+
+class concreteBC: public virtual IB, public virtual IC{
+public:
+    virtual ~concreteBC(){}
+    virtual void doB()override{ std::cout<<"B (BC)"<<std::endl;}
+    virtual void doC()override{ std::cout<<"C (BC)"<<std::endl;}
+};
+
+void MultiBaseFailure(){
+    std::cout<<"MULTIPLE INHERITANCE FAILURE TEST\n"<<std::endl;
+    Infector::Container ioc;
+    ioc.bindSingleAs<concreteA, IA>();
+
+    try{
+        ioc.bindSingleAs<concreteABC, IA, IB, IC>();
+    }catch(std::exception &ex){
+        std::cout<<"ex 1"<<std::endl;
+        std::cout<<ex.what()<<std::endl;
+    }
+    ioc.bindSingleAs<concreteBC,IB,IC>();
+
+    ioc.wire<concreteA>();
+    ioc.wire<concreteBC>();
+    std::cout<<"step1"<<std::endl;
+    try{
+        ioc.wire<concreteABC>(); // that will never be used.. throw?
+
+    }
+    catch(std::exception &ex){
+        std::cout<<"ex 2"<<std::endl;
+        std::cout<<ex.what()<<std::endl;
+    }
+    std::cout<<"step2"<<std::endl;
+    try{
+        auto a=ioc.buildSingle<IA>();
+        auto bcb=ioc.buildSingle<IB>();
+        auto bcc=ioc.buildSingle<IC>();
+        a->doA();
+        bcb->doB();
+        bcc->doC();
+    }
+    catch(std::exception &ex){
+        std::cout<<"ex 3"<<std::endl;
+        std::cout<<ex.what()<<std::endl;
+    }
+
+     std::cout<<"\nend of test 5\n"<<std::endl;
+}
+
 int main(){
     /** Test to prove that Infector does not cause memory leaks due to
     *   unkown evaluation order of constructors' parameters when construcors
@@ -270,6 +362,9 @@ int main(){
     /** Basic usage test this time shared objects are used and multiple
     *   inheritance is tested.*/
     SharedTest();
+    /** Multiple inheritance test failure.*/
+    MultiBaseFailure();
+
 
     return 0;
 }

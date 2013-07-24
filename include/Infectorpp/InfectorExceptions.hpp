@@ -41,9 +41,9 @@ namespace Infector{
         }
     };
 
-    class ExWireWhat: public std::exception{
+    class ExWireAgain: public std::exception{
         char message[69] =
-        "Cannot wire constructor for not 'bind'ed types.";
+        "Only 1 constructor allowed for each concrete type. Wiring again?";
     public:
         virtual const char* what() const noexcept(true){
             return message;
@@ -71,6 +71,15 @@ namespace Infector{
     class ExMissingType: public std::exception{
         char message[69] =
         "Requested type is missing, you have to 'bind' it first";
+    public:
+        virtual const char* what() const noexcept(true){
+            return message;
+        }
+    };
+
+    class ExAnySharedNullPtr: public std::exception{
+        char message[69] =
+        "AnyShared<...> returned a null pointer";
     public:
         virtual const char* what() const noexcept(true){
             return message;

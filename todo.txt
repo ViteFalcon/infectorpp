@@ -37,6 +37,7 @@ And the name for the new pointer will be ..
 infect_ptr ?
 
 then infect_ptr will be a "replacement"  for unique_ptr
+(maybe inject_ptr is better name XD)
 
 3)
 Construct arrays of objects? (it's implicit that "Single" types can't be 
@@ -52,6 +53,9 @@ for(int i=0; i<50; i++)
 Actually multiple containers are possible, but each container don't
 see each other... Then provide a hierachical structure where
 children can see dependencies of parents? (or eventually change them?)
+Or better some dependencies may be hided by a internal container
+so that private stuff can't be accidentally injected (usefull for
+bit projects and allows a primitive form of contextual binding)
 
 Would that be usefull for someone?
 
