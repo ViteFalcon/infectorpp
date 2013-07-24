@@ -1,0 +1,12 @@
+1.0.1
+NO API CHANGES.
+Fixed a bug caused by a typo. (multiple_inheritance_rollback was affected)
+Added few more tests.
+
+Fixed another multiple inheritance bug (wrong cast, that required to add
+a bit of code to keep a correct cast. Added test case for that).
+
+
+1.0.0
+
+First release.
