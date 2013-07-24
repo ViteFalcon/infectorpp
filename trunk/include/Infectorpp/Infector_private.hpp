@@ -37,7 +37,7 @@ namespace Infector{
 
         auto it2 = callbacks.find(std::type_index(typeid(T)));
         if( it2!=callbacks.end())
-            launch_exception<ExWireWhat>();
+            launch_exception<ExWireAgain>();
 
         // THROW... ok exception safe! Indipendently of parameters order
         RecursionLimit * plimit = & limit;

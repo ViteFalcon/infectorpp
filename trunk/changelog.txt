@@ -1,0 +1,15 @@
+1.0.1
+NO API CHANGES.
+Fixed a bug caused by a typo "ANotUsableClass" was not removed.
+Added few more tests.
+
+Fixed multiple inheritance bug, now void* cast is no longer arbitrary
+but is done using a map that contain each conversion to each base
+virtual class (see Unit Test n° 4-5, actually those tests were failing
+I Need to improve test suite, test should be automatic, actually
+I need to look at few of them to determine if they are working...)
+
+
+1.0.0
+
+First release.

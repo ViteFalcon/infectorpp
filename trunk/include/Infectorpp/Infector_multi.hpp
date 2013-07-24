@@ -57,7 +57,7 @@ namespace Infector{
         if( it2==callbacks.end() )
             launch_exception<ExNotWired>(); // CONSTRUCTOR NOT WIRED
 
-        return std::unique_ptr<T>(static_cast<T*>( (it2->second)() ));
+        return std::unique_ptr<T>(reinterpret_cast<T*>( (it2->second)() ));
     }
 
     template <typename T>
