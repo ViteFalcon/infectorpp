@@ -14,6 +14,7 @@ Infector++ is a lightweight IoC Container for doing dependency injection, it was
  * Lazy instantiation (everything is created only when needed)
  * C++11 (requires GCC 4.6 or greater, Clang 3.0 or greater, !VisualStudio 2012)
 
-http://i.imgur.com/RL8wUW8.png
 
-[http://code.google.com/p/infectorpp/ HomePage]
+[http://code.google.com/p/infectorpp/ Visit HomePage for downloading it!]
+
+http://i.imgur.com/RL8wUW8.png
