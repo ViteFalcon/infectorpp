@@ -1,7 +1,7 @@
 *Version 1.0.1 released! ([http://code.google.com/p/infectorpp/source/browse/trunk/changelog.txt changelog.txt])*
 
 
-Infector++ is a lightweight IoC Container for doing dependency injection, it was thinked to be *easy to use and hard to misuse*.
+Infector++ is a lightweight IoC Container for doing dependency injection, it was designed to be *easy to use and hard to misuse*.
 
 =Features:=
  * *Exception safety* ([http://en.wikipedia.org/wiki/Exception_safety STRONG GUARANTEE])
