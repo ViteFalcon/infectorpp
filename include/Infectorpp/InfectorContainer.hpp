@@ -23,6 +23,8 @@ THE SOFTWARE.*/
 #include "InfectorExceptions.hpp"
 #include "InfectorExport.hpp"
 #include "InfectorHelpers.hpp"
+#include "inject_ptr.hpp"
+#include <list>
 
 namespace Infector{
 
@@ -110,14 +112,27 @@ private:
     template <typename T>  void launch_exception();
     template <typename T>  std::shared_ptr<T> buildSingle_delegate();
     template <typename T>  std::unique_ptr<T> build_delegate();
+    template <typename T>  std::inject_ptr<T> emplace_delegate();
+
+    template<typename Dummy>
+    bool tryToGetSize( RecursionLimit *, int *);
+    template<typename Actual, typename Next, typename...Others>
+    bool tryToGetSize( RecursionLimit *, int *);
+
+    void setKnownSizeForType( std::type_index t, bool known, int size);
+    void processRecursionWeb();
 
     template <typename OBJ> friend class UniqueOrShared;
+    struct EmplaceContext;
     /** Too long explain why this is so usefull.*/
     template <typename OBJ>
     class UniqueOrShared{
         Container * ioc=nullptr;
+        EmplaceContext * context;
     public:
-        UniqueOrShared(Container * ptr):ioc(ptr){}
+        UniqueOrShared(Container * ptr, EmplaceContext * c)
+        :ioc(ptr)
+        ,context(c){}
 
         operator std::shared_ptr<OBJ>(){
             return std::shared_ptr<OBJ>(ioc->buildSingle_delegate<OBJ>());
@@ -126,22 +141,39 @@ private:
         operator std::unique_ptr<OBJ>(){
             return std::unique_ptr<OBJ>((ioc->build_delegate<OBJ>()));
         }
+
+        operator std::inject_ptr<OBJ>(){
+            if(!context->factory) //required safety control.
+                throw ExInjectOutsideFactory();
+            return std::inject_ptr<OBJ>((ioc->emplace_delegate<OBJ>()));
+        }
     };
 
     struct Binding{
         std::type_index type;
         bool            single;
-        Binding():type(typeid(Binding)){}
-        Binding(std::type_index a, bool b): type(a),single(b){}
-        Binding(const Binding & other) = default;
+        Binding():type( typeid(Binding)){}
+        Binding( std::type_index a, bool b): type(a),single(b){}
+        Binding( const Binding & other) = default;
     };
 
-    std::unordered_map<std::type_index, Binding>                typeMap;
-    std::unordered_map<std::type_index, std::function<void*()>> callbacks;
-    std::unordered_map<std::type_index, IAnyShared* >
-                                                                singleIstances;
+    struct EmplaceContext{
+        bool factory;
+    };
 
-    RecursionLimit limit;
+    std::unordered_map< std::type_index, IAnyShared*>       singleIstances;
+    std::unordered_map< std::type_index, Binding>           typeMap;
+    std::unordered_map< std::type_index, std::function<void*(EmplaceContext*)>>
+                                                            callbacks;
+
+    std::unordered_map< std::type_index, int>               typeInfoMap;
+    std::unordered_map< std::type_index,
+                        std::function< bool( RecursionLimit *, int *)>>
+                                                            recursionMap;
+    std::list< std::function< bool( RecursionLimit *, int *)>>
+                                                            recursionWaitList;
+
+    //RecursionLimit limit;
 };
 } // namespace Infector
 

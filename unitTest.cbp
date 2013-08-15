@@ -33,12 +33,25 @@
 		<Unit filename="include/Infectorpp/InfectorExport.hpp" />
 		<Unit filename="include/Infectorpp/InfectorHelpers.hpp" />
 		<Unit filename="include/Infectorpp/Infector_details.hpp" />
+		<Unit filename="include/Infectorpp/Infector_factory.hpp" />
 		<Unit filename="include/Infectorpp/Infector_multi.hpp" />
 		<Unit filename="include/Infectorpp/Infector_private.hpp" />
 		<Unit filename="include/Infectorpp/Infector_single.hpp" />
+		<Unit filename="include/Infectorpp/factory_of.hpp" />
+		<Unit filename="include/Infectorpp/inject_ptr.hpp" />
+		<Unit filename="include/Infectorpp/mchunk_ptr.hpp" />
 		<Extensions>
 			<code_completion />
 			<debugger />
+			<DoxyBlocks>
+				<comment_style block="0" line="0" />
+				<doxyfile_project />
+				<doxyfile_build />
+				<doxyfile_warnings />
+				<doxyfile_output />
+				<doxyfile_dot />
+				<general />
+			</DoxyBlocks>
 		</Extensions>
 	</Project>
 </CodeBlocks_project_file>

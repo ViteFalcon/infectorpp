@@ -26,6 +26,9 @@ THE SOFTWARE.*/
 #include "InfectorExceptions.hpp"
 
 namespace Infector{
+    class Container;
+    class DummyClass{
+    };
 
     template<typename... Others>
     struct recursiveTest;
@@ -41,6 +44,14 @@ namespace Infector{
     *   more tests if you need to do so. */
     template <typename T, typename... Contracts>
     bool type_tests(){
+
+        //prevent service locator
+        static_assert( !std::is_same<T,Infector::Container>::value
+                      , "Cannot Inject Infector::Container!");
+
+        //prevent service locator
+        static_assert( !std::is_base_of<Infector::Container,T>::value
+                      , "Cannot Inject Infector::Container or its subclasses!");
 
         static_assert(  sizeof...(Contracts)>0 //if no contracts don't use "As"
                       , " There must be at least 1 interface ");
@@ -59,6 +70,14 @@ namespace Infector{
 
     template <typename T>
     bool reduced_type_tests(){
+
+        //prevent service locator
+        static_assert( !std::is_same<T,Infector::Container>::value
+                      , "Cannot wire Infector::Container!");
+
+        //prevent service locator
+        static_assert( !std::is_base_of<Infector::Container,T>::value
+                      , "Cannot wire Infector::Container or its subclasses!");
 
         static_assert(  std::is_destructible<T>::value
                       , " T must be destructible");
@@ -128,6 +147,12 @@ namespace Infector{
             current_depth++;
             if(current_depth>max_depth)
                 throw ExRecursionLimit();
+        }
+
+        void decrement(){
+            if(current_depth==0)
+                throw ExInternalError();
+            current_depth--;
         }
 
         void reset(){

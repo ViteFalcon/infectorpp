@@ -84,7 +84,6 @@ namespace Infector{
 
     template <typename T>
     void  Container::launch_exception(){
-        limit.reset(); //basic rollback semantics
         throw T();
     }
 

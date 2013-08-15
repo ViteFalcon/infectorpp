@@ -30,6 +30,60 @@ namespace Infector{
         }
     }
 
+    template<typename Dummy>
+    bool Container::tryToGetSize( RecursionLimit *limit, int *size){
+        (void)limit; (void)size; //fix unused parameter warning.
+        return true;
+    }
+
+    template<typename Actual, typename Next, typename...Others>
+    bool Container::tryToGetSize( RecursionLimit *limit, int *size){
+        //get abstract type
+        auto it = typeMap.find( std::type_index(typeid(Actual)) );
+        if( it==typeMap.end())
+            return false; //abstract type not registered
+
+        auto it2 = recursionMap.find(  it->second.type ); //get concrete funct
+        if( it2==recursionMap.end())
+            return false; // concrete functor not created yet..
+
+        bool horizontalExpansion = tryToGetSize<Next,Others...>(limit,size);
+
+        (*size)+= sizeof(Actual);
+        (*limit).increment();
+        bool recursiveExpansion = (it2->second)(limit,size);
+        (*limit).decrement();
+
+        bool result = true&&horizontalExpansion&&recursiveExpansion;
+        setKnownSizeForType(it->second.type, result, (*size));
+        return result;
+    }
+
+    void Container::setKnownSizeForType( std::type_index t, bool known, int size){
+        if(known){
+            typeInfoMap[t] = size; //only if outer returned true => biggest minimum size!
+        }
+    }
+
+    void Container::processRecursionWeb(){
+        bool changes = true;
+        while( changes){
+            changes = false;
+            auto it = recursionWaitList.begin();
+            while (it!=recursionWaitList.end()){
+                auto it2=it;
+                it++;
+                RecursionLimit limit;
+                int            size = 0;
+                bool gotSize = (*it2)( &limit,&size);
+                if(gotSize) {
+                    changes = true;
+                    recursionWaitList.erase(it2);
+                }
+            }
+        }
+    }
+
     template <typename T, typename... Dependencies>
     void Container::wire(){
         bool tests = reduced_type_tests<T>();
@@ -39,13 +93,30 @@ namespace Infector{
         if( it2!=callbacks.end())
             launch_exception<ExWireAgain>();
 
+        auto it3 = recursionMap.find(std::type_index(typeid(T)));
+        if( it3==recursionMap.end()){
+            recursionMap[std::type_index(typeid(T))] =
+                    [this] (RecursionLimit *limit, int *size){
+                        (*size)+= sizeof(T);
+                        bool result =
+                            tryToGetSize<Dependencies...
+                                        ,DummyClass>(limit,size);
+
+                        return result;
+                    }; //now the function exist.
+            it3 = recursionMap.find(std::type_index(typeid(T)));
+            recursionWaitList.push_back(it3->second);
+        }
+
+        processRecursionWeb(); //do lots of checks during "wire"
+                               //find errors early!
+
         // THROW... ok exception safe! Indipendently of parameters order
-        RecursionLimit * plimit = & limit;
         callbacks[std::type_index(typeid(T))] =
-                    [this,plimit] () {
-                        (*plimit).increment();
+                    [this] (EmplaceContext * context) {
+                        (void)context; //fix unused parameter warning.
                         return reinterpret_cast<void*>(
-                            new T(UniqueOrShared<Dependencies>(this)...)
+                            new T(UniqueOrShared<Dependencies>(this,context)...)
                         );
                     };
     }
