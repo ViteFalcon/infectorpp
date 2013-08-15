@@ -57,12 +57,11 @@ namespace Infector{
         if( it2==callbacks.end() )
             launch_exception<ExNotWired>(); // CONSTRUCTOR NOT WIRED
 
-        return std::unique_ptr<T>(reinterpret_cast<T*>( (it2->second)() ));
+        return std::unique_ptr<T>(reinterpret_cast<T*>( (it2->second)(nullptr) ));
     }
 
     template <typename T>
     std::unique_ptr<T> Container::build(){
-        limit.reset(); //need to cally only once, or in case of exception.
         return build_delegate<T>();
     }
 

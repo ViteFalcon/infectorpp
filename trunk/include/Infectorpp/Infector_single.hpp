@@ -39,7 +39,6 @@ namespace Infector{
         }catch(std::exception & ex){
             auto it2 = typeMap.find( std::type_index(typeid(T)) );
             typeMap.erase(it2);
-            limit.reset();
             throw ex;
         }
     }
@@ -54,7 +53,6 @@ namespace Infector{
             success = resolve_multiple_inheritance<T,Contracts...>();
         }catch(std::exception & ex){
             rollback_multiple_inheritance<T,Contracts...>(); //revert changes
-            limit.reset();
             throw ex;
         }
         if(!success) //no changes.
@@ -67,7 +65,6 @@ namespace Infector{
                                = new AnyShared<T,Contracts...>();
         }catch(std::exception & ex){
             rollback_multiple_inheritance<T,Contracts...>(); //revert changes
-            limit.reset();
             throw ex;
         }
     }
@@ -96,13 +93,12 @@ namespace Infector{
                                             );
         if(myPointer==nullptr){
             try{
-                any->setPtr( (it2->second)() );
+                any->setPtr( (it2->second)(nullptr) );
                 myPointer =  reinterpret_cast<T*>(
                                     any->getPtr(std::type_index(typeid(T)))
                                             );
 
             }catch(std::exception & ex){
-                limit.reset();
                 throw ex;
             }
         }
@@ -117,7 +113,6 @@ namespace Infector{
 
     template <typename T>
     std::shared_ptr<T> Container::buildSingle(){
-        limit.reset(); //need to cally only once, or in case of exception.
         return buildSingle_delegate<T>();
     }
 

@@ -104,4 +104,22 @@ namespace Infector{
         }
     };
 
+    class ExInjectOutsideFactory: public std::exception{
+        char message[69] =
+        "Cannot inject dependencies with inject_ptr outside factories.";
+    public:
+        virtual const char* what() const noexcept(true){
+            return message;
+        }
+    };
+
+    class ExInternalError: public std::exception{
+        char message[69] =
+        "Infector critical error.";
+    public:
+        virtual const char* what() const noexcept(true){
+            return message;
+        }
+    };
+
 } // namespace Infector

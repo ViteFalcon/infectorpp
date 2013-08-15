@@ -34,10 +34,14 @@ THE SOFTWARE.*/
 ///                  TEST
 ///                    1
 /// ////////////////////////////////////////////////
-
+int CtorTotCounter = 0;
+int CtorGoodCounter = 0;
+int CtorBadCounter = 0;
 struct BadClass{
     BadClass(){
-        std::cout<<"Bad Ctor"<<std::endl; //DISPLAY CONSTRUCTOR CALL
+        CtorTotCounter++;
+        CtorBadCounter++;
+        //std::cout<<"Bad Ctor"<<std::endl; //DISPLAY CONSTRUCTOR CALL
         throw 1;}
 };
 typedef std::unique_ptr<BadClass> bad_ptr;
@@ -45,7 +49,9 @@ typedef std::unique_ptr<BadClass> bad_ptr;
 struct GoodClass{
     static int counter;
     GoodClass(){
-        std::cout<<"Good Ctor"<<std::endl; // DISPLAY CONSTRUCTOR CALL
+        CtorTotCounter++;
+        CtorGoodCounter++;
+        //std::cout<<"Good Ctor"<<std::endl; // DISPLAY CONSTRUCTOR CALL
         counter++;}
     ~GoodClass(){counter--;}
 };
@@ -71,6 +77,9 @@ struct BG{
 };
 
 void LeakTest(){
+    CtorTotCounter = 0;
+    CtorGoodCounter = 0;
+    CtorBadCounter = 0;
     GoodClass::counter = 0;
     Infector::Container ioc;
     ioc.bindAsNothing<BadClass>();
@@ -85,21 +94,26 @@ void LeakTest(){
     // attention must be paid here.
     ioc.wire<BG       ,BadClass,GoodClass>();
     ioc.wire<GB       ,GoodClass,BadClass>();
-    std::cout<<"\n3 CONSTRUCTORS CALLS MUST BE DISPLAYED:\n"<<std::endl;
+    //std::cout<<"\n3 CONSTRUCTORS CALLS MUST BE DISPLAYED:\n"<<std::endl;
     try{
     auto a = ioc.build<BG>();
     }catch(int a){
 
     }
-    std::cout<<"2nd call"<<std::endl;
+    //std::cout<<"2nd call"<<std::endl;
     try{
     auto b = ioc.build<GB>();
     }catch(int a){
 
     }
-    std::cout<<"\nend of test 1\n"<<std::endl;
-    assert(GoodClass::counter == 0); // TEST MEMORY LEAK
+    assert("failed test 1" && GoodClass::counter == 0); // TEST MEMORY LEAK
+    assert("failed test 1" && CtorTotCounter == 3);
+    assert("failed test 1" && CtorBadCounter > 0 && CtorGoodCounter > 0 );
     GoodClass::counter = 0;
+    CtorTotCounter = 0;
+    CtorBadCounter = 0;
+    CtorGoodCounter = 0;
+    std::cout<<"\nend of test 1\n"<<std::endl;
 }
 
 /// ////////////////////////////////////////////////
@@ -107,6 +121,8 @@ void LeakTest(){
 ///                    2
 /// ////////////////////////////////////////////////
 
+int CCallBed = 0;
+int CCallRoom = 0;
 
 class IBed{
 public:
@@ -126,6 +142,7 @@ public:
     virtual ~ComfortableBed(){}
 
     virtual void sleep(){
+        CCallBed++;
         std::cout<<"yumm so comfortable!"<<std::endl;
     }
 };
@@ -140,6 +157,7 @@ public:
     virtual ~BedRoom(){}
 
     virtual void interact(){
+        CCallRoom++;
         std::cout<<"interacting with room:"<<std::endl;
         myBed->sleep();
     }
@@ -159,14 +177,17 @@ void BedTest(){
     auto room = ioc.build<IRoom>();
     room->interact();
 
+    assert("test 2 failed" && CCallBed==1);
+    assert("test 2 failed" && CCallRoom==1);
+
     std::cout<<"\nend of test 2\n"<<std::endl;
 }
 
 /// ////////////////////////////////////////////////
-///                  TEST
+///                  TEST (DEPRECATED)
 ///                    3
 /// ////////////////////////////////////////////////
-struct Booom;
+/*struct Booom;
 struct Kaaa{
 public:
     Kaaa(std::unique_ptr<Booom> b){ (void) b;}
@@ -192,6 +213,54 @@ void CircularTest(){
     catch(std::exception &ex){
         std::cout<<ex.what()<<std::endl;
     }
+
+    std::cout<<"\nend of test 3\n"<<std::endl;
+}*/
+
+/// ////////////////////////////////////////////////
+///                  TEST
+///                    3-B
+/// ////////////////////////////////////////////////
+
+struct Booom;
+struct Kaaa{
+public:
+    Kaaa(std::unique_ptr<Booom> b){ (void) b;}
+};
+
+
+struct Booom{
+public:
+    Booom(std::unique_ptr<Kaaa> k){ (void) k;}
+};
+
+void CircularTest(){
+    std::cout<<"CIRCULAR DEPENDENCY TEST\n"<<std::endl;
+    Infector::Container ioc;
+    ioc.bindAsNothing<Kaaa>();
+    ioc.bindAsNothing<Booom>();
+
+    bool ex1=false;
+    bool ex2=false;
+
+    try{
+        ioc.wire<Kaaa,Booom>();
+        ioc.wire<Booom,Kaaa>();
+    }catch(std::exception &ex){
+        ex1 = true;
+        std::cout<<ex.what()<<std::endl;
+    }
+
+    try{
+        auto kaboom = ioc.build<Kaaa>();
+    }
+    catch(std::exception &ex){
+        ex2 = true;
+        std::cout<<ex.what()<<std::endl;
+    }
+
+    assert("test 3b failed" && ex1);
+    assert("test 3b failed" && ex2);
 
     std::cout<<"\nend of test 3\n"<<std::endl;
 }
@@ -349,6 +418,12 @@ void MultiBaseFailure(){
 }
 
 int main(){
+
+    /** Unique pointers does not take additional memory. */
+    std::cout<<"sizeof(unique_ptr<int>):"<<(int)sizeof(std::unique_ptr<int>)<<std::endl;
+    std::cout<<"sizeof(inject_ptr<int>):"<<(int)sizeof(std::inject_ptr<int>)<<std::endl;
+    std::cout<<"sizeof(int*):"<<(int)sizeof(int*)<<std::endl;
+
     /** Test to prove that Infector does not cause memory leaks due to
     *   unkown evaluation order of constructors' parameters when construcors
     *   throws exceptions. This is a big advantage.*/
