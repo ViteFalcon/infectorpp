@@ -1,69 +1,34 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
 <CodeBlocks_layout_file>
 	<ActiveTarget name="Debug" />
-	<File name="include\Infectorpp\InfectorExport.hpp" open="1" top="0" tabpos="8" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="1058" topLine="4" />
-		</Cursor>
+	<File name="UnitTest.cpp" open="0" top="0" tabpos="2">
+		<Cursor position="2251" topLine="421" />
 	</File>
-	<File name="include\Infectorpp\InfectorHelpers.hpp" open="1" top="0" tabpos="2" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="3117" topLine="57" />
-		</Cursor>
+	<File name="include\Infectorpp\InfectorContainer.hpp" open="0" top="0" tabpos="1">
+		<Cursor position="6814" topLine="153" />
 	</File>
-	<File name="include\Infectorpp\Infector_details.hpp" open="1" top="0" tabpos="7" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="0" topLine="0" />
-		</Cursor>
+	<File name="include\Infectorpp\InfectorExceptions.hpp" open="0" top="0" tabpos="9">
+		<Cursor position="1348" topLine="18" />
 	</File>
-	<File name="UnitTest.cpp" open="1" top="1" tabpos="6" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="7698" topLine="273" />
-		</Cursor>
+	<File name="include\Infectorpp\InfectorExport.hpp" open="0" top="0" tabpos="8">
+		<Cursor position="759" topLine="2" />
 	</File>
-	<File name="include\Infectorpp\InfectorContainer.hpp" open="1" top="0" tabpos="3" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="5810" topLine="145" />
-		</Cursor>
+	<File name="include\Infectorpp\InfectorHelpers.hpp" open="0" top="0" tabpos="3">
+		<Cursor position="1299" topLine="21" />
 	</File>
-	<File name="include\Infectorpp\InfectorExceptions.hpp" open="1" top="0" tabpos="9" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="3576" topLine="94" />
-		</Cursor>
+	<File name="include\Infectorpp\Infector_details.hpp" open="0" top="0" tabpos="7">
+		<Cursor position="2901" topLine="16" />
 	</File>
-	<File name="include\Infectorpp\Infector_multi.hpp" open="1" top="0" tabpos="5" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="2547" topLine="46" />
-		</Cursor>
+	<File name="include\Infectorpp\Infector_factory.hpp" open="0" top="0" tabpos="11">
+		<Cursor position="669" topLine="2" />
 	</File>
-	<File name="include\Infectorpp\Infector_private.hpp" open="1" top="0" tabpos="4" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="4634" topLine="101" />
-		</Cursor>
+	<File name="include\Infectorpp\Infector_multi.hpp" open="0" top="0" tabpos="5">
+		<Cursor position="0" topLine="0" />
 	</File>
-	<File name="include\Infectorpp\Infector_single.hpp" open="1" top="0" tabpos="1" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="3964" topLine="84" />
-		</Cursor>
+	<File name="include\Infectorpp\Infector_private.hpp" open="0" top="0" tabpos="4">
+		<Cursor position="1133" topLine="36" />
 	</File>
-	<File name="include\Infectorpp\inject_ptr.hpp" open="1" top="0" tabpos="10" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="650" topLine="18" />
-		</Cursor>
-	</File>
-	<File name="include\Infectorpp\Infector_factory.hpp" open="1" top="0" tabpos="11" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="1147" topLine="4" />
-		</Cursor>
-	</File>
-	<File name="include\Infectorpp\factory_of.hpp" open="1" top="0" tabpos="13" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="1162" topLine="8" />
-		</Cursor>
-	</File>
-	<File name="include\Infectorpp\mchunk_ptr.hpp" open="1" top="0" tabpos="12" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="1278" topLine="16" />
-		</Cursor>
+	<File name="include\Infectorpp\Infector_single.hpp" open="0" top="0" tabpos="2">
+		<Cursor position="3611" topLine="0" />
 	</File>
 </CodeBlocks_layout_file>

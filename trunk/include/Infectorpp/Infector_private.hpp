@@ -22,7 +22,7 @@ THE SOFTWARE.*/
 
 namespace Infector{
 
-    Container::~Container(){
+    inline Container::~Container(){
         auto it2 = singleIstances.end();
         for( auto it=singleIstances.begin(); it!=it2; ++it){
             if(it->second!=nullptr)
