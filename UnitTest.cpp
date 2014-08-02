@@ -421,7 +421,6 @@ int main(){
 
     /** Unique pointers does not take additional memory. */
     std::cout<<"sizeof(unique_ptr<int>):"<<(int)sizeof(std::unique_ptr<int>)<<std::endl;
-    std::cout<<"sizeof(inject_ptr<int>):"<<(int)sizeof(std::inject_ptr<int>)<<std::endl;
     std::cout<<"sizeof(int*):"<<(int)sizeof(int*)<<std::endl;
 
     /** Test to prove that Infector does not cause memory leaks due to
