@@ -7,14 +7,14 @@
 		<Option compiler="gcc" />
 		<Build>
 			<Target title="Debug">
-				<Option output="bin/unitTest" prefix_auto="1" extension_auto="1" />
+				<Option output="bin\unitTest" prefix_auto="1" extension_auto="1" />
 				<Option working_dir="bin" />
-				<Option object_output="obj/Debug/" />
+				<Option object_output="obj\Debug\" />
 				<Option type="1" />
 				<Option compiler="gcc" />
 				<Compiler>
-					<Add option="-O3" />
-					<Add directory="include/Infectorpp" />
+					<Add option="-Os" />
+					<Add directory="include\Infectorpp" />
 				</Compiler>
 				<Linker>
 					<Add option="-s" />
@@ -28,18 +28,15 @@
 			<Add option="-Wall" />
 		</Compiler>
 		<Unit filename="UnitTest.cpp" />
-		<Unit filename="include/Infectorpp/InfectorContainer.hpp" />
-		<Unit filename="include/Infectorpp/InfectorExceptions.hpp" />
-		<Unit filename="include/Infectorpp/InfectorExport.hpp" />
-		<Unit filename="include/Infectorpp/InfectorHelpers.hpp" />
-		<Unit filename="include/Infectorpp/Infector_details.hpp" />
-		<Unit filename="include/Infectorpp/Infector_factory.hpp" />
-		<Unit filename="include/Infectorpp/Infector_multi.hpp" />
-		<Unit filename="include/Infectorpp/Infector_private.hpp" />
-		<Unit filename="include/Infectorpp/Infector_single.hpp" />
-		<Unit filename="include/Infectorpp/factory_of.hpp" />
-		<Unit filename="include/Infectorpp/inject_ptr.hpp" />
-		<Unit filename="include/Infectorpp/mchunk_ptr.hpp" />
+		<Unit filename="include\Infectorpp\InfectorContainer.hpp" />
+		<Unit filename="include\Infectorpp\InfectorExceptions.hpp" />
+		<Unit filename="include\Infectorpp\InfectorExport.hpp" />
+		<Unit filename="include\Infectorpp\InfectorHelpers.hpp" />
+		<Unit filename="include\Infectorpp\Infector_details.hpp" />
+		<Unit filename="include\Infectorpp\Infector_factory.hpp" />
+		<Unit filename="include\Infectorpp\Infector_multi.hpp" />
+		<Unit filename="include\Infectorpp\Infector_private.hpp" />
+		<Unit filename="include\Infectorpp\Infector_single.hpp" />
 		<Extensions>
 			<code_completion />
 			<debugger />

@@ -89,7 +89,7 @@ public:
     template <typename T>
     std::unique_ptr<T> build();
 
-    ~Container();
+    inline ~Container();
 
 private:
 
@@ -140,12 +140,6 @@ private:
 
         operator std::unique_ptr<OBJ>(){
             return std::unique_ptr<OBJ>((ioc->build_delegate<OBJ>()));
-        }
-
-        operator std::inject_ptr<OBJ>(){
-            if(!context->factory) //required safety control.
-                throw ExInjectOutsideFactory();
-            return std::inject_ptr<OBJ>((ioc->emplace_delegate<OBJ>()));
         }
     };
 

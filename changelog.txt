@@ -1,12 +1,33 @@
-1.0.1
+1.0.2-------------------------------------------------------------------
+========================================================================
 NO API CHANGES.
-Fixed a bug caused by a typo. (multiple_inheritance_rollback was affected)
+
+POSSIBLY BREAKING CHANGES:
+Circular dependency is now detected during the call to the "wire" method.
+This may cause a istant exception that you never got before (simply because
+You still have to instantiate objects with circular dependency):
+- "buildX" methods of Infector no longer throw "ExCircularDependency"
+- "wire" may throw also "ExCircularDependency" now
+
+BUG FIXES & Thanks:
+- Fixed bug reported by wtravisjones: Issue 1 is fixed now. (noexcept unsupported on VS)
+- Fixed bug reported by ac-drexler: Issue 2 is fixed now. (inlined Dctor in Container)
+
+OTHER IMPROVEMENTS:
+-minor improvements in internal code.
+-slightly reduced overhead for constructing objects.
+-fully automated test suite and few extra tests (just run UnitTest.cpp)
+
+1.0.1-------------------------------------------------------------------
+========================================================================
+NO API CHANGES.
+
+BUG FIXES:
+-Fixed a bug caused by a typo. (multiple_inheritance_rollback was affected)
 Added few more tests.
+-Fixed another multiple inheritance bug (wrong cast, that required to add
+a bit of code to keep the correct cast. Added test case for that).
 
-Fixed another multiple inheritance bug (wrong cast, that required to add
-a bit of code to keep a correct cast. Added test case for that).
-
-
-1.0.0
-
+1.0.0-------------------------------------------------------------------
+========================================================================
 First release.
