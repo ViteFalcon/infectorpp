@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
 <CodeBlocks_layout_file>
 	<ActiveTarget name="Debug" />
-	<File name="UnitTest.cpp" open="0" top="0" tabpos="2">
-		<Cursor position="2251" topLine="421" />
+	<File name="UnitTest.cpp" open="1" top="1" tabpos="3">
+		<Cursor position="11065" topLine="420" />
 	</File>
-	<File name="include\Infectorpp\InfectorContainer.hpp" open="0" top="0" tabpos="1">
-		<Cursor position="6814" topLine="153" />
+	<File name="include\Infectorpp\InfectorContainer.hpp" open="1" top="0" tabpos="2">
+		<Cursor position="4707" topLine="101" />
 	</File>
-	<File name="include\Infectorpp\InfectorExceptions.hpp" open="0" top="0" tabpos="9">
+	<File name="include\Infectorpp\InfectorExceptions.hpp" open="1" top="0" tabpos="1">
 		<Cursor position="1348" topLine="18" />
 	</File>
 	<File name="include\Infectorpp\InfectorExport.hpp" open="0" top="0" tabpos="8">
@@ -26,7 +26,7 @@
 		<Cursor position="0" topLine="0" />
 	</File>
 	<File name="include\Infectorpp\Infector_private.hpp" open="0" top="0" tabpos="4">
-		<Cursor position="1133" topLine="36" />
+		<Cursor position="1993" topLine="6" />
 	</File>
 	<File name="include\Infectorpp\Infector_single.hpp" open="0" top="0" tabpos="2">
 		<Cursor position="3611" topLine="0" />

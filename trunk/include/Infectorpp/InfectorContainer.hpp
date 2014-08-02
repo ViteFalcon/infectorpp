@@ -23,7 +23,6 @@ THE SOFTWARE.*/
 #include "InfectorExceptions.hpp"
 #include "InfectorExport.hpp"
 #include "InfectorHelpers.hpp"
-#include "inject_ptr.hpp"
 #include <list>
 
 namespace Infector{
@@ -112,7 +111,6 @@ private:
     template <typename T>  void launch_exception();
     template <typename T>  std::shared_ptr<T> buildSingle_delegate();
     template <typename T>  std::unique_ptr<T> build_delegate();
-    template <typename T>  std::inject_ptr<T> emplace_delegate();
 
     template<typename Dummy>
     bool tryToGetSize( RecursionLimit *, int *);
