@@ -127,4 +127,5 @@ int main(){
 Composition Root is a common and great concept behind IoC Containers, usually there will be only 1 composition root in most applications. You are of course not limited to only 1. Interaction between multiple containers will be provided in a future release.
 
 == Reduce Compile Time and Teamwork ==
-To reduce compile time you can now split binding and wiring across multiple methods/functions in different compile units (different *.cpp files). Splitting things makes code a little less "centric" (you have to navigate across multiple files instead of only 1 to find bindings), but may be worth to put part of the team working only on certain aspects of the project without touchin the rest.
+To reduce compile time you can now split binding and wiring across multiple methods/functions in different compile units (different .cpp files). 
+Splitting things makes code a little less "centric" (you have to navigate across multiple files instead of only 1 to find bindings), but may be worth to put part of the team working only on certain aspects of the project without touchin the rest.
