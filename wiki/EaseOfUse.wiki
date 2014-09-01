@@ -9,6 +9,8 @@ Shared Pointers are nice, but if heavily used/misused can cause more troubles (e
 || Concrete binding || bindSingleAsNothing || bindAsNothing ||
 || Interface binding || bindSingleAs || bindAs ||
 || Owners || many || one ||
+|| Created by || buildSingle< T> || build< T> ||
+|| Behaviour || create once and re-use same instance during container lifetime || create new instance each time is called ||
 
 ==Interface Binding==
 Registering classes to be istantiated is done by calling "bind...", this is part of a 2-steps process necessary to do interface binding.
@@ -95,6 +97,28 @@ ioc.wire<AnotherClass>(); //by not providing further parameters we are telling t
                           //(If there is no default constructor you will get compile-time error.)
 }}}
 
+== Building ==
+
+With Infector you can basically create 2 type of objects, *Shared Objects* and *Unique Objects*.
+
+*Shared Objects* are services and managers that are created only once and used in multiple places of the code. Instead of using Singletons or Service Locators, Infector inject them using std::shared_ptr. This is good for several reasons:
+
+  # Advantages over Singletons: You can mock instances by providing a different implementation (provided you use them through interfaces). You can test easily your code, and creation of objects is not dependent on objects themselves.
+  # Advantages over Service Locators: Client code can't accidentally use services that are not injected. You will NOT get strange bugs because of unexpected dependencies, every dependency that you use goes through wiring of constructors.
+
+{{{
+//return the shared instance to Audio Manager or create it
+auto manager = ioc.buildSingle<IAudioManager>(); //shared_ptr
+}}}
+
+*Unique Objects* are objects that need to be instantiated many times during application lifetime. Infectorpp acts like a basic factory: it provides needed wiring of dependencies also to unique objects allowing faster iteration over your code. I'm considering adding in a future release the explicit injection of "basicFactoryOf< T>" (wich would basically be a wrap around "build< T>".
+
+
+{{{
+//create a new car
+auto mycar = ioc.buildSingle<ICar>();  //unique_ptr
+}}}
+
 == Proper way to do things ==
  
 Keep "Binding" "Wiring" and "Building" separed (you cannot wire something that is not bound, and you cannot build something that is not wired)
@@ -117,15 +141,15 @@ int main(){
     Infector::Container ioc;
     compositionRoot(ioc);
     //BUILDING
-    auto app=ioc.build<IApplication>(); //creates MainLoop, it has some factories
+    auto app=ioc.buildSingle<IApplication>(); //creates MainLoop, it has some factories
     app->run(); //run the application (can creates objects thanks to factories).
 
     return 0;
 }
 }}}
 
-Composition Root is a common and great concept behind IoC Containers, usually there will be only 1 composition root in most applications. You are of course not limited to only 1. Interaction between multiple containers will be provided in a future release.
+Composition Root is a common and great concept behind IoC Containers, usually there will be only 1 composition root in most applications. You are of course not limited to only 1. Interaction between multiple containers will be provided in a future release. (I saw it designed in many ways in other languages and still searching for best way to design it in C++)
 
-== Reduce Compile Time and Teamwork ==
+== Split work, and reduce compile time==
 To reduce compile time you can now split binding and wiring across multiple methods/functions in different compile units (different .cpp files). 
-Splitting things makes code a little less "centric" (you have to navigate across multiple files instead of only 1 to find bindings), but may be worth to put part of the team working only on certain aspects of the project without touchin the rest.
+Splitting things makes code a little less "centric" (you have to navigate across multiple files instead of only 1 to find bindings), but may be worth to put part of the team working only on certain aspects of the project without touchin the rest (especially considering that they will access needed functionalities through interfaces so they should not bother with implementation)
