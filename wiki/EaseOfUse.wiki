@@ -116,7 +116,7 @@ auto manager = ioc.buildSingle<IAudioManager>(); //shared_ptr
 
 {{{
 //create a new car
-auto mycar = ioc.buildSingle<ICar>();  //unique_ptr
+auto mycar = ioc.build<ICar>();  //unique_ptr
 }}}
 
 == Proper way to do things ==
