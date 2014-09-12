@@ -31,92 +31,82 @@ THE SOFTWARE.*/
 namespace Infector{
 
     class ExRecursionLimit: public std::exception{
-        char message[69] =
-        "Reached recursion limit. Probable cause: circular dependency";
     public:
         virtual const char* what() const NOEXCEPT{
-            return message;
+            return
+        "Reached recursion limit. Probable cause: circular dependency";
         }
     };
 
     class ExBuildWhat: public std::exception{
-        char message[69] =
-        "Cannot build not 'bind'ed types.";
     public:
         virtual const char* what() const NOEXCEPT{
-            return message;
+            return
+        "Cannot build not 'bind'ed types.";
         }
     };
 
     class ExWireAgain: public std::exception{
-        char message[69] =
-        "Only 1 constructor allowed for each concrete type. Wiring again?";
     public:
         virtual const char* what() const NOEXCEPT{
-            return message;
+            return
+        "Only 1 constructor allowed for each concrete type. Wiring again?";
         }
     };
 
     class ExNotWired: public std::exception{
-        char message[69] =
-        "Cannot build a type if it is not wired";
     public:
         virtual const char* what() const NOEXCEPT{
-            return message;
+            return
+        "Cannot build a type if it is not wired";
         }
     };
 
     class ExSingleMulti: public std::exception{
-        char message[69] =
-        "shared_ptr<T> cannot be used in place of unique_ptr<T> and viceversa";
     public:
         virtual const char* what() const NOEXCEPT{
-            return message;
+            return
+        "shared_ptr<T> cannot be used in place of unique_ptr<T> and viceversa";
         }
     };
 
     class ExMissingType: public std::exception{
-        char message[69] =
-        "Requested type is missing, you have to 'bind' it first";
     public:
         virtual const char* what() const NOEXCEPT{
-            return message;
+            return
+        "Requested type is missing, you have to 'bind' it first";
         }
     };
 
     class ExAnySharedNullPtr: public std::exception{
-        char message[69] =
-        "AnyShared<...> returned a null pointer";
     public:
         virtual const char* what() const NOEXCEPT{
-            return message;
+            return
+        "AnyShared<...> returned a null pointer";
         }
     };
 
     class ExExistingType: public std::exception{
-        char message[69] =
-        "This type was already 'bind'ed.";
     public:
         virtual const char* what() const NOEXCEPT{
-            return message;
+            return
+        "This type was already 'bind'ed.";
         }
     };
 
     class ExExistingInterface: public std::exception{
-        char message[69] =
-        "Cannot associate 2 concrete types to the same interface.";
     public:
         virtual const char* what() const NOEXCEPT{
-            return message;
+            return
+        "Cannot associate 2 concrete types to the same interface.";
         }
     };
 
     class ExInternalError: public std::exception{
-        char message[69] =
-        "Infector critical error.";
     public:
         virtual const char* what() const NOEXCEPT{
-            return message;
+            return
+        "Infector critical error.";
         }
     };
 

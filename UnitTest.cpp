@@ -417,6 +417,36 @@ void MultiBaseFailure(){
      std::cout<<"\nend of test 5\n"<<std::endl;
 }
 
+/// ////////////////////////////////////////////////
+///                  TEST
+///                    6
+/// ////////////////////////////////////////////////
+
+
+void InstantiateConcreteMustFail(){
+    std::cout<<"CONCRETE INSTANTIATE\n"<<std::endl;
+    Infector::Container ioc;
+
+    ioc.bindAs<ComfortableBed,  IBed>();
+
+    ioc.wire<ComfortableBed>();
+
+    auto bed = ioc.build<IBed>();
+    bool testPass = false;
+    try{
+        ioc.build<ComfortableBed>();
+    }
+    catch(std::exception &ex){
+        std::cout<<"ex 1"<<std::endl;
+        std::cout<<ex.what()<<std::endl;
+        testPass=true;
+    }
+
+    assert("test 6 failed" && testPass == true);
+
+    std::cout<<"\nend of test 6\n"<<std::endl;
+}
+
 int main(){
 
     /** Unique pointers does not take additional memory. */
@@ -439,6 +469,8 @@ int main(){
     /** Multiple inheritance test failure.*/
     MultiBaseFailure();
 
+    /** Can instantiate only bound types. Verify that.*/
+    InstantiateConcreteMustFail();
 
     return 0;
 }
