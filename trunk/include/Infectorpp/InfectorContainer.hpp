@@ -117,7 +117,9 @@ private:
     template<typename Actual, typename Next, typename...Others>
     bool tryToGetSize( RecursionLimit *, int *);
 
+    template<typename Dummy=DummyClass> // fix for bug reported by Michael Bischof
     void setKnownSizeForType( std::type_index t, bool known, int size);
+    template<typename Dummy=DummyClass> // fix for bug reported by Michael Bischof
     void processRecursionWeb();
 
     template <typename OBJ> friend class UniqueOrShared;

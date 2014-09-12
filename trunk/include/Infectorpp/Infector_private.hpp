@@ -59,12 +59,14 @@ namespace Infector{
         return result;
     }
 
+    template <typename Dummy>
     void Container::setKnownSizeForType( std::type_index t, bool known, int size){
         if(known){
             typeInfoMap[t] = size; //only if outer returned true => biggest minimum size!
         }
     }
 
+    template <typename Dummy>
     void Container::processRecursionWeb(){
         bool changes = true;
         while( changes){

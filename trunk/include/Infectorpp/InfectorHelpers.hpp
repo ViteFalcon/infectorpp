@@ -40,6 +40,19 @@ namespace Infector{
     struct recursiveTest<TEST, Others...> : std::integral_constant<
         bool, TEST::value && recursiveTest<Others...>::value> { };
 
+    /** Seems that recursiveTest is broken on VS 2013, I try using constexpr
+        and see if that works (oh! it also reduces executable size XD)
+        . This is to fix bug reported by Michael Bischof*/
+    template<typename test>
+    constexpr bool trait_test(){
+        return test::value;
+    }
+
+    template<typename T0, typename T1, typename... Others>
+    constexpr bool trait_test(){
+      return T0::value&&trait_test<T1, Others...>();
+    }
+
     /** Type test, there are few type traits that are checked, you can add
     *   more tests if you need to do so. */
     template <typename T, typename... Contracts>
@@ -56,10 +69,11 @@ namespace Infector{
         static_assert(  sizeof...(Contracts)>0 //if no contracts don't use "As"
                       , " There must be at least 1 interface ");
 
-        static_assert(  recursiveTest<std::is_abstract<Contracts>...>()
+
+        static_assert(  trait_test<std::is_abstract<Contracts>...>() //VS 2013 workaround?
                       , " Contracts have to be abstract");
 
-        static_assert(  recursiveTest<std::is_base_of<Contracts,T>...>()
+        static_assert(  trait_test<std::is_base_of<Contracts,T>...>() //VS 2013 workaround?
                       , " Contracts must be base classes for T");
 
         static_assert(  std::is_destructible<T>::value
