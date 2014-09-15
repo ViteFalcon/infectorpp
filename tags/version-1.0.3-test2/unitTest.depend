@@ -1,0 +1,43 @@
+# depslib dependency file v1.0
+1410295594 source:d:\svn\infectorpp\unittest.cpp
+	<InfectorContainer.hpp>
+	<memory>
+	<iostream>
+	<cassert>
+
+1410790944 d:\svn\infectorpp\include\infectorpp\infectorcontainer.hpp
+	"InfectorExceptions.hpp"
+	"InfectorExport.hpp"
+	"InfectorHelpers.hpp"
+	<list>
+	"Infector_details.hpp"
+	"Infector_private.hpp"
+	"Infector_multi.hpp"
+	"Infector_single.hpp"
+
+1410520746 d:\svn\infectorpp\include\infectorpp\infectorexceptions.hpp
+	<stdexcept>
+
+1410521773 d:\svn\infectorpp\include\infectorpp\infectorhelpers.hpp
+	<type_traits>
+	<typeindex>
+	<unordered_map>
+	<memory>
+	"InfectorExceptions.hpp"
+
+1376480303 d:\svn\infectorpp\include\infectorpp\infector_details.hpp
+
+1410520905 d:\svn\infectorpp\include\infectorpp\infector_private.hpp
+
+1410791013 d:\svn\infectorpp\include\infectorpp\infector_multi.hpp
+
+1410791013 d:\svn\infectorpp\include\infectorpp\infector_single.hpp
+
+1373380131 d:\svn\infectorpp\include\infectorpp\infectorexport.hpp
+
+1376557241 d:\svn\infectorpp\include\infectorpp\inject_ptr.hpp
+	<memory>
+
+1388360914 d:\svn\infectorpp\include\infectorpp\alignedallocator.hpp
+	<malloc.h>
+
