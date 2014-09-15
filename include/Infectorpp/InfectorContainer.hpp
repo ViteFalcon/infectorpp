@@ -135,11 +135,11 @@ private:
         ,context(c){}
 
         operator std::shared_ptr<OBJ>(){
-            return std::shared_ptr<OBJ>(ioc->buildSingle_delegate<OBJ>());
+            return std::move(std::shared_ptr<OBJ>(std::move(ioc->buildSingle_delegate<OBJ>())));
         }
 
         operator std::unique_ptr<OBJ>(){
-            return std::unique_ptr<OBJ>((ioc->build_delegate<OBJ>()));
+            return std::move(std::unique_ptr<OBJ>(std::move(ioc->build_delegate<OBJ>())));
         }
     };
 
