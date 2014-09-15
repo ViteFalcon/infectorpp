@@ -106,14 +106,14 @@ namespace Infector{
         if(myPointer == nullptr)
                 launch_exception<ExAnySharedNullPtr>();
 
-        return std::shared_ptr<T> (
+        return std::move(std::shared_ptr<T> (
                                 any->getReferenceCounter(),
-                                myPointer );
+                                myPointer ));
     }
 
     template <typename T>
     std::shared_ptr<T> Container::buildSingle(){
-        return buildSingle_delegate<T>();
+        return std::move(buildSingle_delegate<T>());
     }
 
 } // namespace Infector
