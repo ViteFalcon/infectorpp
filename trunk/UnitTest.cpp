@@ -30,6 +30,8 @@ THE SOFTWARE.*/
 #include <iostream>
 #include <cassert>
 
+#ifndef INFECTOR_VS_DISABLE //TESTS 1,2,3-B,6 are disabled on VS
+
 /// ////////////////////////////////////////////////
 ///                  TEST
 ///                    1
@@ -42,7 +44,7 @@ struct BadClass{
         CtorTotCounter++;
         CtorBadCounter++;
         //std::cout<<"Bad Ctor"<<std::endl; //DISPLAY CONSTRUCTOR CALL
-        throw 1;}
+        throw std::exception();}
 };
 typedef std::unique_ptr<BadClass> bad_ptr;
 
@@ -81,30 +83,32 @@ void LeakTest(){
     CtorGoodCounter = 0;
     CtorBadCounter = 0;
     GoodClass::counter = 0;
-    Infector::Container ioc;
-    ioc.bindAsNothing<BadClass>();
-    ioc.bindAsNothing<GoodClass>();
-    ioc.bindAsNothing<GB>();
-    ioc.bindAsNothing<BG>();
-    ioc.wire<BadClass>();
-    ioc.wire<GoodClass>();
-    // C++ make no assumption about evaluation order of parameters
-    // so I must test both orders.. and there's no guarantee that
-    // evaluation order will be the same between 2 calls, so manual
-    // attention must be paid here.
-    ioc.wire<BG       ,BadClass,GoodClass>();
-    ioc.wire<GB       ,GoodClass,BadClass>();
-    //std::cout<<"\n3 CONSTRUCTORS CALLS MUST BE DISPLAYED:\n"<<std::endl;
-    try{
-    auto a = ioc.build<BG>();
-    }catch(int a){
+    {
+        Infector::Container ioc;
+        ioc.bindAsNothing<BadClass>();
+        ioc.bindAsNothing<GoodClass>();
+        ioc.bindAsNothing<GB>();
+        ioc.bindAsNothing<BG>();
+        ioc.wire<BadClass>();
+        ioc.wire<GoodClass>();
+        // C++ make no assumption about evaluation order of parameters
+        // so I must test both orders.. and there's no guarantee that
+        // evaluation order will be the same between 2 calls, so manual
+        // attention must be paid here.
+        ioc.wire<BG       ,BadClass,GoodClass>();
+        ioc.wire<GB       ,GoodClass,BadClass>();
+        //std::cout<<"\n3 CONSTRUCTORS CALLS MUST BE DISPLAYED:\n"<<std::endl;
+        try{
+        auto a = ioc.build<BG>();
+        }catch(std::exception ex){
 
-    }
-    //std::cout<<"2nd call"<<std::endl;
-    try{
-    auto b = ioc.build<GB>();
-    }catch(int a){
+        }
+        //std::cout<<"2nd call"<<std::endl;
+        try{
+        auto b = ioc.build<GB>();
+        }catch(std::exception ex){
 
+        }
     }
     assert("failed test 1" && GoodClass::counter == 0); // TEST MEMORY LEAK
     assert("failed test 1" && CtorTotCounter == 3);
@@ -264,7 +268,7 @@ void CircularTest(){
 
     std::cout<<"\nend of test 3\n"<<std::endl;
 }
-
+#endif
 /// ////////////////////////////////////////////////
 ///                  TEST
 ///                    4
@@ -417,6 +421,7 @@ void MultiBaseFailure(){
      std::cout<<"\nend of test 5\n"<<std::endl;
 }
 
+#ifndef INFECTOR_VS_DISABLE
 /// ////////////////////////////////////////////////
 ///                  TEST
 ///                    6
@@ -446,6 +451,223 @@ void InstantiateConcreteMustFail(){
 
     std::cout<<"\nend of test 6\n"<<std::endl;
 }
+#endif
+
+
+/// ////////////////////////////////////////////////
+///                  TEST
+///                    7
+/// ////////////////////////////////////////////////
+int CtorTotCounterVS = 0;
+int CtorGoodCounterVS = 0;
+int CtorBadCounterVS = 0;
+struct BadClassVS{
+    BadClassVS(){
+        CtorTotCounterVS++;
+        CtorBadCounterVS++;
+        //std::cout<<"Bad Ctor"<<std::endl; //DISPLAY CONSTRUCTOR CALL
+        throw std::exception();}
+};
+typedef std::shared_ptr<BadClassVS> badVS_ptr;
+
+struct GoodClassVS{
+    static int counter;
+    GoodClassVS(){
+        CtorTotCounterVS++;
+        CtorGoodCounterVS++;
+        //std::cout<<"Good Ctor"<<std::endl; // DISPLAY CONSTRUCTOR CALL
+        counter++;}
+    ~GoodClassVS(){counter--;}
+};
+int GoodClassVS::counter = 0;
+
+typedef std::shared_ptr<GoodClassVS> goodVS_ptr;
+
+struct GBVS{
+    badVS_ptr  bc;
+    goodVS_ptr gc;
+
+    GBVS(goodVS_ptr good, badVS_ptr bad):
+        bc((bad)),gc((good)){}
+};
+
+
+struct BGVS{
+    badVS_ptr  bc;
+    goodVS_ptr gc;
+
+    BGVS(badVS_ptr bad, goodVS_ptr good):
+        bc((bad)),gc((good)){ }
+};
+
+void LeakTest2(){
+    CtorTotCounterVS = 0;
+    CtorGoodCounterVS = 0;
+    CtorBadCounterVS = 0;
+    GoodClassVS::counter = 0;
+    {
+        Infector::Container ioc;
+        ioc.bindSingleAsNothing<BadClassVS>();
+        ioc.bindSingleAsNothing<GoodClassVS>();
+        ioc.bindSingleAsNothing<GBVS>();
+        ioc.bindSingleAsNothing<BGVS>();
+        ioc.wire<BadClassVS>();
+        ioc.wire<GoodClassVS>();
+        // C++ make no assumption about evaluation order of parameters
+        // so I must test both orders.. and there's no guarantee that
+        // evaluation order will be the same between 2 calls, so manual
+        // attention must be paid here.
+        ioc.wire<BGVS       ,BadClassVS,GoodClassVS>();
+        ioc.wire<GBVS       ,GoodClassVS,BadClassVS>();
+        //std::cout<<"\n3 CONSTRUCTORS CALLS MUST BE DISPLAYED:\n"<<std::endl;
+        try{
+        auto a = ioc.buildSingle<BGVS>();
+        }catch(std::exception &ex){
+            std::cout<<"ex 1"<<std::endl;
+            std::cout<<ex.what()<<std::endl;
+        }
+        //std::cout<<"2nd call"<<std::endl;
+        try{
+        auto b = ioc.buildSingle<GBVS>();
+        }catch(std::exception &ex){
+            std::cout<<"ex 2"<<std::endl;
+            std::cout<<ex.what()<<std::endl;
+        }
+    }
+    assert("failed test 7" && GoodClassVS::counter == 0); // TEST MEMORY LEAK
+    assert("failed test 7" && CtorTotCounterVS == 3);
+    assert("failed test 7" && CtorBadCounterVS > 0 && CtorGoodCounterVS > 0 );
+    GoodClassVS::counter = 0;
+    CtorTotCounterVS = 0;
+    CtorBadCounterVS = 0;
+    CtorGoodCounterVS = 0;
+    std::cout<<"\nend of test 7\n"<<std::endl;
+}
+
+
+/// ////////////////////////////////////////////////
+///                  TEST
+///                    8
+/// ////////////////////////////////////////////////
+
+int CCallBedVS = 0;
+int CCallRoomVS = 0;
+
+class IBedVS{
+public:
+    virtual void sleep() = 0;
+    virtual ~IBedVS(){}
+};
+
+class IRoomVS{
+public:
+    virtual void interact() = 0;
+    virtual ~IRoomVS(){}
+};
+
+class ComfortableBedVS: public virtual IBedVS{
+public:
+    ComfortableBedVS(){}
+    virtual ~ComfortableBedVS(){}
+
+    virtual void sleep(){
+        CCallBedVS++;
+        std::cout<<"yumm so comfortable!"<<std::endl;
+    }
+};
+
+class BedRoomVS:public virtual IRoomVS{
+
+    std::shared_ptr<IBedVS> myBed;
+
+public:
+    BedRoomVS(std::shared_ptr<IBedVS> b):myBed(std::move(b)){
+    }
+    virtual ~BedRoomVS(){}
+
+    virtual void interact(){
+        CCallRoomVS++;
+        std::cout<<"interacting with room:"<<std::endl;
+        myBed->sleep();
+    }
+};
+
+void BedTest2(){
+    std::cout<<"ROOM AND COMFORTABLE BED 2\n"<<std::endl;
+    Infector::Container ioc;
+
+    ioc.bindSingleAs<ComfortableBedVS,  IBedVS>();
+    ioc.bindSingleAs<BedRoomVS,         IRoomVS>();
+
+    ioc.wire<ComfortableBedVS>();
+    ioc.wire<BedRoomVS,           IBedVS>();
+
+    auto room = ioc.buildSingle<IRoomVS>();
+    room->interact();
+
+    assert("test 8 failed" && CCallBedVS==1);
+    assert("test 8 failed" && CCallRoomVS==1);
+
+    std::cout<<"\nend of test 8\n"<<std::endl;
+}
+
+
+/// ////////////////////////////////////////////////
+///                  TEST
+///                   9
+/// ////////////////////////////////////////////////
+
+struct BooomVS;
+struct KaaaVS{
+public:
+    KaaaVS(std::shared_ptr<BooomVS> b){ (void) b;}
+};
+
+
+struct BooomVS{
+public:
+    BooomVS(std::shared_ptr<KaaaVS> k){ (void) k;}
+};
+
+void CircularTest2(){
+    std::cout<<"CIRCULAR DEPENDENCY TEST\n"<<std::endl;
+    Infector::Container ioc;
+    ioc.bindSingleAsNothing<KaaaVS>();
+    ioc.bindSingleAsNothing<BooomVS>();
+
+    bool ex1=false;
+    bool ex2=false;
+
+    try{
+        ioc.wire<KaaaVS,BooomVS>();
+        ioc.wire<BooomVS,KaaaVS>();
+    }catch(std::exception &ex){
+        ex1 = true;
+        std::cout<<"ex1"<<std::endl;
+        std::cout<<ex.what()<<std::endl;
+    }
+
+    try{
+        auto kaboom = ioc.buildSingle<KaaaVS>();
+    }
+    catch(std::exception &ex){
+        ex2 = true;
+        std::cout<<"ex2"<<std::endl;
+        std::cout<<ex.what()<<std::endl;
+    }
+
+    assert("test 9 failed" && ex1);
+    assert("test 9 failed" && ex2);
+
+    std::cout<<"\nend of test 9\n"<<std::endl;
+}
+
+
+
+/// ////////////////////////////////////////////////
+///                   MAIN
+///
+/// ////////////////////////////////////////////////
 
 int main(){
 
@@ -456,6 +678,7 @@ int main(){
     /** Test to prove that Infector does not cause memory leaks due to
     *   unkown evaluation order of constructors' parameters when construcors
     *   throws exceptions. This is a big advantage.*/
+#ifndef INFECTOR_VS_DISABLE  //disabled on visual studio due to a compiler bug
     LeakTest();
     /** Basic usage test, no shared objects. Creates a small object graph
     *   with unique ownership semantics.*/
@@ -463,14 +686,25 @@ int main(){
     /** This test assure that exception is thrown in case there's a circular
     *   dependency. */
     CircularTest();
+#endif
     /** Basic usage test this time shared objects are used and multiple
     *   inheritance is tested.*/
     SharedTest();
     /** Multiple inheritance test failure.*/
     MultiBaseFailure();
-
+#ifndef INFECTOR_VS_DISABLE  //disabled on visual studio due to a compiler bug
     /** Can instantiate only bound types. Verify that.*/
     InstantiateConcreteMustFail();
+#endif
+
+    /**Same as Leak test1, but use shared_ptr instead of unique_ptr*/
+    LeakTest2();
+
+    /**Same as BedTest, but use shared_ptr instead of unique_ptr*/
+    BedTest2();
+
+    /**Same as Circular test, but use shared_ptr instead of unique_ptr*/
+    CircularTest2();
 
     return 0;
 }

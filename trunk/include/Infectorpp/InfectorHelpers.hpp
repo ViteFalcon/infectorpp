@@ -141,6 +141,9 @@ namespace Infector{
             }catch(std::exception & ex){
                 multi_solver.clear();
                 throw ex;
+            }catch(...){
+                multi_solver.clear();
+                throw ExUnkownException();
             }
         }
         virtual void* getPtr(std::type_index idx) override {

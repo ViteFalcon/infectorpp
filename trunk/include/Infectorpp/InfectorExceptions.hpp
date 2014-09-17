@@ -30,6 +30,16 @@ THE SOFTWARE.*/
 
 namespace Infector{
 
+    class ExUnkownException: public std::exception{
+    public:
+        virtual const char* what() const NOEXCEPT{
+            return
+        "User code throwed an exception not inheriting from std::exception";
+        }
+    };
+
+
+
     class ExRecursionLimit: public std::exception{
     public:
         virtual const char* what() const NOEXCEPT{

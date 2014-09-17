@@ -19,6 +19,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE. */
 
 #pragma once
+#include <iostream>
 
 namespace Infector{
 
@@ -40,6 +41,10 @@ namespace Infector{
             auto it2 = typeMap.find( std::type_index(typeid(T)) );
             typeMap.erase(it2);
             throw ex;
+        }catch(...){
+            auto it2 = typeMap.find( std::type_index(typeid(T)) );
+            typeMap.erase(it2);
+            launch_exception<ExUnkownException>();
         }
     }
 
@@ -54,7 +59,12 @@ namespace Infector{
         }catch(std::exception & ex){
             rollback_multiple_inheritance<T,Contracts...>(); //revert changes
             throw ex;
+        }catch(...){
+            rollback_multiple_inheritance<T,Contracts...>(); //revert changes
+            launch_exception<ExUnkownException>();
         }
+
+
         if(!success) //no changes.
             launch_exception<ExExistingInterface>();
 
@@ -66,6 +76,9 @@ namespace Infector{
         }catch(std::exception & ex){
             rollback_multiple_inheritance<T,Contracts...>(); //revert changes
             throw ex;
+        }catch(...){
+            rollback_multiple_inheritance<T,Contracts...>(); //revert changes
+            launch_exception<ExUnkownException>();
         }
     }
 
@@ -100,6 +113,8 @@ namespace Infector{
 
             }catch(std::exception & ex){
                 throw ex;
+            }catch(...){
+                launch_exception<ExUnkownException>();
             }
         }
 
