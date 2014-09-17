@@ -5,7 +5,7 @@ Fixed compilation on Visual Studio 2013 Update 4 CTP. (read following note)
 
 Note due to a bug that can't be workarounded without heavy API changes,
 VisualStudio users will have reduced functionality (they will not able
-to inject 2std::unique_ptr"). There are already several tickets for
+to inject "std::unique_ptr"). There are already several tickets for
 a similiar bug, so hopefully VS will fix that with next VS update
 (Else I'll consider rewriting the whole framework from scratch)
 
