@@ -1,10 +1,10 @@
-**Version 1.0.3 released! ([changelog.txt](https://raw.githubusercontent.com/ViteFalcon/infectorpp/72456982609a117fce2f128e52c49fdc8e0c1011/changelog.txt))** checkout new bugfixes and improvements!
+![http://i.imgur.com/kFfswdg.png](http://i.imgur.com/kFfswdg.png)
 
 Infector++ is a lightweight IoC Container for doing dependency injection, it was designed to be **easy to use and hard to misuse**.
 
 **Note for VisualStudio users**: due to a VisualStudio bug, "std::unique\_ptr" can't be used properly with Infectorpp. I hope they fix that soon, in the meanwhile, VS users could still inject quietly "std::shared\_ptr".
 
-Thanks!:)
+Thanks! :)
 
 # Features: #
   * **Exception safety** ([STRONG GUARANTEE](http://en.wikipedia.org/wiki/Exception_safety))
@@ -19,8 +19,8 @@ Thanks!:)
   * No macro obscure magic
   * No string processing
 
-![http://i.imgur.com/kFfswdg.png](http://i.imgur.com/kFfswdg.png)
-
+# Releases #
+**Version 1.0.3 released! ([changelog.txt](https://raw.githubusercontent.com/ViteFalcon/infectorpp/72456982609a117fce2f128e52c49fdc8e0c1011/changelog.txt))** checkout new bugfixes and improvements!
 
 # Basic Tutorial #
 
