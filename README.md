@@ -72,8 +72,8 @@ The instantiated room is a **BedRoom**, it has a _IBed_ (the Comfortable one). T
 ```
 and no call to "std::move" is necessary because move constructor in this particular case is automatically called.
 
-# Advanced Tutorial #
-[FurtherReadings](https://github.com/ViteFalcon/infectorpp/blob/wiki/EaseOfUse.md)
+# Tutorial #
+[Usage](docs/Usage.md)
 
 # Many thanks to #
   * The creator of this lightweight [IoC container for Unity](https://github.com/sebas77/Lightweight-IoC-Container-for-Unity3D), in particular his articles about the topic are very usefull:
