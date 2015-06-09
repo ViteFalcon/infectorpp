@@ -21,7 +21,7 @@ THE SOFTWARE.*/
 #pragma once
 
 #ifdef _MSC_VER  //certain functionalities are disabled on Visual Studio
-#define INFECTOR_VS_DISABLE
+#   define INFECTOR_VS_DISABLE
 #endif
 
 #include <functional>

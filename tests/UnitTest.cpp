@@ -30,6 +30,8 @@ THE SOFTWARE.*/
 #include <iostream>
 #include <cassert>
 
+#include <gtest/gtest.h>
+
 #ifndef INFECTOR_VS_DISABLE //TESTS 1,2,3-B,6 are disabled on VS
 
 /// ////////////////////////////////////////////////
@@ -78,7 +80,7 @@ struct BG{
         bc(std::move(bad)),gc(std::move(good)){ }
 };
 
-void LeakTest(){
+TEST(LeakTest, Test1){
     CtorTotCounter = 0;
     CtorGoodCounter = 0;
     CtorBadCounter = 0;
@@ -110,14 +112,13 @@ void LeakTest(){
 
         }
     }
-    assert("failed test 1" && GoodClass::counter == 0); // TEST MEMORY LEAK
-    assert("failed test 1" && CtorTotCounter == 3);
-    assert("failed test 1" && CtorBadCounter > 0 && CtorGoodCounter > 0 );
+    EXPECT_EQ(0, GoodClass::counter); // TEST MEMORY LEAK
+    EXPECT_EQ(3, CtorTotCounter);
+    EXPECT_TRUE(CtorBadCounter > 0 && CtorGoodCounter > 0);
     GoodClass::counter = 0;
     CtorTotCounter = 0;
     CtorBadCounter = 0;
     CtorGoodCounter = 0;
-    std::cout<<"\nend of test 1\n"<<std::endl;
 }
 
 /// ////////////////////////////////////////////////
@@ -168,8 +169,7 @@ public:
 };
 
 
-void BedTest(){
-    std::cout<<"ROOM AND COMFORTABLE BED\n"<<std::endl;
+TEST(RoomAndComfortableBed, Test2){
     Infector::Container ioc;
 
     ioc.bindAs<ComfortableBed,  IBed>();
@@ -181,10 +181,8 @@ void BedTest(){
     auto room = ioc.build<IRoom>();
     room->interact();
 
-    assert("test 2 failed" && CCallBed==1);
-    assert("test 2 failed" && CCallRoom==1);
-
-    std::cout<<"\nend of test 2\n"<<std::endl;
+    EXPECT_EQ(1, CCallBed);
+    EXPECT_EQ(1, CCallRoom);
 }
 
 /// ////////////////////////////////////////////////
@@ -238,7 +236,7 @@ public:
     Booom(std::unique_ptr<Kaaa> k){ (void) k;}
 };
 
-void CircularTest(){
+TEST(CircularTest, Test3_B){
     std::cout<<"CIRCULAR DEPENDENCY TEST\n"<<std::endl;
     Infector::Container ioc;
     ioc.bindAsNothing<Kaaa>();
@@ -263,8 +261,8 @@ void CircularTest(){
         std::cout<<ex.what()<<std::endl;
     }
 
-    assert("test 3b failed" && ex1);
-    assert("test 3b failed" && ex2);
+    EXPECT_TRUE(ex1);
+    EXPECT_TRUE(ex2);
 
     std::cout<<"\nend of test 3\n"<<std::endl;
 }
@@ -316,8 +314,7 @@ public:
     }
 };
 
-void SharedTest(){
-    std::cout<<"SHARED OBJECTS TEST\n"<<std::endl;
+TEST(SharedObjectsTest, Test4){
     Infector::Container ioc;
     ioc.bindSingleAs<CFooBar, IFoo, IBar>();
     ioc.bindSingleAsNothing<FooBarUser>();
@@ -332,8 +329,6 @@ void SharedTest(){
     catch(std::exception &ex){
         std::cout<<ex.what()<<std::endl;
     }
-
-     std::cout<<"\nend of test 4\n"<<std::endl;
 }
 
 /// ////////////////////////////////////////////////
@@ -380,8 +375,7 @@ public:
     virtual void doC()override{ std::cout<<"C (BC)"<<std::endl;}
 };
 
-void MultiBaseFailure(){
-    std::cout<<"MULTIPLE INHERITANCE FAILURE TEST\n"<<std::endl;
+TEST(MultipleInheritanceFailure, Test5){
     Infector::Container ioc;
     ioc.bindSingleAs<concreteA, IA>();
 
@@ -417,8 +411,6 @@ void MultiBaseFailure(){
         std::cout<<"ex 3"<<std::endl;
         std::cout<<ex.what()<<std::endl;
     }
-
-     std::cout<<"\nend of test 5\n"<<std::endl;
 }
 
 #ifndef INFECTOR_VS_DISABLE
@@ -428,8 +420,7 @@ void MultiBaseFailure(){
 /// ////////////////////////////////////////////////
 
 
-void InstantiateConcreteMustFail(){
-    std::cout<<"CONCRETE INSTANTIATE\n"<<std::endl;
+TEST(InstantiateConcreteMustFail, Test6){
     Infector::Container ioc;
 
     ioc.bindAs<ComfortableBed,  IBed>();
@@ -447,9 +438,7 @@ void InstantiateConcreteMustFail(){
         testPass=true;
     }
 
-    assert("test 6 failed" && testPass == true);
-
-    std::cout<<"\nend of test 6\n"<<std::endl;
+    EXPECT_TRUE(testPass);
 }
 #endif
 
@@ -500,7 +489,7 @@ struct BGVS{
         bc((bad)),gc((good)){ }
 };
 
-void LeakTest2(){
+TEST(LeakTest2, Test7){
     CtorTotCounterVS = 0;
     CtorGoodCounterVS = 0;
     CtorBadCounterVS = 0;
@@ -534,14 +523,13 @@ void LeakTest2(){
             std::cout<<ex.what()<<std::endl;
         }
     }
-    assert("failed test 7" && GoodClassVS::counter == 0); // TEST MEMORY LEAK
-    assert("failed test 7" && CtorTotCounterVS == 3);
-    assert("failed test 7" && CtorBadCounterVS > 0 && CtorGoodCounterVS > 0 );
+    EXPECT_EQ(0, GoodClassVS::counter); // TEST MEMORY LEAK
+    EXPECT_EQ(3, CtorTotCounterVS);
+    EXPECT_TRUE(CtorBadCounterVS > 0 && CtorGoodCounterVS > 0 );
     GoodClassVS::counter = 0;
     CtorTotCounterVS = 0;
     CtorBadCounterVS = 0;
     CtorGoodCounterVS = 0;
-    std::cout<<"\nend of test 7\n"<<std::endl;
 }
 
 
@@ -592,8 +580,7 @@ public:
     }
 };
 
-void BedTest2(){
-    std::cout<<"ROOM AND COMFORTABLE BED 2\n"<<std::endl;
+TEST(RoomAndComfortableBed2, Test8){
     Infector::Container ioc;
 
     ioc.bindSingleAs<ComfortableBedVS,  IBedVS>();
@@ -605,10 +592,8 @@ void BedTest2(){
     auto room = ioc.buildSingle<IRoomVS>();
     room->interact();
 
-    assert("test 8 failed" && CCallBedVS==1);
-    assert("test 8 failed" && CCallRoomVS==1);
-
-    std::cout<<"\nend of test 8\n"<<std::endl;
+    EXPECT_EQ(1, CCallBedVS);
+    EXPECT_EQ(1, CCallRoomVS);
 }
 
 
@@ -629,8 +614,7 @@ public:
     BooomVS(std::shared_ptr<KaaaVS> k){ (void) k;}
 };
 
-void CircularTest2(){
-    std::cout<<"CIRCULAR DEPENDENCY TEST\n"<<std::endl;
+TEST(CircularDependencyTest2, Test9){
     Infector::Container ioc;
     ioc.bindSingleAsNothing<KaaaVS>();
     ioc.bindSingleAsNothing<BooomVS>();
@@ -656,55 +640,9 @@ void CircularTest2(){
         std::cout<<ex.what()<<std::endl;
     }
 
-    assert("test 9 failed" && ex1);
-    assert("test 9 failed" && ex2);
-
-    std::cout<<"\nend of test 9\n"<<std::endl;
+    EXPECT_TRUE(ex1);
+    EXPECT_TRUE(ex2);
 }
 
-
-
-/// ////////////////////////////////////////////////
-///                   MAIN
-///
-/// ////////////////////////////////////////////////
-
-int main(){
-
-    /** Unique pointers does not take additional memory. */
-    std::cout<<"sizeof(unique_ptr<int>):"<<(int)sizeof(std::unique_ptr<int>)<<std::endl;
-    std::cout<<"sizeof(int*):"<<(int)sizeof(int*)<<std::endl;
-
-    /** Test to prove that Infector does not cause memory leaks due to
-    *   unkown evaluation order of constructors' parameters when construcors
-    *   throws exceptions. This is a big advantage.*/
-#ifndef INFECTOR_VS_DISABLE  //disabled on visual studio due to a compiler bug
-    LeakTest();
-    /** Basic usage test, no shared objects. Creates a small object graph
-    *   with unique ownership semantics.*/
-    BedTest();
-    /** This test assure that exception is thrown in case there's a circular
-    *   dependency. */
-    CircularTest();
-#endif
-    /** Basic usage test this time shared objects are used and multiple
-    *   inheritance is tested.*/
-    SharedTest();
-    /** Multiple inheritance test failure.*/
-    MultiBaseFailure();
-#ifndef INFECTOR_VS_DISABLE  //disabled on visual studio due to a compiler bug
-    /** Can instantiate only bound types. Verify that.*/
-    InstantiateConcreteMustFail();
-#endif
-
-    /**Same as Leak test1, but use shared_ptr instead of unique_ptr*/
-    LeakTest2();
-
-    /**Same as BedTest, but use shared_ptr instead of unique_ptr*/
-    BedTest2();
-
-    /**Same as Circular test, but use shared_ptr instead of unique_ptr*/
-    CircularTest2();
-
-    return 0;
-}
+#include <src/gtest-all.cc>
+#include <src/gtest_main.cc>
