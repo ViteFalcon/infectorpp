@@ -25,6 +25,18 @@ THE SOFTWARE.*/
 #include <memory>
 #include "InfectorExceptions.hpp"
 
+#ifndef INFECTOR_HAS_CONSTEXPR
+#   ifdef _MSC_VER
+#       if _MSC_VER < 1900
+#           define INFECTOR_HAS_CONSTEXPR 0
+#       else
+#           define INFECTOR_HAS_CONSTEXPR 1
+#       endif // _MSC_VER < 1900
+#   else
+#       define INFECTOR_HAS_CONSTEXPR 1
+#   endif // _MSC_VER
+#endif // INFECTOR_HAS_CONSTEXPR
+
 namespace Infector{
     class Container;
     class DummyClass{
@@ -40,6 +52,7 @@ namespace Infector{
     struct recursiveTest<TEST, Others...> : std::integral_constant<
         bool, TEST::value && recursiveTest<Others...>::value> { };
 
+#if INFECTOR_HAS_CONSTEXPR
     /** Seems that recursiveTest is broken on VS 2013, I try using constexpr
         and see if that works (oh! it also reduces executable size XD)
         . This is to fix bug reported by Michael Bischof*/
@@ -52,6 +65,7 @@ namespace Infector{
     constexpr bool trait_test(){
       return T0::value&&trait_test<T1, Others...>();
     }
+#endif // INFECTOR_HAS_CONSTEXPR
 
     /** Type test, there are few type traits that are checked, you can add
     *   more tests if you need to do so. */
@@ -69,12 +83,13 @@ namespace Infector{
         static_assert(  sizeof...(Contracts)>0 //if no contracts don't use "As"
                       , " There must be at least 1 interface ");
 
-
+#if INFECTOR_HAS_CONSTEXPR
         static_assert(  trait_test<std::is_abstract<Contracts>...>() //VS 2013 workaround?
                       , " Contracts have to be abstract");
 
         static_assert(  trait_test<std::is_base_of<Contracts,T>...>() //VS 2013 workaround?
                       , " Contracts must be base classes for T");
+#endif // INFECTOR_HAS_CONSTEXPR
 
         static_assert(  std::is_destructible<T>::value
                       , " T must be destructible");
@@ -157,7 +172,7 @@ namespace Infector{
 
     class RecursionLimit{
          //You can raise this limit if needed
-        static constexpr int max_depth = 20;
+        static const int max_depth = 20;
         int current_depth = 0;
     public:
         void increment(){
