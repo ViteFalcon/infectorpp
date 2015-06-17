@@ -20,10 +20,6 @@ THE SOFTWARE.*/
 
 #pragma once
 
-#ifdef _MSC_VER  //certain functionalities are disabled on Visual Studio
-#   define INFECTOR_VS_DISABLE
-#endif
-
 #include <functional>
 #include "InfectorExceptions.hpp"
 #include "InfectorExport.hpp"
@@ -48,10 +44,8 @@ public:
     /** Declare a type as implementation of an interface(Contract). This type
     *   will be injected using a "std::unique_ptr". Every object depending on
     *   T will have its own istance of T.*/
-#ifndef INFECTOR_VS_DISABLE  //disabled on visual studio due to a compiler bug
     template <typename T, typename Contract >
     void bindAs();
-#endif
 
     /** Declare a type as implementation of multiple interfaces(Contracts).
     *   This type will be injected using a "std::shared_ptr", only 1 istance of
@@ -64,10 +58,8 @@ public:
     /** Declare a type to be used without abstraction. This type will be
     *   injected using a "std::unique_ptr". Every object depending on T will
     *   have its own istance of T.*/
-#ifndef INFECTOR_VS_DISABLE  //disabled on visual studio due to a compiler bug
     template <typename T>
     void bindAsNothing();
-#endif
 
     /** Declare a type to be used without abstraction. This type will be
     *   injected using a "std::shared_ptr", only 1 istance of T will be created
@@ -94,10 +86,8 @@ public:
     /** Istantiates a istance of T. T can be an Interface as long as it was
     *   bound to its concrete type, and that concrete type was wired. Every
     *   call will istantiate a different object.*/
-#ifndef INFECTOR_VS_DISABLE  //disabled on visual studio due to a compiler bug
     template <typename T>
     std::unique_ptr<T> build();
-#endif
 
     inline ~Container();
 

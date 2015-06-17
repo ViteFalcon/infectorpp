@@ -32,7 +32,6 @@ THE SOFTWARE.*/
 
 #include <gtest/gtest.h>
 
-#ifndef INFECTOR_VS_DISABLE //TESTS 1,2,3-B,6 are disabled on VS
 
 /// ////////////////////////////////////////////////
 ///                  TEST
@@ -141,7 +140,7 @@ public:
     virtual ~IRoom(){}
 };
 
-class ComfortableBed: public virtual IBed{
+class ComfortableBed: public /*virtual*/ IBed{
 public:
     ComfortableBed(){}
     virtual ~ComfortableBed(){}
@@ -152,7 +151,7 @@ public:
     }
 };
 
-class BedRoom:public virtual IRoom{
+class BedRoom:public /*virtual*/ IRoom{
 
     std::unique_ptr<IBed> myBed;
 
@@ -266,7 +265,7 @@ TEST(CircularTest, Test3_B){
 
     std::cout<<"\nend of test 3\n"<<std::endl;
 }
-#endif
+
 /// ////////////////////////////////////////////////
 ///                  TEST
 ///                    4
@@ -413,7 +412,6 @@ TEST(MultipleInheritanceFailure, Test5){
     }
 }
 
-#ifndef INFECTOR_VS_DISABLE
 /// ////////////////////////////////////////////////
 ///                  TEST
 ///                    6
@@ -440,7 +438,7 @@ TEST(InstantiateConcreteMustFail, Test6){
 
     EXPECT_TRUE(testPass);
 }
-#endif
+
 
 
 /// ////////////////////////////////////////////////
