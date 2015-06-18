@@ -40,15 +40,15 @@ namespace Infector{
     struct recursiveTest<TEST, Others...> : std::integral_constant<
         bool, TEST::value && recursiveTest<Others...>::value> { };
 
-    template<int N, typename test0, typename... tests>
+    template<typename test0, typename... tests>
     struct trait_test
     {
       static const bool value = test0::value &&
-        trait_test <N - 1, tests... >::value;
+        trait_test <tests... >::value;
     };
 
     template<typename test0>
-    struct trait_test<1, test0>
+    struct trait_test<test0>
     {
       static const bool value = test0::value;
     };
@@ -69,11 +69,11 @@ namespace Infector{
         static_assert(  sizeof...(Contracts)>0 //if no contracts don't use "As"
                       , " There must be at least 1 interface ");
 
-        static_assert(trait_test<sizeof...(Contracts), std::is_abstract<Contracts>...>::value
-          , " Contracts have to be abstract");
+        static_assert( trait_test<std::is_abstract<Contracts>...>::value
+                      , " Contracts have to be abstract");
 
-        static_assert(trait_test<sizeof...(Contracts), std::is_base_of<Contracts, T>...>::value
-          , " Contracts must be base classes for T");
+        static_assert( trait_test<std::is_base_of<Contracts, T>...>::value
+                      , " Contracts must be base classes for T");
 
         static_assert(  std::is_destructible<T>::value
                       , " T must be destructible");
