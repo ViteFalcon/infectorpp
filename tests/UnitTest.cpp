@@ -140,7 +140,7 @@ public:
     virtual ~IRoom(){}
 };
 
-class ComfortableBed: public /*virtual*/ IBed{
+class ComfortableBed: public IBed{
 public:
     ComfortableBed(){}
     virtual ~ComfortableBed(){}
@@ -151,7 +151,7 @@ public:
     }
 };
 
-class BedRoom:public /*virtual*/ IRoom{
+class BedRoom:public IRoom{
 
     std::unique_ptr<IBed> myBed;
 
