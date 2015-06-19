@@ -21,7 +21,6 @@ THE SOFTWARE.*/
 #pragma once
 
 namespace Infector{
-#ifndef INFECTOR_VS_DISABLE  //disabled on visual studio due to a compiler bug
     template <typename T, typename Contract >
     void Container::bindAs(){
         bool tests = type_tests<T,Contract>(); // Compile time tests.
@@ -42,7 +41,7 @@ namespace Infector{
         typeMap[std::type_index(typeid(T))]
                 = Binding(std::type_index(typeid(T)), false);
     }
-#endif
+
     template <typename T>
     std::unique_ptr<T> Container::build_delegate(){
         auto it = typeMap.find( std::type_index(typeid(T)) );
@@ -62,11 +61,11 @@ namespace Infector{
                     );
     }
 
-#ifndef INFECTOR_VS_DISABLE  //disabled on visual studio due to a compiler bug
+
     template <typename T>
     std::unique_ptr<T> Container::build(){
         return std::move(build_delegate<T>());
     }
-#endif
+
 
 } // namespace Infector
